@@ -55,29 +55,29 @@ First, try to read in an S-expression.
 
 terminal :
 
-  LEFT-PAREN  // '('
-  RIGHT-PAREN // ')'
-  INT         // e.g., '123', '+123', '-123'
-  STRING     // "This is an example of a string." 
-              // (strings do not extend across lines)
-              // OurScheme的string有C/Java的printf()的escape的概念，但只限於'\n', '\"', '\t'
-              // 與'\n' ； 如果'\'字元之後的字元不是'n', '"', 't', 或'\'，此(第一個)'\'字元就無
-              // 特殊意義(而只是一個普通字元)。
-              // (例： "There is an ENTER HERE>>\nSee?!", "Use '\"' to start and close a string."
-              //       "OurScheme allows the use of '\\n', '\\t' and  '\\"' in a string."
-              //       "Please enter YES\NO below this line >\n" 
-              //       "You need to handle this \\"        "You also need to handle this\"" )
-  DOT         // '.'
-  FLOAT       // '123.567', '123.', '.567', '+123.4', '-.123'
-  NIL         // 'nil' or '#f', but not 'NIL' nor 'nIL'
-  T           // 't' or '#t', but not 'T' nor '#T'
-  QUOTE       // '
-  SYMBOL      // a consecutive sequence of printable characters 
-              // that are not numbers,
-              // and do not contain '(', ')', 
-              // single-quote, double-quote and white-spaces ;
-              // Symbols are case-sensitive 
-              // (i.e., uppercase and lowercase are different);
+    LEFT-PAREN  // '('
+    RIGHT-PAREN // ')'
+    INT         // e.g., '123', '+123', '-123'
+    STRING     // "This is an example of a string." 
+               // (strings do not extend across lines)
+               // OurScheme的string有C/Java的printf()的escape的概念，但只限於'\n', '\"', '\t'
+               // 與'\n' ； 如果'\'字元之後的字元不是'n', '"', 't', 或'\'，此(第一個)'\'字元就無
+               // 特殊意義(而只是一個普通字元)。
+               // (例： "There is an ENTER HERE>>\nSee?!", "Use '\"' to start and close a string."
+               //       "OurScheme allows the use of '\\n', '\\t' and  '\\"' in a string."
+               //       "Please enter YES\NO below this line >\n" 
+               //       "You need to handle this \\"        "You also need to handle this\"" )
+    DOT        // '.'
+    FLOAT      // '123.567', '123.', '.567', '+123.4', '-.123'
+    NIL        // 'nil' or '#f', but not 'NIL' nor 'nIL'
+    T          // 't' or '#t', but not 'T' nor '#T'
+    QUOTE      // '
+    SYMBOL     // a consecutive sequence of printable characters 
+               // that are not numbers,
+               // and do not contain '(', ')', 
+               // single-quote, double-quote and white-spaces ;
+               // Symbols are case-sensitive 
+               // (i.e., uppercase and lowercase are different);
 
 Note :
 

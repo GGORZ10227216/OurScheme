@@ -1,0 +1,5609 @@
+2
+
+;;;;;;;;;;;;;;;;;; Below 3-10  2/3 ;;;;;;;;;;;;;;
+
+(define a "=============== Problem 6 viewable case =================")
+a
+
+ ; define + lambda (用para.做為(initialized)"local para") - basic - incl.: COND IF BEGIN AND OR
+
+(clean-environment) ; first round ; no error
+
+(define x1 3)(define x2 4)(define x3 5)
+(define (Fcond x4 x1) (cond ((> x4 x1) (+ x4 x1)) ((< x4 x1)(* x4 x1))(else (- x4 x1))))
+(Fcond x1 x2)
+(Fcond x2 x3)
+(Fcond x1 x1)
+(define (Fif x1 x4 x3) (if (>= x2 x3) (+ x1 x3) (- x3 x4)))
+(Fif 30 40 50)
+(Fif x1 x2 x3)
+(Fif x3 x2 x1)
+(Fif x2 x2 80)
+(define (Fbegin x3) (begin (+ x1 x3) (- x2 x3)))
+(Fbegin x1)
+(Fbegin 80)
+(Fbegin x2)
+(define (Fand x4 x2 x5) (and (> x4 x2) (> x2 x5) (> x5 0)))
+(Fand x3 x2 x1)
+(Fand x3 10 x1)
+(Fand 7 6 x2)
+(Fand 7 1 -7)
+(define (For x1 x4 x3) (or (> x1 x4) (> x4 x3) (> x1 100) (> x4 100) (> x3 100)))
+(For 10 20 30)
+(For 1000 20 30)
+(For 30 40 20)
+(For x1 x2 x3)
+(For x2 x2 x2)
+(For x2 x1 20)
+(define x4 (lambda (x1) (* x1 2)))
+x4
+(x4 x3)
+x1
+x2
+
+(clean-environment) ; second round ; with error
+
+(define x1 3)(define x2 4)(define x3 5)
+(define (Fcond x4 x1) (cond ((> x4 x1) (+ x4 x1)) ((= x4 x1)(* x4 x1)))) ; no return-value when x4 < x1
+(Fcond x1 x2)
+(Fcond x2 x3)
+(Fcond x1 x1)
+(Fcond x1 (+ x1 x1))
+(define (Fif x1 x4 x3) (if (>= x3 x1) (+ x1 x3) )) ; no return-value when x3 < x1
+(Fif 30 40 50)
+(Fif x1 x2 x3)
+(Fif x3 x2 x1)
+(Fif x2 x2 80)
+(+ x1 x2 (Fif x3 x2 x1))
+(define (Fbegin x3) (begin (+ x1 x3) (- x2 x3)))
+(Fbegin x1)
+(Fbegin 80)
+(Fbegin x2)
+(Fbegin 352 (+ 2 3))
+(define (Fand x4 x2 x5) (and (> x4 x2) (> x2 x5) (> x5 0)))
+(Fand x3 x2 x1)
+(Fand x3 10 x1)
+(Fand 7 6 x2)
+(Fand 7 1 -7)
+(define (For x1 x4 x3) (or (> x1 x4) (> x4 x3) (> x1 100) (> x4 100) (> x3 100)))
+(For 10 20 30)
+(For 1000 20 30)
+(For 30 40 20)
+(For x1 x2 x3)
+(For x1 (+ (- x2 1) 5) x3)
+(For x2 x2 x2)
+(For x2 (cons x2 x2) x2)
+(For x2 x1 20)
+(define x4 (lambda (x1) (* x1 2)))
+x4
+(x4 x3)
+(+ (x4 x3) x1)
+(define x5 x4)
+(+ (x4 x3) (x5 x1))
+(> (x5 x3) (x4 x1))
+(+ 3 (x5 x1 x2))
+x1
+x2
+
+(clean-environment)
+
+cadr
+(define (cadr x) (car (cdr x))
+  )
+cadr
+(car cadr)
+(cadr '( (10 20) (30 40) (50 60) 70 . 80 ))
+(define cadr-clone cadr)
+cadr-clone
+(cadr-clone '( (10 20) (30 (40)) (50 60) 70 . 80 ))
+(define cadr-clone car)
+(cadr-clone '( (10 20) (30 (40)) (50 60) 70 . 80 ))
+(define cadr-clone cadr)
+(define car cadr)
+(cadr '(10 20) 30)
+(cadr-clone '(10 20) 30)
+( cadr (10 20) )
+( cadr 10 )
+( cadr '(10) )
+(cdar x)
+(cadr x)
+(define (cdar y) (cdr (car y))
+  )
+(cdar '((1 2) (3 4) 5 6 7 . 8)
+  )
+(cdar '(1 2 (3 4) 5 6 7 8)
+  )
+first
+(define first car)
+car
+first
+(first '(10 20 30))
+First
+(define First 'car)
+First
+(First (1 2 3))
+(first (1 2 3))
+(define second cadr)
+(second '(10 20 30))
+(second '( (10 (20) 30) ((40 50) 60) (70 (80 (90))) )
+  )
+(first (second '( (10 (20) 30) ((40 50) 60) (70 (80 (90))) )
+         )
+  )
+(second (first (second '( (10 (20) 30) ((40 50) 60) (70 (80 (90))) )
+                 )
+          )
+  )
+(cdr (first (second '( (10 (20) 30) ((40 50) 60) (70 (80 (90))) )
+              )
+       )
+  )
+(cdr (first (first '( (10 (20) 30) ((40 50) 60) (70 (80 (90))) )
+              )
+       )
+  )
+(define a "=============== Problem 7 viewable case =================")
+a
+
+ ; define + lambda (用para.做為(initialized)"local para") - complex - COND IF BEGIN AND OR (nested calls)
+
+(clean-environment) ; first round, no error
+
+(define x1 3)(define x2 4)(define x3 5)
+(define (Fcond x4 x1) 
+        (cond ( (> x4 x1) 
+                (+ x4 x1)
+                ( if (< x4 x1)
+                     (+ x4 x1 22)
+                     (+ x4 x1 33)
+                )
+              ) 
+              ( (< x4 x1) 
+                (* x4 x1)
+                ( if (< x4 x1)
+                     (* x4 x1 2)
+                     (* x4 x1 3)
+                )
+              )
+              ( else 
+                (- x4 x1)
+                (if (= x4 x1)
+                    (- x4 x1 20)
+                    (- x4 x1 30)
+                )
+              );else
+        );cond
+);define
+(Fcond x1 x2)
+(Fcond x2 x3)
+(Fcond x1 x1)
+(define (Fif x1 x4 x3) 
+        (if (>= x2 x3) 
+            ( begin 
+              (+ x1 x3) 
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (+ x1 x3 33)
+                   (+ x1 x3 44)
+              );if
+            );begin
+            ( begin 
+              (- x3 x4)
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (- x3 x4 33)
+                   (- x3 x4 44)
+              );if
+            );begin
+        );if
+);define
+(Fif 30 40 50)
+(Fif x1 x2 x3)
+(Fif x3 x2 x1)
+(Fif x2 x2 80)
+(define (Fbegin x3) 
+        ( begin 
+          ( begin (+ x1 x3) )
+          ( begin (- x2 x3) )
+          ( cond ( (> x3 x1) (+ x3 x1) ) 
+                 ( (< x3 x1) (* x3 x1) )
+                 ( else      (- x3 x1) )
+          );cond
+        );begin
+);define
+(Fbegin x1)
+(Fbegin 80)
+(Fbegin x2)
+(define (Fand x4 x2 x5) 
+        (and ( if ( > x1 0 )
+                  ( < x1 40 )
+                  ( > (- x1 x5) 27)
+             )
+             (> x4 x2) 
+             (> x2 x5) 
+             (> x5 0)
+        );and
+);define
+(Fand x3 x2 (+ x3 x2))
+(Fand x3 10 x1)
+(Fand 7 6 x2)
+(Fand (+ 7 x3) 1 (- -7 x2))
+(define (For x1 x4 x3) 
+        (or (and 
+              (> x1 50)
+              (> x4 170)
+            )
+            (> x1 x4) 
+            (> x4 x3) 
+            (> x1 100) 
+            (> x4 100) 
+            (> x3 100)
+        );or
+);define
+(For 10 20 30)
+(For 1000 20 30)
+(For 30 40 20)
+(For x1 x2 x3)
+(For x2 x2 x2)
+(For x2 x1 20)
+( define ( Flambda x1 )
+         ( if ( > x1 0 )
+              ( lambda ( x2 ) ( * x2 2 )
+              );lambda
+              ( lambda ( x3 ) ( * x3 3 )
+              );lambda
+         );if
+);define
+Flambda
+( Flambda 10 )
+( Flambda -10 )
+( ( Flambda 10 ) x1 )
+( ( Flambda -10 ) x1 )
+
+(clean-environment) ; second round, with error
+
+(define x1 3)(define x2 4)(define x3 5)
+(define (Fcond x4 x1) ;    x4 is p1    x1 is p2
+        (cond ( (> x4 x1) 
+                ( if (< x4 x2)
+                     (+ x4 x1 22)
+                     ; (+ x4 x1 33) ; no return-value when p1 > p2 and p1 >= x2
+                )                   ; but OK
+                (+ x4 x1)
+              ) 
+              ( (< x4 x1) 
+                ( if (< x4 x1)
+                     (* x4 x1 2)
+                     (* x4 x1 3)
+                )
+                (* x4 x1)
+              )
+              ( else 
+                (- x4 x1)
+                (if (= x4 x3)
+                    (- x4 x1 20)
+                    ; (- x4 x1 30) ; no return-value when p1 = p2 and p1 <> x3
+                )                  ; result not OK
+              );else
+        );cond
+);define
+(Fcond x1 x2)
+(Fcond x2 (- x2 1))
+(Fcond x2 x3)
+(Fcond x1 x1)
+(Fcond (+ x3 1) (- (+ x3 2) 1))
+(define (Fif x1 x4 x3) ;      x1 is p1    x4 is p2    x3 is p3
+        (if (>= x2 x3) 
+            ( begin 
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (+ x1 x3 33)
+                   ; (+ x1 x3 44) ; no return value when x2 >= p3 AND ( p1 <= 50 OR p2 <= 50 )
+              );if                ; but OK
+              ; (display-string "Hello\n")
+              (+ x1 x3) 
+            );begin
+            ( begin 
+              (- x3 x4)
+              ; (display-string "Hi\n")
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (- x3 x4 33)
+                   ; (- x3 x4 44) ; no return value when x2 < p3 AND ( p1 <= 50 OR p2 <= 50 )
+              );if                ; result not OK
+            );begin
+        );if
+);define
+(define temp1 70)(define temp2 80)(define temp3 (- x2 1))
+(Fif 130 40 -50)
+(Fif x1 x2 x3)
+(Fif x1 (Fcond x1 x1) x3)
+(Fif temp1 temp2 temp3)
+(Fif x3 x2 x3)
+(Fif (+ x2 51) (* 50 2) 8)
+(Fcond x2 (Fif x1 x2 x3))
+( define (Fbegin x3)  ;       x3 : p1
+  ( begin 
+    ( begin (+ x1 x3) )
+    ( begin (- x2 x3) )
+    ( cond ( (> x3 x1) (+ x3 x1) ) 
+           ( (< x3 x1) (* x3 x1) )
+           ; ( else      (- x3 x1) ) ; no return value when p1 = x1
+    );cond                           ; but OK
+  );begin
+  ( begin 
+    ( begin (+ x1 x3) )
+    ( begin (- x2 x3) )
+    ( cond ( (> x3 x1) (+ x3 x1) ) 
+           ( (= x3 x1) (* x3 x1) )
+           ; ( else      (- x3 x1) ) ; no return value when p1 < x1
+    );cond                           ; result not OK
+  );begin
+);define
+(Fbegin x1)
+(Fbegin 80)
+(Fbegin -80)
+(Fbegin (- x2 (- x2 x1)))
+(define (Fand x4 x2 x5)  ;   x4 : p1    x2 : p2    x5 : p3
+        (and ( if ( > x2 0 )
+                  ( < x1 40 )
+                  ; ( > (- x1 x5) 27) ; no return value when p2 <= 0
+             )                        ; result not OK
+             (> x4 x2) 
+             (> x2 x5) 
+             (> x5 0)
+        );and
+);define
+(Fand x3 x2 x1)
+(Fand x3 -10 x1)
+(Fand 7 6 x2)
+(Fand 7 (- x2 x2 3) -7)
+(define (For x1 x4 x3) 
+        (or (and 
+              (> x1 50)
+              (> x4 170)
+            )
+            (> x1 x4) 
+            (> x4 x3) 
+            (> x1 100) 
+            (> x4 100) 
+            (> x3 100)
+        );or
+);define
+(For 10 20 30)
+(For 1000 20 30)
+(For 30 40 20)
+(For x1 x2 x3)
+(For x2 x2 x2)
+(For x2 x1 20)
+( define ( Flambda x1 )    ;    x1 : p1
+  ( begin
+    ( if ( > x1 40 )
+         ( lambda ( x2 ) ( * x2 2 )
+         );lambda
+         ; ( lambda ( x3 ) ( * x3 3 ) ; no return value when p1 <= 40
+         ; );lambda                   ; but OK
+    );if
+    ( if ( > x1 0 )
+         ( lambda ( x2 ) ( * x2 2 )
+         );lambda
+         ; ( lambda ( x3 ) ( * x3 3 ) ; no return value when p1 <= 0
+         ; );lambda                   ; result not OK
+    );if
+  ); begin
+);define
+Flambda
+( Flambda 10 )
+( Flambda -10 )
+( ( Flambda 10 ) x1 )
+( ( Flambda -10 ) x1 )
+( + ( ( Flambda 10 ) x1 ) ( ( Flambda 10 ) x1 ) )
+( + ( ( Flambda 10 ) x1 ) ( ( Flambda -10 ) x1 ) )
+( + ( ( Flambda 10 ) x1 ) ( Flambda -10 ) )
+( + ( ( Flambda 10 ) x1 ) ( Flambda 10 ) )
+
+(clean-environment)
+
+( let ( (x 3) (y '(1 2 3))
+        )
+        (cons 1 '(4 5))       ; this will be evaluated ; but no use
+        (cons x (cdr y))      ; the value of this one is the value of LET
+  )
+x
+(let (car '(1 2 3))  ; first argument of LET should be a list of 
+                       ; two-element lists
+       5
+  )
+(let ((x 3 4)) 5     ; first argument of LET should be a list of
+                       ; two-element lists ( '(x 3 4)' is not a
+                       ;                     two-element list )
+  )
+(let ((x 3)
+       ) 
+       ( + 5 x )
+       ( - 5 x ) 
+  )
+(let ( ( (car '(x y z)) ; first argument of LET should be a list of
+           3              ; two-element lists ;
+         )                ; Furthermore, the first element of each 
+       )                  ; two-element list must be a symbol
+       5
+  )
+(let ()             ; There should be at least one S-expression following
+                      ; the first argument
+                      ; ...
+  )                   ; ...
+(let () 5           
+  )
+(let ( ( x 
+           5
+         )
+       )        
+  )
+(let ( ( x (cons 5) )
+       )
+       ( + x x )
+  )
+(let ( ( x (cons 5) ) ; ...
+       )
+     (car 5 6 x)      ; LET的這裡該有(起碼一個)S-expression才對
+  )
+(let ( ( x (cons 5 10) )
+     )
+     (car x )
+     (cdr (cons x x))
+)
+(let ( ( x (cons 5 10) )
+     )
+     (car x )
+     (cdr (cons x x))
+     ( + 3 (* x 5) (- x 3) )
+)
+(cons (car '(1 2 3) '(4 5)) ; ...
+        '(6 7)
+        '(8 9)
+  )
+(cons (car '(1 2 3) '(4 5) ) ; ...
+        '(6 7)
+  )
+(let ((x (1 2 3)) ) 5  ; Syntax-check OK
+  )
+(let ( (x (1 2 3)) )   ; Syntax-check not OK
+  )
+(let ( (x (1 2 3)) (5) )   ; Syntax-check not OK
+       10
+  )
+  
+(clean-environment)
+
+(define a 5)
+(let ( (x 6) (y '(1 2 3))
+       )
+       (+ a x (car (cdr y))
+       )
+  )
+a
+x
+(let ( (x 6) (y '(1 2 3))
+         (a 7)               ; local variable "shadows" global variable
+       )
+       (+ a x (car (cdr (cdr y)))
+       )
+  )
+a
+(let ( (x 6) (y '(1 2 3))
+         (a 7)
+       )
+       (+ a x (car (cdr (cdr y)))
+       )
+       (- a x (car (cdr (cdr y)))
+       )
+  )
+(let ( (x 6) (y '(1 2 3))
+         (a 7)
+       )
+       (+ a x (car (cdr (cdr y)))
+       )
+       (let ( (a 17) (x 11) 
+            )
+            (- a x (car (cdr (cdr y)))
+            )
+       )
+  )
+(let ( (x 6) (y '(1 2 3))
+         (a 7)
+       )
+       (+ a x (car (cdr (cdr y)))
+       )
+       (let ( (a 17) (x 11) 
+            )
+            (- a x (car (cdr (cdr y)))
+               (let ( (x 21) )
+                    (+ a x 5)
+                    (- 0 a x)
+               )
+            )
+       )
+  )
+(let ( (x 6) 
+       (y '(1 2 3))
+       (a 7)
+     )
+     (+ a x (car (cdr (cdr y)))
+     )
+     (let ( (a 17) (x 11 12) 
+          )
+          (- a x (car (cdr (cdr y)))
+             (let ( (x 21) )
+                  (+ a x 5)
+                  (- 0 a x)
+             )
+          )
+     )
+)
+(let ( (x 6) (y '(1 2 3))
+         (a 7)
+       )
+       (+ a x (car (cdr (cdr y)))
+       )
+       (let ( (a 17) (x 11) 
+            )
+            (- a x (car (cdr (cdr y)))
+               (let ( (x 21) )
+                    (+ a x 5)
+                    (- 0 a hello)
+               )
+            )
+       )
+  )
+(define a "=============== Problem 8 viewable case =================")
+a
+
+ ; define + lambda (用para.做為(initialized)"local para") - complex - COND IF BEGIN AND OR (nested calls)
+ ; + functional composition // functions 呼叫 functions
+ 
+(clean-environment) ; first round, no error.
+
+(define x1 3)(define x2 4)(define x3 5)
+(define (Fcond x4 x1) 
+        (cond ( (> x4 x1) 
+                (+ x4 x1)
+                ( if (< x4 x1)
+                     (+ x4 x1 22)
+                     (+ x4 x1 33)
+                )
+              ) 
+              ( (< x4 x1) 
+                (* x4 x1)
+                ( if (< x4 x1)
+                     (* x4 x1 2)
+                     (* x4 x1 3)
+                )
+              )
+              ( else 
+                (- x4 x1)
+                (if (= x4 x1)
+                    (- x4 x1 20)
+                    (- x4 x1 30)
+                )
+              );else
+        );cond
+);define
+(define (Fif x1 x4 x3) 
+        (if (>= x2 x3) 
+            ( begin 
+              (+ x1 x3) 
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (+ x1 x3 33)
+                   (+ x1 x3 44)
+              );if
+            );begin
+            ( begin 
+              (- x3 x4)
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (- x3 x4 33)
+                   (- x3 x4 44)
+              );if
+            );begin
+        );if
+);define
+(define (Fbegin x3) 
+        ( begin 
+          ( begin (+ x1 x3) )
+          ( begin (- x2 x3) )
+          ( cond ( (> x3 x1) (+ x3 x1) ) 
+                 ( (< x3 x1) (* x3 x1) )
+                 ( else      (- x3 x1) )
+          );cond
+        );begin
+);define
+(define (Fand x4 x2 x5) 
+        (and ( if ( > x1 0 )
+                  ( < x1 40 )
+                  ( > (- x1 x5) 27)
+             )
+             (> x4 x2) 
+             (> x2 x5) 
+             (> x5 0)
+        );and
+);define
+(define (For x1 x4 x3) 
+        (or (and 
+              (> x1 50)
+              (> x4 170)
+            )
+            (> x1 x4) 
+            (> x4 x3) 
+            (> x1 100) 
+            (> x4 100) 
+            (> x3 100)
+        );or
+);define
+
+; (Fcond x1 x2)
+; (Fcond x2 x3)
+; (Fcond x1 x1)
+; (Fif 30 40 50)
+; (Fif x1 x2 x3)
+; (Fif x3 x2 x1)
+; (Fif x2 x2 80)
+; (Fbegin x1)
+; (Fbegin 80)
+; (Fbegin x2)
+; (Fand x3 x2 x1)(Fand x3 10 x1)(Fand 7 6 x2)(Fand 7 1 -7)
+; (For 10 20 30)(For 1000 20 30)(For 30 40 20)(For x1 x2 x3)(For x2 x2 x2)(For x2 x1 20)
+
+(Fcond (Fif x1 x2 x3) (Fcond (Fbegin 80) x2))
+(Fcond (Fcond (Fbegin x1) x2) (Fif x1 x2 x3))
+(Fif (Fbegin x2) (Fcond (Fif x1 x2 x3) (Fcond x2 x3)) (Fif (+ x1 x2) x2 x3))
+(define (For x1 x4 x3) 
+        (or (and 
+              (> (Fif x1 x2 x3) 50)
+              (> (Fif x2 x2 80) 170)
+            )
+            (> (Fif x1 x2 x3) (Fif x2 x2 80)) 
+            (> x4 x3) 
+            (> x1 100) 
+            (> x4 100) 
+            (> x3 100)
+        );or
+);define
+(For 10 20 30)(For 1000 20 30)(For 30 40 20)(For x1 x2 x3)(For x2 x2 x2)(For x2 x1 20)
+( define ( Flambda x1 )
+         ( if ( > x1 0 )
+              ( lambda ( x2 ) ( * ( Fcond x2 x3 
+                                  );Fcond
+                                  3 
+                              );*
+              );lambda
+              ( lambda ( x3 ) ( * ( Fif ( Fcond x3 x1 
+                                        );Fcond 
+                                        x2 
+                                        x3 
+                                  );Fif
+                                  2 
+                              );*
+              );lambda
+         );if
+);define
+Flambda
+( Flambda 10 )
+( Flambda -10 )
+( ( Flambda 10 ) x3 )
+( ( Flambda -10 ) x3 )
+( ( Flambda 10 ) ( ( Flambda -10 ) x3) )
+( ( Flambda -10 ) ( ( Flambda 10 ) x3 ) )
+
+(clean-environment) ; second round, with error
+
+(define x1 3)(define x2 4)(define x3 5)
+(define (Fcond x4 x1) ;    x4 is p1    x1 is p2
+        (cond ( (> x4 x1) 
+                ( if (< x4 x2)
+                     (+ x4 x1 22)
+                     ; (+ x4 x1 33) ; no return-value when p1 > p2 and p1 >= x2
+                )                   ; but OK
+                (+ x4 x1)
+              ) 
+              ( (< x4 x1) 
+                ( if (< x4 x1)
+                     (* x4 x1 2)
+                     (* x4 x1 3)
+                )
+                (* x4 x1)
+              )
+              ( else 
+                (- x4 x1)
+                (if (= x4 x3)
+                    (- x4 x1 20)
+                    ; (- x4 x1 30) ; no return-value when p1 = p2 and p1 <> x3
+                )                  ; result not OK
+              );else
+        );cond
+);define
+(define (Fif x1 x4 x3) ;      x1 is p1    x4 is p2    x3 is p3
+        (if (>= x2 x3) 
+            ( begin 
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (+ x1 x3 33)
+                   ; (+ x1 x3 44) ; no return value when x2 >= p3 AND ( p1 <= 50 OR p2 <= 50 )
+              );if                ; but OK
+              ; (display-string "Hello\n")
+              (+ x1 x3) 
+            );begin
+            ( begin 
+              (- x3 x4)
+              ; (display-string "Hi\n")
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (- x3 x4 33)
+                   ; (- x3 x4 44) ; no return value when x2 < p3 AND ( p1 <= 50 OR p2 <= 50 )
+              );if                ; result not OK
+            );begin
+        );if
+);define
+( define (Fbegin x3)  ;       x3 : p1
+  ( begin 
+    ( begin (+ x1 x3) )
+    ( begin (- x2 x3) )
+    ( cond ( (> x3 x1) (+ x3 x1) ) 
+           ( (< x3 x1) (* x3 x1) )
+           ; ( else      (- x3 x1) ) ; no return value when p1 = x1
+    );cond                           ; but OK
+  );begin
+  ( begin 
+    ( begin (+ x1 x3) )
+    ( begin (- x2 x3) )
+    ( cond ( (> x3 x1) (+ x3 x1) ) 
+           ( (= x3 x1) (* x3 x1) )
+           ; ( else      (- x3 x1) ) ; no return value when p1 < x1
+    );cond                           ; result not OK
+  );begin
+);define
+(define (Fand x4 x2 x5)  ;   x4 : p1    x2 : p2    x5 : p3
+        (and ( if ( > x2 0 )
+                  ( < x1 40 )
+                  ; ( > (- x1 x5) 27) ; no return value when p2 <= 0
+             )                        ; result not OK
+             (> x4 x2) 
+             (> x2 x5) 
+             (> x5 0)
+        );and
+);define
+(define (For x1 x4 x3) 
+        (or (and 
+              (> x1 50)
+              (> x4 170)
+            )
+            (> x1 x4) 
+            (> x4 x3) 
+            (> x1 100) 
+            (> x4 100) 
+            (> x3 100)
+        );or
+);define
+
+; (Fcond x1 x2)
+; (Fcond x2 x3)
+; (Fcond x1 x1)
+; (Fif 30 40 50)
+; (Fif x1 x2 x3)
+; (Fif x3 x2 x1)
+; (Fif x2 x2 80)
+; (Fbegin x1)
+; (Fbegin 80)
+; (Fbegin x2)
+; (Fand x3 x2 x1)(Fand x3 10 x1)(Fand 7 6 x2)(Fand 7 1 -7)
+; (For 10 20 30)(For 1000 20 30)(For 30 40 20)(For x1 x2 x3)(For x2 x2 x2)(For x2 x1 20)
+
+
+(Fcond x1 x2)
+(Fcond x2 (- x2 1))
+(Fcond x2 x3)
+(Fcond x1 x1)
+(Fcond (+ x3 1) (- (+ x3 2) 1))
+(cons (Fcond x1 x1) 10)
+;; (define temp1 70)(define temp2 80)(define temp3 (- x2 1))
+;; (Fif 130 40 -50)
+;; (Fif x1 x2 x3)
+;; (Fif temp1 temp2 temp3)
+;; (Fif x3 x2 x3)
+;; (Fif (+ x2 51) (* 50 2) 8)
+;; (Fbegin x1)
+;; (Fbegin 80)
+;; (Fbegin -80)
+;; (Fbegin (- x2 (- x2 x1)))
+;; (Fand x3 x2 x1)
+;; (Fand x3 -10 x1)
+;; (Fand 7 6 x2)
+;; (Fand 7 (- x2 x2 3) -7)
+
+; (Fcond (Fif x1 x2 x3) (Fcond (Fbegin 80) x2))
+; (Fcond (Fcond (Fbegin x1) x2) (Fif x1 x2 x3))
+; (Fif (Fbegin x2) (Fcond (Fif x1 x2 x3) (Fcond x2 x3)) (Fif (+ x1 x2) x2 x3))
+
+; replacing >>(Fif x1 x2 x3)<< with >>(Fif temp1 temp2 temp3)<<
+(define temp1 70)(define temp2 80)(define temp3 (- x2 1))
+(Fcond (Fif temp1 temp2 temp3) (Fcond (Fbegin 80) x2))
+(Fcond (Fcond (Fbegin x1) x2) (Fif temp1 temp2 temp3))
+(Fif (Fbegin x2) (Fcond (Fif temp1 temp2 temp3) (Fcond x2 x3)) (Fif (+ x1 x2) x2 x3))
+
+; (define (For x1 x4 x3) 
+;         (or (and 
+;               (> (Fif x1 x2 x3) 50)
+;               (> (Fif x2 x2 80) 170)
+;             )
+;             (> (Fif x1 x2 x3) (Fif x2 x2 80)) 
+;             (> x4 x3) 
+;             (> x1 100) 
+;             (> x4 100) 
+;             (> x3 100)
+;         );or
+; );define
+
+(define (For x1 x4 x3) 
+        (or (and 
+              (> (Fif temp1 temp2 temp3) 50)
+              (> (Fif x1 x3 x4) 170)
+            )
+            (> (Fif temp1 temp2 temp3) (Fcond x2 (- x2 1))) 
+            (> x3 x1) 
+            (> x1 100) 
+            (> x4 100) 
+            (> x3 100)
+        );or
+);define
+
+(For 7 20 30)(For 100 120 30)(For 30 40 120)(For x1 x2 x3)(For x2 x2 x2)(For x2 x1 20)
+( define ( Flambda x1 )    ;    x1 : p1
+  ( begin
+    ( if ( > x1 40 )
+         ( lambda ( x2 ) ( * ( Fcond x2 x3 
+                             );Fcond
+                             3 
+                         );*
+         );lambda
+         ; ( lambda ( x3 ) ( * ( Fif ( Fcond x3 x1  ; no return value when p1 <= 40
+         ;                           );Fcond        ; but OK
+         ;                           x2 
+         ;                           x3 
+         ;                     );Fif
+         ;                     2 
+         ;                 );*
+         ; );lambda
+    );if
+    ( if ( > x1 0 )
+         ( lambda ( x2 ) ( * ( Fcond x2 x3 
+                             );Fcond
+                             3 
+                         );*
+         );lambda
+         ( lambda ( x3 ) ( * ( Fif ( Fcond x3 x1 
+                                   );Fcond 
+                                   x2 
+                                   x3 
+                             );Fif
+                             2 
+                         );*
+         );lambda
+    );if
+  );begin
+);define
+Flambda
+( Flambda 10 )
+( Flambda -10 )
+( ( Flambda 10 ) x3 ) ; ok
+( ( Flambda -10 ) x3 ) ; error
+( ( Flambda 10 ) x1 ) ; ok
+( ( Flambda -10 ) x1 ) ; error
+( ( Flambda 10 ) ( ( Flambda -10 ) x3) )
+( ( Flambda -10 ) ( ( Flambda 10 ) x3 ) )
+( ( Flambda 10 ) ( ( Flambda 10 ) x3) )
+( ( Flambda -10 ) ( ( Flambda -10 ) x3 ) )
+
+(clean-environment)
+
+( lambda )
+( lambda x )   
+( lambda x y z )
+( lambda (x) y z       ; the evaluation of a lambda expression
+                         ; produces an internal representation of a 
+  )                      ; function
+( lambda (x) )
+( lambda () y )
+( lambda (5) y )
+( lambda () 5 )
+( lambda () () )      ; a parameter-less function that returns 'nil'
+( lambda () )
+( lambda () (+ c 5)    ; defines a function without calling it
+  )
+( ( lambda () (+ c 5)  ; first, the internal representation of a function
+    )                    ; is produced ; this internal representation
+                         ; is "the evaluated result of the first argument"
+                         ; once the binding of the first argument (of
+                         ; the top-level list) is obtained and found
+                         ; to be a function, that function is applied ;
+  )
+( ( lambda () (+ 5 5) (+ 5 6) 
+    )
+  )
+( ( lambda () (+ 5 5) (+ c 6)
+    )
+    8
+  )
+( define a 2 )
+( define f ( lambda (x) (+ x x c) ; the binding of 'f' is defined
+             )                      ; to be the internal representation
+  )                                 ; of a function
+f
+(f 1 2 3)
+(f a)
+(f b)
+(define c f)
+(c a)
+(c a b)
+( define c 10 )
+(f a)
+( f ( ( lambda (x y)
+          (+ x y)
+        )
+        ( f a )
+        8
+      )
+  )
+(define x 20)
+(define y 30)
+(define g ( lambda (x)
+              (* x (+ 5 x)
+              )
+            )
+  )
+(g (+ (g (f a)
+        )
+        c
+     )
+  )
+( f ( ( lambda (x y)
+          (+ x y)
+        )
+        ( f x )
+        (* (- y x)
+           (g c)
+        )
+      )
+  )
+( f ( ( lambda (x y)
+          (+ x no)
+        )
+        ( f x )
+        (* (- y x)
+           (g why)
+        )
+      )
+  )
+( f ( ( lambda (x y)
+          (+ x no)
+        )
+        ( f x )
+        (* (- y x)
+           (g c)
+        )
+      )
+  )
+( f ( ( lambda (x y)
+          (+ x no)
+        )
+        ( f x )
+        (* (- y x)
+           (g c why)
+        )
+      )
+  )
+(define F 5)
+(define G 10)
+(+ F G)
+(define F (lambda (x) (+ x x x)))
+(+ (F 10) G)
+(define F (car (cons car cdr)))
+(+ (F (cons G G)) G)
+(define H (lambda (x)
+              (cond ( (= x 1) car )
+                    ( (= x 2) cons )
+                    ( (= x 3) cdr )
+                    ( (= x 4) F )
+                    ( (= x x) 100 ) ) ) )
+( (H 2) 3 5 )
+( (H 4) '(10 20 30))
+(define F cdr)
+( (H 4) '(10 20 30))
+(+ ((H 1) '(10 20 30)) (H 2015))
+(define (cadr x) (car (cdr x)))
+(define global '(10 20 30))
+(define (Try F) (F global))
+(Try cadr)
+(Try car)
+(Try cdr)
+(define a "=============== Problem 10 viewable case =================")
+a
+
+ ; define + lambda (用para.做為(initialized)"local para") - complex - COND IF BEGIN AND OR (nested calls)
+ ; + functional composition // functions 呼叫 functions
+ ; + let (local vs. global)
+ ; + nested locals vs. globals
+ 
+(clean-environment) ; first round, no error
+
+(define x1 3)(define x2 4)(define x3 5)
+
+( define (TrickySumUp start end) 
+  
+  ; return the sum of start, start+1, start+2, ..., end
+  ; requirement : start <= end
+  ; float version + some nonsense code, which should not hurt
+  
+  ( cond ( (= start end) start )
+         ( (> start end) "Illegal input! the first argument must be smaller or equal to the second.")
+         ( else
+           ( let ( ( new-start (+ start 1) )
+                   ( x1 (+ x1 x2) )
+                   ( x3 (+ x3 5) )
+                 )
+                 
+                 ; instead of
+                 
+                 ; ( + start 
+                 ;     ( if ( > new-start end ) ; just in case we've got a float here
+                 ;          end
+                 ;         ( TrickySumUp new-start end ) 
+                 ;     ) ; if
+                 ; );+
+                 
+                 ; we use below
+                 
+                 ( if ( > new-start end ) ; just in case we've got a float here
+                      ( begin (+ x1 x2) (+ start end))
+                      ( let ( ( sum-of-the-rest 
+                                (TrickySumUp new-start end) 
+                              )
+                            )
+                            ( + start sum-of-the-rest )
+                      );let
+                 );if
+           );let
+         );else
+  );cond
+   
+);define TrickySumUp
+
+(TrickySumUp 3.5 10)
+(TrickySumUp 3.5 2)
+(TrickySumUp 3.5 3.5)
+(+ x1 x2 x3)
+
+( define ( Abs x )
+  ; return the absolute value of X
+
+  ( if ( not ( real? x ) )
+       "Abs: the given argument has to be a real number (including integer)"
+       ( if ( < x 0 )
+            ( * x -1 )
+            x
+       );if
+  );if
+  
+);define Abs
+
+( define ( Real x ) 
+
+  ( cond ( ( not ( real? x ) )
+           "cannot cast something that is neither a real nor an integer into a real"
+         )
+         ( ( integer? x ) ( * 1.0 x )
+         )
+         ( else x )
+  );cond
+  
+);define Real
+
+( define ( Int x ) 
+  ; return the integer part of x
+
+  ( cond ( ( integer? x ) 
+           x 
+         )
+  
+         ; x is not an integer
+         
+         ( ( not ( real? x ) )
+           "Int: cannot cast something that is neither an integer nor a real into an integer"
+         )
+         
+         ; x is a real
+         
+         ( else
+  
+           ( if ( and ( < -1 x ) 
+                      ( <  x  1 ) 
+                );and
+           
+                0
+                
+                ; x is a real and either x <= -1 or 1 <= x
+           
+                ( let ( ( x ( Abs x ) )
+                        ( negative ( < x 0 ) )
+                      )
+                      ( let ( ( below-above ( FindRange x ) ) ; below <= x <= above
+                            )
+                            ( let ( ( below ( car below-above ) )
+                                    ( above ( car ( cdr below-above ) ) )
+                                  )
+                                  ( let ( ( floor ( IntFloor below x above ) )
+                                        )
+                                        ( if negative
+                                             ( * -1 floor )
+                                             floor
+                                        );if
+                                  );let
+                            );let
+                      );let
+                );let
+           );if
+         );else
+  );cond
+
+);define Int
+
+( define ( Power a n )
+  ; return a**n
+  ; requirement: n has to be an integer
+  
+  ( cond ( ( not ( integer? n ) )
+           "Power : n has to be an integer"
+         )
+         
+         ; n an integer
+         
+         ( ( < n 0 )
+           ( let ( ( positive ( * -1 n ) )
+                 )
+                 ( / 1.0 ( Power a positive ) )
+           );let
+         )
+         
+         ; n is a non-negative integer
+         
+         ( ( = n 0 )
+           1
+         )
+         
+         ; n is a positive integer
+         
+         ( else 
+           ( * a ( Power a ( - n 1 ) ) )
+         )
+  );cond
+  
+);define Power
+           
+( define ( FindRange x )
+  ; starting with 2**0, find n and m, so that n <= m and 2**n <= x1 < 2**m
+  ; return >>( 2**n 2**m )<<
+  ; x is assumed to be greater than or equal to 1
+  
+  ( if ( < x 1 )
+       "FindRange: x must be greater than or equal to 1"
+       ( Find-Range x 0 )
+  );if
+  
+);define FindRange 
+
+( define ( Find-Range x startWith )
+  ; starting with 2**startWith, find n and m, so that n <= m and 2**n <= x1 < 2**m
+  ; return >>( 2**n 2**m )<<
+  ; x is assumed to be greater than or equal to 1
+  
+  ( let ( ( start ( Power 2 startWith ) )
+          ( end ( Power 2 ( + startWith 1 ) ) )
+        )
+    ( cond ( ( = x start )
+             ( list start start )
+           )
+           ( ( < x end )
+             ( list start end )
+           )
+           ( else ; ( <= end x )
+             ( Find-Range x ( + startWith 1 ) )
+           )
+    );cond
+  );let
+
+);define Find-Range
+       
+( define ( IntFloor below x above )
+  ( if ( not ( and ( <= below x )
+                   ( <= x above )
+             )
+       )
+       "IntFloor: the three arguments should be BELOW <= X <= ABOVE"
+       ( Int-Floor below x above )
+  );if
+);define
+
+( define ( Int-Floor below x above ) 
+  ; BELOW and ABOVE are two integers s. t. BELOW <= x <= ABOVE
+  ; find the integer FLOOR, so that FLOOR <= x < FLOOR+1
+  ; return FLOOR
+  
+  ( cond ( ( = below x ) below )
+         ( ( = above x ) above )
+         ( ( = ( + below 1 ) above )
+           below
+         )
+         
+         ; BELOW + 1 < ABOVE
+         
+         ( else
+           ( let ( ( middle ( / ( + below above ) 2 ) 
+                   )
+                 )
+                 
+                 ; MIDDLE is neither BELOW nor ABOVE
+                 ; i.e., BELOW < MIDDLE < ABOVE
+                 
+                 ( if ( < x middle )
+                      ( Int-Floor below x middle )
+                      ( Int-Floor middle x above )
+                 );if
+           );let
+         );else
+  );cond
+
+);define Int-Floor
+
+(FindRange 13579.246810)
+(IntFloor 8192 13579.246810 16384)
+(Int 13579.246810)
+(Real (Int 13579.246810))
+(FindRange 1024)
+(Int 1024)   
+(Int -13579.246810)
+
+(clean-environment) ; second round, with error
+
+(define x1 3)(define x2 4)(define x3 5)
+
+( define (TrickySumUp start end) 
+  
+  ; return the sum of start, start+1, start+2, ..., end
+  ; requirement : start <= end
+  ; float version + some nonsense code, which should not hurt
+  
+  ( cond ( (= start end) start )
+         ( (> start end) "Illegal input! the first argument must be smaller or equal to the second.")
+         ( else
+           ( let ( ( new-start (+ start 1) )
+                   ( x1 (+ x1 x2) )
+                   ( x3 (+ x3 5) )
+                 )
+                 
+                 ; instead of
+                 
+                 ; ( + start 
+                 ;     ( if ( > new-start end ) ; just in case we've got a float here
+                 ;          end
+                 ;         ( TrickySumUp new-start end ) 
+                 ;     ) ; if
+                 ; );+
+                 
+                 ; we use below
+                 
+                 ( if ( > new-start end ) ; just in case we've got a float here
+                      ( begin (+ x1 x2) (+ start end))
+                      ( let ( ( sum-of-the-rest 
+                                (TrickySumUp new-start end) 
+                              )
+                            )
+                            ( if ( > sum-of-the-rest 300 )
+                                 ( + start (Transform start end start) )
+                                 ( + start sum-of-the-rest )
+                            );if
+                      );let
+                 );if
+           );let
+         );else
+  );cond
+   
+);define TrickySumUp
+
+(TrickySumUp 3.5 10)
+(TrickySumUp 3.5 30)
+(+ (TrickySumUp 3.5 10) 5)
+(+ (TrickySumUp 3.5 2) (TrickySumUp 3.5 10))
+(TrickySumUp 3.5 2)
+(TrickySumUp 3.5 3.5)
+(+ x1 x2 x3)
+
+( define ( Abs x )
+  ; return the absolute value of X
+
+  ( if ( not ( real? x ) )
+       "Abs: the given argument has to be a real number (including integer)"
+       ( if ( < x 0 )
+            ( * x -1 )
+            x
+       );if
+  );if
+  
+);define Abs
+
+( define ( Real x ) 
+
+  ( cond ( ( not ( real? x ) )
+           "cannot cast something that is neither a real nor an integer into a real"
+         )
+         ( ( integer? x ) ( * 1.0 x )
+         )
+         ( else x )
+  );cond
+  
+);define Real
+
+( define ( Int x ) 
+  ; return the integer part of x
+
+  ( cond ( ( integer? x ) 
+           x 
+         )
+  
+         ; x is not an integer
+         
+         ( ( not ( real? x ) )
+           "Int: cannot cast something that is neither an integer nor a real into an integer"
+         )
+         
+         ; x is a real
+         
+         ( else
+  
+           ( if ( and ( < -1 x ) 
+                      ( <  x  1 ) 
+                );and
+           
+                0
+                
+                ; x is a real and either x <= -1 or 1 <= x
+           
+                ( let ( ( x ( Abs x ) )
+                        ( negative ( < x 0 ) )
+                      )
+                      ( let ( ( below-above ( FindRange x ) ) ; below <= x <= above
+                            )
+                            ( let ( ( below ( car below-above ) )
+                                    ( above ( car ( cdr below-above ) ) )
+                                  )
+                                  ( let ( ( floor ( IntFloor below x above ) )
+                                        )
+                                        ( if negative
+                                             ( * -1 floor )
+                                             floor
+                                        );if
+                                  );let
+                            );let
+                      );let
+                );let
+           );if
+         );else
+  );cond
+
+);define Int
+
+( define ( Power a n )
+  ; return a**n
+  ; requirement: n has to be an integer
+  
+  ( cond ( ( not ( integer? n ) )
+           "Power : n has to be an integer"
+         )
+         
+         ; n an integer
+         
+         ( ( < n 0 )
+           ( let ( ( positive ( * -1 n ) )
+                 )
+                 ( / 1.0 ( Power a positive ) )
+           );let
+         )
+         
+         ; n is a non-negative integer
+         
+         ( ( = n 0 )
+           1
+         )
+         
+         ; n is a positive integer
+         
+         ( else 
+           ( * a ( Power a ( - n 1 ) ) )
+         )
+  );cond
+  
+);define Power
+           
+( define ( FindRange x )
+  ; starting with 2**0, find n and m, so that n <= m and 2**n <= x1 < 2**m
+  ; return >>( 2**n 2**m )<<
+  ; x is assumed to be greater than or equal to 1
+  
+  ( if ( < x 1 )
+       "FindRange: x must be greater than or equal to 1"
+       ( Find-Range x 0 )
+  );if
+  
+);define FindRange 
+
+( define ( Find-Range x startWith )
+  ; starting with 2**startWith, find n and m, so that n <= m and 2**n <= x1 < 2**m
+  ; return >>( 2**n 2**m )<<
+  ; x is assumed to be greater than or equal to 1
+  
+  ( let ( ( start ( Power 2 startWith ) )
+          ( end ( Power 2 ( + startWith 1 ) ) )
+        )
+    ( cond ( ( = x start )
+             ( list start start )
+           )
+           ( ( < x end )
+             ( list start end )
+           )
+           ( else ; ( <= end x )
+             ( Find-Range x ( + startWith 1 ) )
+           )
+    );cond
+  );let
+
+);define Find-Range
+       
+( define ( IntFloor below x above )
+  ( if ( not ( and ( <= below x )
+                   ( <= x above )
+             )
+       )
+       "IntFloor: the three arguments should be BELOW <= X <= ABOVE"
+       ( Int-Floor below x above )
+  );if
+);define
+
+( define ( Int-Floor below x above ) 
+  ; BELOW and ABOVE are two integers s. t. BELOW <= x <= ABOVE
+  ; find the integer FLOOR, so that FLOOR <= x < FLOOR+1
+  ; return FLOOR
+  
+  ( cond ( ( = below x ) below )
+         ( ( = above x ) above )
+         ( ( and 
+             ( > below 30000 )
+             ( < above ( + below 3 ) )
+           )
+           ( let ( ( below (Transform below above below) )
+                 )
+                 above
+           )
+         )
+         ( ( = ( + below 1 ) above )
+           below
+         )
+         
+         ; BELOW + 1 < ABOVE
+         
+         ( else
+           ( let ( ( middle ( / ( + below above ) 2 ) 
+                   )
+                 )
+                 
+                 ; MIDDLE is neither BELOW nor ABOVE
+                 ; i.e., BELOW < MIDDLE < ABOVE
+                 
+                 ( if ( < x middle )
+                      ( Int-Floor below x middle )
+                      ( Int-Floor middle x above )
+                 );if
+           );let
+         );else
+  );cond
+
+);define Int-Floor
+
+( define ( Transform tag x1 x5 )   ;    x1 : p2     x5 : p3
+  ( begin
+    ( if ( > tag 0 )
+         ( let ( ( x3 (+ x1 x5) )
+               )
+               (+ x3 x2)
+         );let
+         ; ( let ( ( x3 (- x1 x5) )  ; no return value when tag <= 0 ; but OK
+         ;       )
+         ;       (+ x3 x2)
+         ; );let
+    );if
+    ( if ( > tag 0 )
+         ( let ( ( x3 (+ x1 x5) )
+               )
+               ( if ( < x1 x5 )
+                    ( + x3 x2 )     ; no return value  when tag > 0 AND p2 >= p3 ; result NOT OK
+               )
+         );let
+         ( let ( ( x3 (- x1 x5) )
+               )
+               (+ x3 x2)
+         );let
+    );if
+  );begin
+);define Transform
+
+; ( define x1 (Transform 3 30 20) ) ; error
+; ( define x1 (Transform 3 20 30) )
+; ( define x2 (Transform -3 20 30) )
+; ( define x2 (Transform -3 30 20) )
+; ( define x2 (Transform -3 (Transform 3 30 20) 30) ) ; error
+
+(FindRange 13579.246810)
+(IntFloor 8192 13579.246810 16384)
+(Int 13579.246810)
+(Real (Int 13579.246810))
+(FindRange 1024)
+(Int 1024)   
+(Int -13579.246810)
+(define x ( Transform 3 5 2 ) )
+(define x ( Int 31258.79 ) )
+(Transform 3 31258.79 2 )
+(Transform 3 (Int 31258.79) 2 )
+
+( define ( GuaiPower a n )
+  ; return a**n
+  ; requirement: n has to be an integer
+  
+  ( cond ( ( > a 10 ) ( Transform 18 42 15 ) ( Power a n ) )
+         ( ( > n 10 ) ( Power a n ) (Transform 58 36 27) )
+         ( else ( Power a n ) )
+  );cond
+  
+);define GuaiPower
+
+(GuaiPower 2 12)
+(GuaiPower 12 2)
+
+( define ( Find-Range x startWith )
+  ; starting with 2**startWith, find n and m, so that n <= m and 2**n <= x1 < 2**m
+  ; return >>( 2**n 2**m )<<
+  ; x is assumed to be greater than or equal to 1
+  
+  ( let ( ( start ( GuaiPower 2 startWith ) )
+          ( end ( GuaiPower 2 ( + startWith 1 ) ) )
+        )
+    ( cond ( ( = x start )
+             ( list start start )
+           )
+           ( ( < x end )
+             ( list start end )
+           )
+           ( else ; ( <= end x )
+             ( Find-Range x ( + startWith 1 ) )
+           )
+    );cond
+  );let
+
+);define Find-Range
+
+(Int 12345.67)
+(Int 234.56)
+(define x (Int 12345.67))
+(Power (Int 12345.67) 3)
+
+( define ( GuaiInt x )
+  ( if ( and ( < 100 x ) ( < x 99999 ) )
+       ( Int x )
+  )
+);define GuaiInt
+
+(GuaiInt 12345.67)
+(GuaiInt 23.56)
+(define x (GuaiInt 12345.67))
+(Power (GuaiInt 23.56) 3)
+(GuaiInt 123.45)
+(define x (GuaiInt 9458.67))
+
+Go get them!
+     
+;;;;;;;;;;;;;;;;; Below 4-9  2/3 ;;;;;;;;;;;;;;;;;;;;;
+
+(define a "=============== Problem 9 viewable case =================")
+a
+( clean-environment )
+
+; Expert System Shell + Condition-BST & Action-BST - complex
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Utilities ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Petite-Scheme (SWL) will also need the following 
+;
+; ( define ( create-error-object str )
+;   str
+; ); define create-error-object
+; 
+; ( define ( error-object? obj )
+;   ( string? obj )
+; ); define error-object?
+; 
+; unfortunately, the problem of 'nil' cannot be solved straightforwardly
+; sometimes it needs to be changed to '() (in the case of lists)
+; sometimes it needs to be changed to #f  (in the case of booleans)
+;
+; ( define nil '() )
+;
+; for most cases, the above definition of 'nil' will do (since it just changes >>nil<< to >>'()<<)
+; in few cases, we have to manually change >>nil<< to >>#f<<
+; 
+; ( define ( verbose? )
+;   #t
+; );define verbose?
+;
+; ( define ( verbose setting )
+;   #t
+; );define verbose
+
+; car               ; first one
+ 
+( define ( cadr x ) ; second one
+
+  ( car ( cdr x ) )
+  
+);define cadr
+
+( define ( caddr x ) ; third one
+
+  ( car ( cdr ( cdr x ) ) )
+   
+);define caddr
+
+( define ( caar x ) ; 'car' of first one
+
+  ( car ( car x ) )
+  
+);define caar
+
+( define ( caadr x ) ; 'car' of second one
+
+  ( car ( cadr x ) )
+  
+);define caar
+
+( define ( caaddr x ) ; 'car' of third one
+
+  ( car ( caddr x ) )
+   
+);define caaddr
+
+;=========================== Utilities ===============================
+
+; Skip the following definition of '%' when running Petite-Scheme (SWL).
+; ( we use the next definition of '%' instead !!! )
+
+( define ( % original divider )
+
+  ( cond ( ( not ( integer? original ) )
+           ( create-error-object ( string-append "% : " ( number->string original )
+                                                 " is not an integer."
+                                 )
+           )
+         )
+         ( ( not ( integer? divider ) )
+           ( create-error-object ( string-append "% : " ( number->string divider )
+                                                 " is not an integer."
+                                 )
+           )
+         )
+         ( else
+           ( - original ( * ( / original divider )
+                            divider
+                        )
+           )
+         );else
+         
+  );cond
+  
+);define %
+
+; Use the following definition of '%' when running Petite-Scheme (SWL)
+;
+; ( define ( % original divider )
+;   ( modulo original divider )
+; );define %
+
+;=========================== Utilities ===============================
+
+( define $%%% 379 )
+
+( define ( KeyPair original )
+  
+  ( if ( < original $%%% )
+    ( create-error-object ( string-append "Please use a number greater than "
+                                          ( number->string $%%% )
+                                          " as key."
+                          )
+    )
+    ( cons ( % original $%%% )
+           ( list original )
+    )
+  );if
+  
+);define KeyPair
+
+( define ( RealKey original )
+
+; the "key" defined by KeyPair() from 'original'
+  
+  ( if ( < original $%%% )
+    
+    original
+    
+    ( % original $%%% )
+
+  );if
+  
+);define RealKey
+
+;=========================== Utilities ===============================
+
+( define ( ListAppend firstList secondList )
+
+  ( cond ( ( and ( atom? firstList )
+                 ( not ( null? firstList ) )
+           )
+           ( create-error-object "( ListAppend firstList secondList ) : First one must be a list." )
+         )
+         ( ( and ( atom? secondList )
+                 ( not ( null? secondList ) )
+           )
+           ( create-error-object "( ListAppend firstList secondList ) : Second one must be a list." )
+         )
+    ( else 
+      ( $ListAppend firstList secondList )
+    )
+    
+  );cond
+  
+);define ListAppend
+
+( define ( $ListAppend firstList secondList )
+; prerequisite: both 'firstList' and 'secondList' are lists (including the case of '())
+
+  ( if ( null? firstList )
+  
+      secondList
+      
+      ( cons ( car firstList )
+             ( $ListAppend ( cdr firstList )
+                           secondList
+             )
+      );cons
+      
+  );if
+
+);define ListAppend
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( ListLength s-expr )
+
+  ( cond 
+  
+    ( ( null? s-expr ) 0 )
+    
+    ( ( atom? s-expr ) ( create-error-object "( ListLength s-expr ) : s-expr is a non-nil atom" )
+    )
+    
+    ( else ( $ListLength s-expr )
+    )
+    
+  );cond
+  
+);define ListLength
+                           
+( define ( $ListLength aList )
+
+; prerequisite: aList is either a non-empty list (i.e., it must not be '()) 
+;                        or a dotted pair
+
+  ( let ( ( remaining ( cdr aList ) )
+        );local 
+        
+    ( if ( atom? remaining ) ; either '() or a real atom, which means that aList is not really a list
+    
+         1
+         
+         ( + 1 ( $ListLength remaining ) 
+         )
+         
+    );if
+    
+  );let
+  
+);define $ListLength
+                           
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( NthElementOf n s-expr )
+
+  ( cond
+  
+    ( ( not ( integer? n ) ) 
+      ( create-error-object "( NthElementOf n s-expr ) : Illegal first argument!" )
+    )
+    
+    ( ( < n 1 )
+      ( create-error-object "( NthElementOf n s-expr ) : Illegal first argument!" )
+    )
+    
+    ; assert : n is a natural number
+    
+    ( ( null? s-expr )
+      ( create-error-object "( NthElementOf n s-expr ) : Illegal second argument!" )
+    )
+    
+    ( ( atom? s-expr )
+      ( create-error-object "( NthElementOf n s-expr ) : Illegal second argument!" )
+    )
+    
+    ; assert : s-expr is a dotted pair
+    
+    ( else
+      ( $NthElementOf n s-expr )
+    )
+    
+  );cond
+  
+);define NthElementOf
+
+( define ( $NthElementOf n s-expr )
+; prerequisite: n is a natural number and s-expr is a dotted pair (i.e., if list then non-empty)
+
+  ( if ( = n 1 )
+  
+     ( car s-expr )
+     
+     ; n > 1
+     
+     ( let ( ( rest ( cdr s-expr ) )
+           );local
+           
+        ( if ( atom? rest ) ; i.e., no more!
+        
+            ( create-error-object "( NthElementOf n s-expr ) : Value of n exceeds length of the given s-expression." )
+            
+            ( $NthElementOf ( - n 1 ) rest )
+            
+        );if
+        
+     );let
+     
+  );if
+  
+);define $NthElementOf
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( WithNthElementOfListReplaced n aList newElement )
+
+; given 4 and ( a b c d e f g ) and XYZ
+; it means: replace the 4TH of ( a b c d e f g ) with XYZ
+; result : ( a b c XYZ e f g)
+
+  ( cond ( ( not ( integer? n ) )
+           ( create-error-object "( WithNthElementOfListReplaced n aList newElement ) : n is not an integer" )
+         )
+         ( ( < n 1 ) 
+           ( create-error-object "( WithNthElementOfListReplaced n aList newElement ) : n is not a natural number" )
+         )
+         ( ( < ( ListLength aList ) n )
+           ( create-error-object "( WithNthElementOfListReplaced n aList newElement ) : value of n exceeds length of aList" )
+         )
+         ( else
+           ( $WithNthElementOfListReplaced n aList newElement )
+         )
+  );cond
+  
+);define WithNthElementOfListReplaced
+  
+( define ( $WithNthElementOfListReplaced n aList newElement )
+
+; given 4 and ( a b c d e f g ) and XYZ
+; it means: replace the 4TH of ( a b c d e f g ) with XYZ
+; result : ( a b c XYZ e f g)
+
+  ( if ( = n 1 ) ; we are to replace the first one of 'aList'
+  
+       ( cons newElement
+              ( cdr aList )
+       )
+       
+       ; n > 1
+       
+       ( let ( ( first ( car aList ) )
+               ( new-rest ( $WithNthElementOfListReplaced ( - n 1 ) ( cdr aList ) newElement
+                          )
+               )
+             )
+         ( cons first new-rest )
+       );let
+       
+  );if
+  
+);define $WithNthElementOfListReplaced
+  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; ( define ( DivisibleBy n factor )
+; 
+;   ( = n 
+;       ( * ( / n factor ) factor )
+;   )
+;    
+; );define DivisibleBy
+
+( define ( DivisibleBy n factor )
+  
+  ( = ( % n factor )
+      0
+  )
+
+);define DivisibleBy
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( PrintListOfStringsAsSentence aList )
+
+  ( if ( not ( null? aList ) )
+     ( begin
+     
+       ( display-string ( car aList ) ) 
+       ; instead of : 
+       ; ( display-string ( eval ( car aList ) ) )
+       
+       ( display-string " " )
+       ( PrintListOfStringsAsSentence ( cdr aList ) )
+     )
+     ( begin
+       ( newline )
+       #t
+     )
+  );if
+  
+);define PrintListOfStringsAsSentence
+     
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( PrintListOfSymbolsAsSentence aList )
+; with a LINE-ENTER at the end
+
+  ( if ( not ( null? aList ) )
+     ( begin
+       ( display-string ( symbol->string ( car aList ) ) )
+       ( display-string " " )
+       ( PrintListOfSymbolsAsSentence ( cdr aList ) )
+     )
+     ( begin
+       ( newline )
+       #t
+     )
+  );if
+  
+);define PrintListOfSymbolsAsSentence
+     
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( PrintListOfSymbolsStringsAsSentence aList )
+
+  ( if ( not ( null? aList ) )
+     ( begin
+       ( display-string ( let ( ( element ( car aList ) )
+                              );local
+                          ( if ( symbol? element )
+                               ( symbol->string ( car aList ) ) 
+                               element
+                          )
+                        );let
+       )
+       ( display-string " " )
+       ( PrintListOfSymbolsStringsAsSentence ( cdr aList ) )
+     )
+     ( begin
+       ( newline )
+       #t
+     )
+  );if
+  
+);define PrintListOfSymbolsStringsAsSentence
+     
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( PrintListOfSymbolsNumbersStringsAsSentence aList )
+
+  ( if ( not ( null? aList ) )
+     ( begin
+       ( display-string ( let ( ( %element ( car aList ) )
+                              );local
+                          ( cond ( ( symbol? %element )
+                                   ( symbol->string %element )
+                                 )
+                                 ( ( number? %element )
+                                   ( number->string %element )
+                                 )
+                                 ( else 
+                                   %element
+                                 )
+                          )
+                        );let
+       )
+       ( display-string " " )
+       ( PrintListOfSymbolsNumbersStringsAsSentence ( cdr aList ) )
+     )
+     ( begin
+       ( newline )
+       #t
+     )
+  );if
+  
+);define PrintListOfSymbolsNumbersStringsAsSentence
+     
+;=========================== Utilities ===============================
+
+;=========================== Expert system shell ===============================
+
+( define @size@ 3 )    ;   5 : 'HUGE        'LARGE   'MEDIUM    'SMALL    1 : 'TINY
+( define @price@ 3 )   ;   5 : 'EXPENSIVE   'HIGH    'AVERAGE   'LOW      1 : 'VERY-AFFORDABLE 
+( define @quality@ 3 ) ;   5 : 'EXCELLENT   'GOOD    'AVERAGE   'BAD      1 : 'TERRIBLE
+
+( define ( ResetTransactionState )
+
+  ( set! @quality@ 3 )
+  ( set! @price@ 3 )
+  ( set! @size@ 3 )
+  #t
+  
+);define ResetTransactionState
+
+( define ( ProductIndex )
+  ( cond ( ( = @quality@ 5 )
+           ( + ( - 18 @price@ ) @size@ 3 )                ; max : 25
+         )
+         ( ( = @quality@ 4 )
+           ( + ( - 15 @price@ ) @size@ )                  ; ref. point : 15
+         )
+         ( ( = @quality@ 3 )
+           ( + @price@ @size@ )                           ; average : 6
+         )
+         ( ( = @quality@ 2 )
+           ( - @size@ ( + 4 @price@ ) )                   ; ref. point : -4
+         )
+         ( ( = @quality@ 1 )
+           ( - @size@ ( + 8 @price@ ) )                   ; min : -12
+         )
+         ( else
+           ( create-error-object ( string-append "Invalid @quality@ value : " ( number->string @quality@ )
+                                 )
+           )
+         )
+  );cond
+
+);define ProductIndex
+
+( define ( TransactionState )
+
+  ( string-append "quality : " ( number->string @quality@ )
+                  " size : "   ( number->string @size@ )
+                  " price : "  ( number->string @price@ )
+                  " ProductIndex : " ( number->string ( ProductIndex ) )
+  )
+  
+);define TransactionState
+
+( define ( Top? n )
+  ( = n 5 )
+);define Top?
+
+( define ( Bottom? n )
+  ( = n 1 )
+);define Bottom?
+
+( define ( TopPrice? )
+  ( Top? @price@ )
+);define TopPrice?
+
+( define ( BottomPrice? )
+  ( Bottom? @price@ )
+);define BottomPrice?
+
+( define ( TopSize? )
+  ( Top? @size@ )
+);define TopSize?
+
+( define ( BottomSize? )
+  ( Bottom? @size@ )
+);define BottomSize?
+
+( define ( TopQuality? )
+  ( Top? @quality@ )
+);define TopQuality?
+
+( define ( BottomQuality? )
+  ( Bottom? @quality@ )
+);define BottomQuality?
+
+( define ( Downgrade n )
+  ( if ( = n 1 )
+    1
+    ( - n 1 )
+  )
+);define Downgrade
+
+( define ( Upgrade n )
+  ( if ( = n 5 )
+    5
+    ( + n 1 )
+  )
+);define Downgrade
+
+( define ( DowngradeSize )
+  ( set! @size@ ( Downgrade @size@ ) )
+);define DowngradeSize
+
+( define ( DowngradePrice )
+  ( set! @price@ ( Downgrade @price@ ) )
+);define DowngradePrice
+
+( define ( DowngradeQuality )
+  ( set! @quality@ ( Downgrade @quality@ ) )
+);define DowngradeQuality
+
+( define ( UpgradeSize )
+  ( set! @size@ ( Upgrade @size@ ) )
+);define UpgradeSize
+
+( define ( UpgradePrice )
+  ( set! @price@ ( Upgrade @price@ ) )
+);define UpgradePrice
+
+( define ( UpgradeQuality )
+  ( set! @quality@ ( Upgrade @quality@ ) )
+);define UpgradeQuality
+
+( define ( Abs n )
+
+  ( if ( > n 0 )
+    n
+    ( * -1 n )
+  )
+  
+);define Abs
+
+( define ( PriceTag income )
+
+  ( let ( ( %type ( % income 3 ) )
+        );local
+
+    ( cond
+      ( ( = %type 0 ) ; over
+      
+        ( let ( ( %p ( ProductIndex )
+                )
+              );local
+              
+          ( cond 
+            ( ( > %p 15 )
+              ( + ( * 22000 %p )
+                  ( * income 0.4 )
+              )
+            )
+            ( ( > %p 5 )
+              ( + ( * 21000 %p )
+                  ( * income 0.3 )
+              )
+            )
+            ( ( > %p -5 )
+              ( cond ( ( > %p 0 )
+                       ( + ( * 20000 %p )
+                           ( * income 0.2 )
+                       )
+                     )
+                     ( ( = %p 0 )
+                       ( + 19000 ( * income 0.2 ) )
+                     )
+                     ( else ; %p < 0
+                       ( + 19000 ( * %p 500 ) ( * income 0.2 ) )
+                     )
+              )
+            )
+            ( ( > %p -13 )
+              ( + 19000 ( * %p 600 ) ( * income 0.1 ) )
+            )
+            ; no ELSE to force error msg.
+          );cond
+          
+        );let %p
+        
+      ) ; type 0
+      
+      ( ( = %type 1 ) ; fair
+      
+        ( let ( ( %p ( ProductIndex )
+                )
+              );local
+              
+          ( cond 
+            ( ( > %p 15 )
+              ( + ( * 20000 %p )
+                  ( * income 0.3 )
+              )
+            )
+            ( ( > %p 5 )
+              ( + ( * 20000 %p )
+                  ( * income 0.2 )
+              )
+            )
+            ( ( > %p -5 )
+              ( cond ( ( > %p 0 )
+                       ( + ( * 20000 %p )
+                           ( * income 0.1 )
+                       )
+                     )
+                     ( ( = %p 0 )
+                       ( + 18000 ( * income 0.1 ) )
+                     )
+                     ( else ; %p < 0
+                       ( + 18000 ( * %p 800 ) ( * income 0.1 ) )
+                     )
+              )
+            )
+            ( ( > %p -13 )
+              ( + 18000 ( * %p 1000 ) ( * income 0.1 ) )
+            )
+            ; no ELSE to force error msg.
+          );cond
+          
+        );let %p
+        
+      ) ; type 1
+      
+      ( ( = %type 2 ) ; low
+      
+        ( let ( ( %p ( ProductIndex )
+                )
+              );local
+              
+          ( cond 
+            ( ( > %p 15 )
+              ( + ( * 15000 %p )
+                  ( * income 0.1 )
+              )
+            )
+            ( ( > %p 5 )
+              ( + ( * 15000 %p )
+                  ( * income 0.1 )
+              )
+            )
+            ( ( > %p -5 )
+              ( cond ( ( > %p 0 )
+                       ( + ( * 15000 %p )
+                           ( * income 0.1 )
+                       )
+                     )
+                     ( ( = %p 0 )
+                       ( + 13000 ( * income 0.1 ) )
+                     )
+                     ( else ; %p < 0
+                       ( + 13000 ( * %p 1000 ) ( * income 0.1 ) )
+                     )
+              )
+            )
+            ( ( > %p -13 )
+              ( + 13000 ( * %p 1000 ) ( * income 0.1 ) )
+            )
+            ; no ELSE to force error msg.
+          );cond
+          
+        );let %p
+        
+      ) ; %type 2
+      
+    );cond %type
+    
+  );let %type
+    
+);define PriceTag
+
+; expertise df= name-0f-the-expertise
+;               +
+;               list of rules ( a rule-set, implicitly ordered )
+;                 where
+;                 a rule df= '(' <condition> <action> ')' // multiple actions allowed
+;               +
+;               a (evaluated) definition of some corresponding function (a function that can be called)
+
+; For each expertise that exists (i.e., for each name-of-expertise that can be called)
+; there is a corresponding entry in the expertise-DB ($expertise-DB).
+; This entry df= '(' name-of-expertise <rule> { <rule> } ')'
+
+; for example
+
+( define ( ExampleExpertise n ) ; a function that can be called
+
+  ; Just what is an experise?
+  ; an expertise is (in here) an oredered list of rules ( of the form: <condition> -> <action> )
+
+  ( cond
+  
+    ( ( DivisibleBy n 3 ) ; condition
+    
+      ( cond              ; action ; it can be multiple actions
+      
+        ( ( not ( TopSize? ) )
+          ( UpgradeSize )
+        )
+        ( ( not ( TopPrice? ) )
+          ( UpgradePrice )
+        )
+        ( ( not ( TopQuality? ) )
+          ( UpgradeQuality )
+        )
+        
+      );cond
+      
+      ( TransactionState )
+      
+    ); rule-01
+    
+    ( ( DivisibleBy n 5 ) ; condition
+    
+      ( cond              ; action ; it can be multiple actions
+        ( ( not ( BottomSize? ) )
+          ( DowngradeSize )
+        )
+        ( ( not ( BottomPrice? ) )
+          ( DowngradePrice )
+        )
+        ( ( not ( BottomQuality? ) )
+          ( DowngradeQuality )
+        )
+      );cond
+      
+      ( TransactionState )
+      
+    ); rule-02
+    
+    ( else                ; condition (which may or may not be 'else')
+    
+      ( if ( not ( TopPrice? ) ) ; action ; it can be multiple actions
+           ( UpgradePrice )
+      )
+      
+      ( TransactionState )
+      
+    ); rule-03
+    
+  );cond
+  
+);define ExampleExpertise
+
+( define $expertise-DB 
+
+  ; for simplicity, we do not sort this DB by expertise-names for the moment 
+  ; (to do that, we will need to use a BST)
+
+  '( ( ExampleExpertise ; name of the expertise ; note that this is a symbol, not a string
+     
+       ; the list of rules associated with >>ExampleExpertise<<
+       
+       ( ( DivisibleBy n 3 ) ; condition
+       
+         ( cond              ; action ; it can be multiple actions
+         
+           ( ( not ( TopSize? ) )
+             ( UpgradeSize )
+           )
+           ( ( not ( TopPrice? ) )
+             ( UpgradePrice )
+           )
+           ( ( not ( TopQuality? ) )
+             ( UpgradeQuality )
+           )
+           
+         );cond
+         
+         ( TransactionState )
+         
+       ); rule-01
+       
+       ( ( DivisibleBy n 5 ) ; condition
+       
+         ( cond              ; action ; it can be multiple actions
+           ( ( not ( BottomSize? ) )
+             ( DowngradeSize )
+           )
+           ( ( not ( BottomPrice? ) )
+             ( DowngradePrice )
+           )
+           ( ( not ( BottomQuality? ) )
+             ( DowngradeQuality )
+           )
+         );cond
+         
+         ( TransactionState )
+         
+       ); rule-02
+       
+       ( else                ; condition (which may or may not be 'else')
+       
+         ( if ( not ( TopPrice? ) ) ; action ; it can be multiple actions
+              ( UpgradePrice )
+         )
+         
+         ( TransactionState )
+         
+       ); rule-03
+    
+     );the expertise >>ExampleExpertise<<
+     
+   ) ; $expertise-DB
+   
+  ; for each expertise stored in $expertise-DB, 
+  ; its CAR is name-of-the-expertise (a symbol), and its CDR is the list-of-rules associated with this "expertise",
+  ; with each rule being of the form >>( <condition> <action> )<< ; note again, that multiple actions are allowed
+   
+);define $expertise-DB
+
+( define ( RuleSetOf expertiseName )
+
+  ( if ( null? $expertise-DB )
+  
+       ( create-error-object ( string-append ( symbol->string expertiseName ) " not found (expertise-DB is currently empty)" ) )  
+         
+       ( $RuleSetOfFrom expertiseName $expertise-DB )
+  );if
+  
+);define RuleSetOf
+
+( define ( $RuleSetOfFrom expertiseName list-of-expertise )
+
+; >>expertiseName<< is a symbol
+; >>list-of-expertise<< is the list to be searched for the expertise with name being expertiseName ;
+; prerequisite: 'list-of-expertise' is a non-empty list
+
+  ( cond
+  
+    ( ( = ( ListLength list-of-expertise ) 1 )
+    
+      ( if ( equal? ( car ( car list-of-expertise ) ) expertiseName )
+           ( cdr ( car list-of-expertise ) )
+           ( create-error-object ( string-append ( symbol->string expertiseName ) " not found in expertise-DB" ) )
+      )
+    )
+    
+    ; ListLength > 1
+    
+    ( else
+    
+      ( if ( equal? ( car ( car list-of-expertise ) ) expertiseName )
+           ( cdr ( car list-of-expertise ) )
+           ( $RuleSetOfFrom expertiseName ( cdr list-of-expertise ) )
+      )
+    )
+    
+  );cond
+
+);define $RuleSetOfFrom
+
+;;;;;;;;;;;;;;
+
+( define ( WithNthRuleReplaced n ruleList withThisRule )
+
+  ; should do parameter-checks first
+
+  ; ( WithNthElementOfListReplaced n aList newElement )
+  
+  ( WithNthElementOfListReplaced n ruleList withThisRule )
+  
+);define WithNthRuleReplaced
+
+( define ( Rule condition action-list )
+
+  ( cons condition action-list )
+  
+);define Rule
+
+( define ( DefineExpertise nameOfExpertise listOfRules )
+
+  ( let ( ( %code
+            ( list 'define
+                   ( cons nameOfExpertise '( n ) )
+                   ( cons 'cond listOfRules )
+            )
+          )
+          ( %add-result nil )
+          ( %current-verbose-mode nil )
+        );local-var
+        
+    ( set! %add-result ( $AddToExpertiseDB nameOfExpertise ( cons nameOfExpertise listOfRules ) )
+    )
+    
+    ( if ( error-object? %add-result )
+      
+      ( begin
+      
+        ( display-string %add-result )
+        ( newline )
+        
+        #f
+        
+      );begin
+      
+      ; no error
+      
+      ( begin
+        
+        ( set! %current-verbose-mode ( verbose? ) )
+        ( verbose #f ) ; to disable the eval msg : abc defined
+        ( eval %code ) ; define the expertise
+        ( verbose %current-verbose-mode )
+    
+        ( display-string
+          ( string-append "The expertise '" 
+                          ( symbol->string nameOfExpertise )
+                          "' has been established.\n" 
+          )
+        )
+    
+        #t
+        
+      );begin
+      
+    );if error
+    
+  );let %code
+
+);define DefineExpertise
+
+( define ( $AddToExpertiseDB nameOfExpertise expertise )
+  
+  ( let ( ( %n ( $IndexOfExpertiseEntry nameOfExpertise 1 $expertise-DB ) )
+        );local
+        
+    ( if ( < %n 1 ) ; no expertise with name being 'nameOfExpertise' in $expertise-DB 
+    
+      ; directly add the description of this expertise to DB
+      ( begin ( set! $expertise-DB  
+                     ( cons expertise $expertise-DB ) 
+              )
+              #t
+      )
+      
+      ; %n >= 1 ; i.e., there is already an expertise with the given name
+      
+      ( create-error-object
+        ( string-append 
+          "Sorry. There is already an expertise named '" 
+          ( symbol->string nameOfExpertise )
+          "' in the expertise-DB." 
+        )
+      )
+    
+    );if ( < %n 1 ) ; i.e., if there is no expertise with such a name in DB
+  
+  );let %n
+
+);define $AddToExpertiseDB
+
+( define ( $IndexOfExpertiseEntry nameOfExpertise currentIndex list-of-expertise )
+
+; anyone (with the sole exception of $IndexOfExpertiseEntry) who calls this function should pass 1 as 'currentIndex'
+; return value of -1 means "not in the given list-of-expertise"
+;
+; terminology : the index of 'c' in '(a b c d)' is 3 (and not 2)
+
+  ; assert : the index of first element (of list-of-expertise) in the ORIGINAL LIST is 'currentIndex'
+
+  ( cond ( ( null? list-of-expertise ) 
+           -1 
+         )
+  
+         ( ( equal? ( car ( car list-of-expertise ) ) 
+                    nameOfExpertise 
+           )
+           currentIndex
+         )
+         
+         ( else ; 'nameOfExpertise' is not the first one of list-of-expertise
+         
+           ( $IndexOfExpertiseEntry nameOfExpertise 
+                                    ( + 1 currentIndex ) 
+                                    ( cdr list-of-expertise ) 
+           )
+           
+         );else
+         
+  );cond
+
+);define $IndexOfExpertiseEntry
+
+( define ruleList-01
+
+  ; '( ( ( DivisibleBy n 15 )
+  ;      ( + n 150 )
+  ;    )
+  ;    ( ( DivisibleBy n 5 )
+  ;      ( + n 50 )
+  ;    )
+  ;    ( ( DivisibleBy n 4 )
+  ;      ( + n 40 )
+  ;    )
+  ;    ( else
+  ;      ( + n n )
+  ;    )
+  ;  )
+   
+  '( ( ( DivisibleBy n 3 ) ; condition
+     
+       ( cond              ; action ; it can be multiple actions
+       
+         ( ( not ( TopSize? ) )
+           ( UpgradeSize )
+         )
+         ( ( not ( TopPrice? ) )
+           ( UpgradePrice )
+         )
+         ( ( not ( TopQuality? ) )
+           ( UpgradeQuality )
+         )
+         
+       );cond
+       
+       ( TransactionState )
+       
+     ); rule-01
+     
+     ( ( DivisibleBy n 5 ) ; condition
+     
+       ( cond              ; action ; it can be multiple actions
+         ( ( not ( BottomSize? ) )
+           ( DowngradeSize )
+         )
+         ( ( not ( BottomPrice? ) )
+           ( DowngradePrice )
+         )
+         ( ( not ( BottomQuality? ) )
+           ( DowngradeQuality )
+         )
+       );cond
+       
+       ( TransactionState )
+       
+     ); rule-02
+     
+     ( else                ; condition (which may or may not be 'else')
+     
+       ( if ( not ( TopPrice? ) ) ; action ; it can be multiple actions
+            ( UpgradePrice )
+       )
+       
+       ( TransactionState )
+       
+     ); rule-03
+    
+   ); rule-list
+   
+); define ruleList-01
+
+( DefineExpertise 'Expertise-01 ruleList-01 )
+
+( define rule-139
+
+  ; '( ( Divisible n 3 )
+  ;    ( + n 30 )
+  ;  )
+  
+  '( ( DivisibleBy n 5 ) ; condition
+   
+     ( cond              ; action ; it can be multiple actions
+       ( ( not ( BottomPrice? ) )
+         ( DowngradePrice )
+       )
+       ( ( not ( TopSize? ) )
+         ( UpgradeSize )
+       )
+       ( ( not ( BottomQuality? ) )
+         ( DowngradeQuality )
+       )
+     );cond
+     
+     ( TransactionState )
+     
+   ); a single rule
+  
+   
+); define rule-139
+
+                                ; WithNthRuleReplaced n ruleList withThisRule
+( DefineExpertise 'Expertise-02 ( WithNthRuleReplaced 1 ruleList-01 rule-139 )
+)
+
+( DefineExpertise 'Expertise-03 
+                  ; WithNthRuleReplaced n ruleList withThisRule
+                  ( WithNthRuleReplaced 2
+                                        ruleList-01 
+                                        ( Rule
+                                          '( DivisibleBy n 7 )  ; condition
+                                          '(                    ; action-list
+                                             ( + n 70 )
+                                           )
+                                        ) 
+                  )
+)
+
+( define ( ListExpertiseNames )
+
+; print the list of expertise-names for all expertise stored in $expertise-DB
+
+  ( let ( ( %length ( ListLength $expertise-DB ) )
+        );local
+        
+    ( if ( < %length 1 )
+    
+         ( begin
+           ( display-string "The expertise database is currently empty" )
+           #t
+         )
+         
+         ( $ListExpertiseNames $expertise-DB )
+         
+    );if %length < 1
+    
+  );let %length
+    
+);define ListExpertiseNames
+
+( define ( $ListExpertiseNames expertise-DB )
+
+; print the list of expertise in 'expertis-DB'
+; prerequisite: length of 'expertise-DB' >= 1
+
+  ( display-string ( symbol->string ( car ( car expertise-DB ) ) 
+                   )
+  )
+  ( newline )
+  
+  ( let ( ( %remaining-expertise ( cdr expertise-DB ) )
+        );local
+
+    ( if ( null? %remaining-expertise )
+         #t
+         ( $ListExpertiseNames %remaining-expertise )
+    );if
+    
+  );let %remaining-expertise
+
+);define $ListExpertiseNames
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( GetNotYetUsedKeyFromUser db-name )
+
+; return a user-input that is a usable new key
+
+  ( let ( ( %bst ( cond
+                   ( ( equal? db-name 'condition )
+                     $condition-bst
+                   )
+                   ( ( equal? db-name 'action )
+                     $action-bst
+                   )
+                   ( ( equal? db-name 'expertise )
+                     $expertise-bst
+                   )
+                   ; no ELSE to force error msg.
+                 )
+          );%bst
+          
+          ( %user-input nil )
+          
+        );locals
+        
+    ( display-string "Key (at least 5 digits) associated with the to-be-defined-item > " )
+    
+    ( set! %user-input ( read ) )
+    
+       ; ( $KeyUsedInBST? %bst ( RealKey key ) ) ; returns #f or non-#f
+       
+    ( if ( $KeyUsedInBST? %bst ( RealKey %user-input ) )
+    
+         ( begin
+           ( display-string "Sorry, this key is already in use. Please specify another one.\n" )
+           ( GetNotYetUsedKeyFromUser db-name )
+         )
+         
+         %user-input
+         
+    );if
+    
+  );let
+  
+);define GetNotYetUsedKeyFromUser
+         
+; ( AddToBST 'condition key condition )
+
+( define ( DoDefineCondition )
+
+  ( let ( ( %key nil )
+          ( %condition nil )
+        );locals
+        
+    ( set! %key ( GetNotYetUsedKeyFromUser 'condition ) )
+    
+    ( display-string "The condition to be added to the DB > " )
+    
+    ( set! %condition ( read ) )
+    
+    ; AddToBST() should produce no errors and return a string containing key-info
+    
+    ( display-string ( AddToBST 'condition %key %condition ) )
+    
+    ( newline )
+    
+    #t
+    
+  );let
+          
+);define DoDefineCondition
+
+( define ( DoDefineAction )
+
+  ( let ( ( %key nil )
+          ( %action-list nil )
+        );locals
+        
+    ( set! %key ( GetNotYetUsedKeyFromUser 'action ) )
+    
+    ( display-string "The action-list to be added to the DB > " )
+    
+    ( set! %action-list ( read ) )
+    
+    ; AddToBST() should produce no errors and return a string containing key-info
+    
+    ( display-string ( AddToBST 'action %key %action-list ) )
+    
+    ( newline )
+    
+    #t
+    
+  );let
+          
+);define DoDefineAction
+
+( define ( GetNotYetUsedExpertiseNameFromUser )
+
+; return a user-input that is a new name for a to-be-defined expertise
+
+  ( let ( ( %user-input nil )
+        );locals
+        
+    ( display-string "Name of the to-be-defined-expertise > " )
+    
+    ( set! %user-input ( read ) )
+    
+    ( if ( NameUsedInExpertiseDB? %user-input )
+    
+         ( begin
+           ( display-string "Sorry, this name is already in use. Please specify another one.\n> " )
+           ( GetNotYetUsedExpertiseNameFromUser )
+         )
+         
+         %user-input
+         
+    );if
+    
+  );let
+  
+);define GetNotYetUsedExpertiseNameFromUser
+         
+( define ( NameUsedInExpertiseDB? name )
+
+  ( $NameUsedInExpertiseDB? name $expertise-DB )
+  
+);define NameUsedInExpertiseDB?
+
+( define ( $NameUsedInExpertiseDB? name expertise-list  )
+
+; returns #f or #t
+
+  ( if ( null? expertise-list )
+  
+    #f
+    
+    ; 'expertise-list' not empty
+    
+    ( if ( equal? name ( caar expertise-list ) )
+             
+         #t
+         
+         ( $NameUsedInExpertiseDB? name ( cdr expertise-list ) )
+         
+    );if
+
+  );if 'expertise-list' is empty
+      
+);define $NameUsedInExpertiseDB?
+
+( define ( DoDefineExpertiseFromDB )
+
+  ( let ( ( %rule-set nil )
+          ( %expertiseName nil )
+        );locals
+    
+    ( set! %expertiseName ( GetNotYetUsedExpertiseNameFromUser ) )
+    ( set! %rule-set ( GetRuleSetFromDB ) )
+    
+    ; ( DefineExpertise nameOfExpertise listOfRules )
+    
+    ( DefineExpertise %expertiseName %rule-set )
+    
+  );let
+  
+);define DoDefineExpertiseFromDB
+
+( define ( DoReplaceRuleOfExpertiseWithNewlyComposedRuleUsingDB )
+
+  ( let ( ( %nameOfExpertise nil )
+          ( %whichRule nil )
+          ( %condition nil )
+          ( %action-list nil )
+          ( %new-rule nil )
+        );local
+        
+    ( display-string "Name of the expertise you want to replace its rule > " )
+    ( set! %nameOfExpertise ( read ) )
+    
+    ( display-string "Ordering of the rule that is to be replaced - Please enter a number (e.g., 3) > " )
+    ( set! %whichRule ( read ) )
+    
+    ( display-string "We now need to compose a new rule using existing DB entries.\n" )
+    
+    ( set! %condition ( GetConditionFromDB ) ) 
+    ( set! %action-list ( GetActionListFromDB ) ) 
+    
+    ( set! %new-rule ( cons %condition %action-list )
+    )
+           
+    ; ( $ReplaceRuleOfRuleSet nameOfExpertise whichRule rule )
+    ( $ReplaceRuleOfRuleSet %nameOfExpertise %whichRule %new-rule )
+    
+  );let %nameOfExpertise, %whichRule, %condition, %action-list, %new-rule
+
+);define DoReplaceRuleOfExpertiseWithNewlyComposedRuleUsingDB
+
+( define ( GetRuleSetFromDB )
+
+; return a rule-set
+  
+  ( let ( ( %user-input nil )
+          ( %condition nil )
+          ( %action-list nil )
+          ( %remaining-rule-list nil )
+        );locals
+  
+    ( display-string "Define a new rule from Condition/Action-list in DB? (Y/N) > " )
+    ( set! %user-input ( read ) )
+    
+    ( if ( or ( equal? %user-input 'Y )
+              ( equal? %user-input 'y )
+         )
+    
+         ( begin 
+         
+           ( set! %condition ( GetConditionFromDB ) ) 
+           ( set! %action-list ( GetActionListFromDB ) ) 
+           
+           ( set! %remaining-rule-list ( GetRuleSetFromDB ) )
+           
+           ( cons ( cons %condition %action-list ) 
+                  %remaining-rule-list
+           )
+           
+         );begin
+         
+         nil  ; the definition of rule-list ends here
+         
+    );if
+  
+  );let
+  
+);define GetRuleSetFromDB
+    
+( define ( GetConditionFromDB )
+
+; return the condition obtained from DB
+
+  ( let ( ( %key nil ) 
+          ( %result nil )
+        );locals
+  
+    ( display-string "Key of the condition > " )
+      
+    ( set! %key ( read ) )
+      
+    ( set! %result ( SearchBST 'condition %key ) )
+    
+    ( if ( null? %result )
+         ( GetConditionFromDB )
+         %result
+    )
+    
+  );let
+  
+);define GetConditionFromDB
+
+( define ( GetActionListFromDB )
+
+; return the action-list obtained from DB
+
+  ( let ( ( %key nil ) 
+          ( %result nil )
+        );locals
+  
+    ( display-string "Key of the action-list > " )
+      
+    ( set! %key ( read ) )
+      
+    ( set! %result ( SearchBST 'action %key ) )
+    
+    ( if ( null? %result )
+         ( GetActionListFromDB )
+         %result
+    )
+    
+  );let
+  
+);define GetActionListFromDB
+
+; ( SearchBST 'condition key )
+
+( define ( DoSearchCondition )
+
+  ( let ( ( %key nil ) 
+          ( %result nil )
+        );locals
+  
+    ( display-string "Key of the condition to be searched for > " )
+      
+    ( set! %key ( read ) )
+      
+    ( set! %result ( SearchBST 'condition %key ) )
+    
+    ( if %result
+         ( begin ( write %result ) 
+                 ( newline )
+         )
+         #f
+    )
+    
+  );let
+  
+);define DoSearchCondition
+
+( define ( DoSearchAction )
+
+  ( let ( ( %key nil ) 
+          ( %result nil )
+        );locals
+  
+    ( display-string "Key of the action-list to be searched for > " )
+      
+    ( set! %key ( read ) )
+      
+    ( set! %result ( SearchBST 'action %key ) )
+    
+    ( if %result
+         ( begin ( write %result ) 
+                 ( newline )
+         )
+         #f
+    )
+    
+  );let
+  
+);define DoSearchAction
+
+; ( UpdateBST treeName key data )
+
+( define ( DoUpdateCondition )
+
+  ( let ( ( %key nil )
+          ( %new-condition nil )
+        );locals
+  
+    ( display-string "Key of the condition to update > " )
+      
+    ( set! %key ( read ) )
+      
+    ( display-string "The new condition > " )
+    
+    ( set! %new-condition ( read ) )
+      
+    ; ( UpdateBST treeName key data )
+      
+    ( UpdateBST 'condition %key %new-condition )
+    
+  );let
+  
+);define DoUpdateCondition
+
+( define ( DoUpdateAction )
+
+  ( let ( ( %key nil ) 
+          ( %new-action-list nil )
+        );locals
+  
+    ( display-string "Key of the action-list to update > " )
+      
+    ( set! %key ( read ) )
+      
+    ( display-string "The new action-list > " )
+    
+    ( set! %new-action-list ( read ) )
+    
+    ; ( UpdateBST treeName key data )
+      
+    ( UpdateBST 'action %key %new-action-list )
+    
+  );let
+  
+);define DoUpdateAction
+
+; ( RemoveFromBST treeName key )
+
+( define ( DoRemoveCondition )
+
+  ( let ( ( %key nil )
+        );locals
+  
+    ( display-string "Key of the condition to remove > " )
+      
+    ( set! %key ( read ) )
+      
+    ; ( RemoveFromBST treeName key )
+      
+    ( RemoveFromBST 'condition %key )
+    
+  );let
+  
+);define DoRemoveCondition
+
+( define ( DoRemoveAction )
+
+  ( let ( ( %key nil ) 
+        );locals
+  
+    ( display-string "Key of the action-list to remove > " )
+      
+    ( set! %key ( read ) )
+      
+    ; ( RemoveFromBST treeName key )
+      
+    ( RemoveFromBST 'action %key )
+    
+  );let
+  
+);define DoRemoveAction
+
+; ( ListDB-BST treeName )
+
+( define ( DoListConditions )
+
+  ; ( ListDB-BST treeName )
+    
+  ( ListDB-BST 'condition )
+  
+);define DoListConditions
+
+( define ( DoListActions )
+
+  ; ( ListDB-BST treeName )
+    
+  ( ListDB-BST 'action )
+  
+);define DoListActions
+
+; ( ListKeysOfBST treeName )
+
+( define ( DoListConditionKeys )
+
+  ; ( ListKeysOfBST treeName )
+    
+  ( ListKeysOfBST 'condition )
+  
+);define DoListConditionKeys
+
+( define ( DoListActionKeys )
+
+  ; ( ListKeysOfBST treeName )
+    
+  ( ListKeysOfBST 'action )
+  
+);define DoListActionKeys
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( ExpertSystemShell )
+
+  ( if #t
+  
+    ( display-string "? > " )
+    
+    ( display-string
+    
+      ( string-append
+        "------------------ Available choices are ------------------\n"
+        "1 or DefineExpertise , 2 or RemoveExpertise , 3 or ListExpertiseNames ,\n"
+        "4 or ListRuleSet , 5 or ReplaceRuleSet , 6 or ReplaceRuleOfRuleSet ,\n"
+        "---\n"
+        "7 or DefineCondition , 8 or DefineActionList ,\n"
+        "9 or UpdateCondition , 10 or UpdateActionList ,\n"
+        "11 or RemoveCondition , 12 or RemoveActionList ,\n"
+        "13 or ListConditionKeys , 14 or ListActionListKeys ,\n"
+        "15 or SearchCondition , 16 or SearchActionList ,\n"
+        "17 or ListAllConditions , 18 or ListAllActionLists ,\n"
+        "19 or DefineExpertiseFromDB, 20 or ReplaceRuleOfExpertiseWithNewlyComposedRuleUsingDB\n"
+        "21 or Quit or quit\n"
+        "Please enter the number (or item-name) of your choice > "
+      )
+      
+    );display-string
+  
+  );if #f
+  
+  ( let ( ( %userChoice nil )
+        );locals
+  
+    ( set! %userChoice (read))
+    
+    ( if ( or ( equal? %userChoice 21 )
+              ( equal? %userChoice 'Quit )
+              ( equal? %userChoice 'quit )
+         )
+         
+         'Bye!
+         
+         ( begin
+           ( cond ( ( or ( equal? %userChoice 1 )
+                         ( equal? %userChoice 'DefineNewExpertise )
+                    )
+                    ( DoDefineNewExpertise )
+                  )
+                  ( ( or ( equal? %userChoice 2 )
+                         ( equal? %userChoice 'RemoveExpertise )
+                    )
+                    ( DoRemoveExpertise )
+                  )
+                  ( ( or ( equal? %userChoice 3 )
+                         ( equal? %userChoice 'ListExpertiseNames )
+                    )
+                    ( ListExpertiseNames )
+                  )
+                  ( ( or ( equal? %userChoice 4 )
+                         ( equal? %userChoice 'ListRuleSet )
+                    )
+                    ( ListRuleSet )
+                  )
+                  ( ( or ( equal? %userChoice 5 )
+                         ( equal? %userChoice 'ReplaceRuleSet )
+                    )
+                    ( DoReplaceRuleSet )
+                  )
+                  ( ( or ( equal? %userChoice 6 )
+                         ( equal? %userChoice 'ReplaceRuleOfRuleSet )
+                    )
+                    ( DoReplaceRuleOfRuleSet )
+                  )
+                  ( ( or ( equal? %userChoice 7 )
+                         ( equal? %userChoice 'DefineCondition )
+                    )
+                    ( DoDefineCondition )
+                  )
+                  ( ( or ( equal? %userChoice 8 )
+                         ( equal? %userChoice 'DefineAction )
+                    )
+                    ( DoDefineAction )
+                  )
+                  ( ( or ( equal? %userChoice 9 )
+                         ( equal? %userChoice 'UpdateCondition )
+                    )
+                    ( DoUpdateCondition )
+                  )
+                  ( ( or ( equal? %userChoice 10 )
+                         ( equal? %userChoice 'UpdateAction )
+                    )
+                    ( DoUpdateAction )
+                  )
+                  ( ( or ( equal? %userChoice 11 )
+                         ( equal? %userChoice 'RemoveCondition )
+                    )
+                    ( DoRemoveCondition )
+                  )
+                  ( ( or ( equal? %userChoice 12 )
+                         ( equal? %userChoice 'RemoveAction )
+                    )
+                    ( DoRemoveAction )
+                  )
+                  ( ( or ( equal? %userChoice 13 )
+                         ( equal? %userChoice 'ListConditionKeys )
+                    )
+                    ( DoListConditionKeys )
+                  )
+                  ( ( or ( equal? %userChoice 14 )
+                         ( equal? %userChoice 'ListActionKeys )
+                    )
+                    ( DoListActionKeys )
+                  )
+                  ( ( or ( equal? %userChoice 15 )
+                         ( equal? %userChoice 'SearchCondition )
+                    )
+                    ( DoSearchCondition )
+                  )
+                  ( ( or ( equal? %userChoice 16 )
+                         ( equal? %userChoice 'SearchAction )
+                    )
+                    ( DoSearchAction )
+                  )
+                  ( ( or ( equal? %userChoice 17 )
+                         ( equal? %userChoice 'ListAllConditions )
+                    )
+                    ( DoListConditions )
+                  )
+                  ( ( or ( equal? %userChoice 18 )
+                         ( equal? %userChoice 'ListAllActions )
+                    )
+                    ( DoListActions ) ; ReplaceRuleOfExpertiseWithRuleComposedFromDB
+                  )
+                  ( ( or ( equal? %userChoice 19 )
+                         ( equal? %userChoice 'DefineExpertiseFromDB )
+                    )
+                    ( DoDefineExpertiseFromDB )
+                  )
+                  ( ( or ( equal? %userChoice 20 )
+                         ( equal? %userChoice 'ReplaceRuleOfExpertiseWithNewlyComposedRuleUsingDB )
+                    )
+                    ( DoReplaceRuleOfExpertiseWithNewlyComposedRuleUsingDB )
+                  )
+                  ( else 
+                    ( display-string "Sorry! The choice you give is not in the list of choices.\n" ) 
+                  )
+           );cond
+           
+           ( ExpertSystemShell )
+           
+         );begin
+         
+    );if 7 or Quit or quit
+    
+  );let %userChoice
+  
+);ExpertSystemShell
+
+( define ( DoDefineNewExpertise )
+
+  ( let ( ( %nameOfExpertise nil )
+          ( %listOfRules nil )
+        );locals
+        
+    ( display-string "Name of the new expertise > " )
+    ( set! %nameOfExpertise ( read ) )
+    
+    ( let ( ( %n ( $IndexOfExpertiseEntry %nameOfExpertise 1 $expertise-DB ) )
+          );local
+          
+      ( if ( < %n 1 ) ; there is no expertise with name being '%nameOfExpertise' in $expertise-DB 
+                      ; therefore, it is OK to add this new one into $expertise-DB
+        ( begin
+        
+          ( display-string "The set of rules to be used by the new expertise > " )
+          ( set! %listOfRules ( read ) )
+          
+          ; ( DefineExpertise nameOfExpertise listOfRules )
+          ( DefineExpertise %nameOfExpertise %listOfRules )
+    
+        );begin
+        
+        ; %n >= 1
+    
+        ( PrintListOfSymbolsAsSentence 
+          ( list 'Sorry. 'There 'is 'already 'an 'expertise 'named %nameOfExpertise 'in 'the 'expertise 'database. )
+        )
+        
+      );if there is no expertise with name being '%nameOfExpertise' in $expertise-DB
+      
+    );let %n
+      
+  );let %nameOfExpertise, %listOfRules
+
+);define DoDefineNewExpertise
+
+( define ( DoRemoveExpertise )
+
+  ( let ( ( %nameOfExpertise nil )
+        );locals
+
+    ( display-string "Name of the expertise to remove > " )
+    ( set! %nameOfExpertise ( read ) )
+    
+    ( let ( ( %n ( $IndexOfExpertiseEntry %nameOfExpertise 1 $expertise-DB ) )
+          );local
+          
+      ( if ( < %n 1 ) ; no expertise with name being '%nameOfExpertise' in $expertise-DB 
+      
+        ( PrintListOfSymbolsAsSentence 
+          ( list 'Sorry. 'There 'is 'no 'expertise 'named %nameOfExpertise 'in 'the 'expertise 'database. )
+        )
+        
+        ; %n >= 1 ; i.e., found the expertise named %nameOfExpertise in $expertise-DB
+      
+        ( begin
+        
+          ; 1. remove the description of this expertise from expertise-DB
+          
+          ( set! $expertise-DB 
+                 ; ( $WithExpertiseRemoved nameOfExpertise list-of-expertise )
+                 ( $WithExpertiseRemoved %nameOfExpertise $expertise-DB ) 
+          )
+          
+          ; 2. somewhat unbound the function-binding of the symbol '%nameOfExpertise'
+          
+          ( eval ( list 'set! %nameOfExpertise 'nil ) ) 
+          
+          ; 3. feedback msg
+    
+          ( PrintListOfSymbolsAsSentence 
+            ( list 'The 'expertise 'named %nameOfExpertise 'has 'been 'removed 'from 'the 'expertise 'database. )
+          )
+          
+        );begin
+        
+      );if no expertise with name being '%nameOfExpertise' in $expertise-DB
+      
+    );let %n
+    
+  );let %nameOfExpertise
+    
+);define DoRemoveExpertise
+
+( define ( $WithExpertiseRemoved nameOfExpertise list-of-expertise )
+
+  ( cond ( ( null? list-of-expertise )
+           nil
+         )
+         
+         ( ( equal? ( car ( car list-of-expertise ) ) nameOfExpertise )
+           ( cdr list-of-expertise ) ; removed
+         )
+         
+         ( else
+         
+           ( cons ( car list-of-expertise )
+                  ( $WithExpertiseRemoved nameOfExpertise 
+                                          ( cdr list-of-expertise ) 
+                  )
+           )
+           
+         );else
+         
+  );cond
+  
+);define $WithExpertiseRemoved
+
+( define ( ListRuleSet )
+
+  ( let ( ( %expertiseName nil )
+        );loals
+
+    ( display-string "Please give the name of the expertise > " )
+    ( set! %expertiseName ( read ) )
+    
+    ; ( RuleSetOf expertiseName )
+    ( write ( RuleSetOf %expertiseName ) )
+    ( newline )
+  
+  );let %expertiseName
+
+);define ListRuleSet
+
+( define ( DoReplaceRuleSet )
+
+  ( let ( ( %nameOfExpertise nil )
+          ( %listOfRules nil )
+        );local
+        
+    ( display-string "Name of the expertise you want to replace its rule-set > " )
+    ( set! %nameOfExpertise ( read ) )
+    
+    ( display-string "The new set of rules to be used by this expertise > " )
+    ( set! %listOfRules ( read ) )
+    
+    ; ( $ReplaceRuleSet nameOfExpertise listOfRules )
+    ( $ReplaceRuleSet %nameOfExpertise %listOfRules )
+    
+  );let %nameOfExpertise, %listOfRules
+
+);define DoReplaceRuleSet
+
+( define ( $ReplaceRuleSet nameOfExpertise listOfRules )
+
+  ( let ( ( %n ( $IndexOfExpertiseEntry nameOfExpertise 1 $expertise-DB ) )
+        );local
+        
+    ( if ( < %n 1 ) ; no expertise with name being 'nameOfExpertise' in $expertise-DB 
+    
+      ( PrintListOfSymbolsAsSentence 
+        ( list 'There 'is 'no 'expertise 'named nameOfExpertise 'in 'the 'expertise 'database. )
+      )
+    
+      ; got the entry-index of 'nameOfExpertise' in $expertise-DB
+      
+      ( let ( ( %code
+                ( list 'define
+                       ( cons nameOfExpertise '( n ) )
+                       ( cons 'cond listOfRules )
+                )
+              )
+              ( %expertise
+                ( cons nameOfExpertise listOfRules )
+              )
+              ( %current-verbose-mode nil )
+            );local-var
+            
+        ( set! %current-verbose-mode ( verbose? ) )
+        ( verbose #f ) ; to disable the eval msg : abc defined
+        ( eval %code ) ; redefine this expertise
+        ( verbose %current-verbose-mode )
+        
+        ; update its description in the expertise-DB
+        
+        ( set! $expertise-DB  
+               ( WithNthElementOfListReplaced %n $expertise-DB %expertise )
+        )
+        
+        ( PrintListOfSymbolsAsSentence 
+          ( list 'The 'rule-set 'of nameOfExpertise 'has 'been 'replaced. )
+        )
+      
+        #t
+        
+      );let %code, %expertise
+    
+    );if %n < 1
+    
+  );let %n
+
+);define $ReplaceRuleSet
+
+( define ( DoReplaceRuleOfRuleSet )
+
+  ( let ( ( %nameOfExpertise nil )
+          ( %whichRule nil )
+          ( %rule nil )
+        );local
+        
+    ( display-string "Name of the expertise you want to replace its rule > " )
+    ( set! %nameOfExpertise ( read ) )
+    
+    ( display-string "Ordering of the rule that is to be replaced - Please enter a number (e.g., 3) > " )
+    ( set! %whichRule ( read ) )
+    
+    ( display-string "The new rule to be used in its place > " )
+    ( set! %rule ( read ) )
+    
+    ; ( $ReplaceRuleOfRuleSet nameOfExpertise whichRule rule )
+    ( $ReplaceRuleOfRuleSet %nameOfExpertise %whichRule %rule )
+    
+  );let %nameOfExpertise, %whichRule, %rule
+
+);define DoReplaceRuleOfRuleSet
+
+( define ( $ReplaceRuleOfRuleSet nameOfExpertise whichRule newRule )
+
+  ( let ( ( %n ( $IndexOfExpertiseEntry nameOfExpertise 1 $expertise-DB ) )
+        );local
+        
+    ( if ( < %n 1 ) ; no expertise with name being 'nameOfExpertise' in $expertise-DB 
+    
+      ( PrintListOfSymbolsAsSentence 
+        ( list 'There 'is 'no 'expertise 'named nameOfExpertise 'in 'the 'expertise 'database. )
+      )
+    
+      ; got the entry-index of 'nameOfExpertise' in $expertise-DB
+      
+      ( let ( ( %existingRuleSet ( RuleSetOf nameOfExpertise ) )
+              ( %newRuleSet nil )
+            );locals
+      
+        ( if ( < ( ListLength %existingRuleSet ) whichRule )
+             
+             ( PrintListOfSymbolsAsSentence 
+               ( list 'The 'expertise 'named nameOfExpertise 'does 'not 'have 'this 'many 'rules. )
+             )
+              
+             ( begin
+             
+               ( set! %newRuleSet
+                      ; ( WithNthElementOfListReplaced n aList new-element )
+                      ( WithNthElementOfListReplaced whichRule %existingRuleSet newRule )
+               )
+        
+               ( let ( ( %code
+                         ( list 'define
+                                ( cons nameOfExpertise '( n ) )
+                                ( cons 'cond %newRuleSet )
+                         )
+                       )
+                       ( %revisedExpertise
+                         ( cons nameOfExpertise %newRuleSet )
+                       )
+                       ( %current-verbose-mode nil )
+                     );local-var
+                     
+                 ( set! %current-verbose-mode ( verbose? ) )
+                 ( verbose #f ) ; to disable the eval msg : abc defined
+                 ( eval %code ) ; redefine this expertise
+                 ( verbose %current-verbose-mode )
+                 
+                 ; update its description in the expertise-DB
+                 
+                 ( set! $expertise-DB  
+                        ; ( WithNthElementOfListReplaced n aList new-element )
+                        ( WithNthElementOfListReplaced %n $expertise-DB %revisedExpertise )
+                 )
+                 
+                 ( PrintListOfSymbolsAsSentence 
+                   ( list 'The 'specified 'rule 'of nameOfExpertise 'has 'been 'replaced. )
+                 )
+               
+                 #t
+                 
+               );let %code, %revisedExpertise
+               
+             );begin
+             
+        );if ( ListLength %existingRuleSet ) < whichRule
+        
+      );let %existingRuleSet %newRuleSet
+    
+    );if %n < 1
+    
+  );let %n
+
+);define $ReplaceRuleOfRuleSet
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;=========================== BST ===============================
+
+( begin 
+  ( set! $condition-bst nil ) 
+  ( set! $action-bst nil ) 
+  ( set! $expertise-bst nil ) 
+);begin
+  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( ListConditionBST )
+  $condition-bst
+);define ListConditionBST
+  
+( define ( ListActionBST )
+  $action-bst
+);define ListActionBST
+  
+; ( define ( ListExpertiseBST )
+;   $expertise-bst
+; );define ListExpertiseBST
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( ClearConditionDB )
+  ( set! $condition-bst nil )
+);define ClearConditionDB
+  
+( define ( ClearActionDB )
+  ( set! $action-bst nil )
+);define ClearActionDB
+  
+; ( define ( ClearExpertiseDB )
+; ( set! $expertise-bst nil )
+; );define ClearExpertiseDB
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( ListConditionDB )
+  ( ListDB-BST 'condition )
+);define ListConditionDB
+  
+( define ( ListActionDB )
+  ( ListDB-BST 'action )
+);define ListActionDB
+  
+; ( define ( ListExpertiseDB )
+;   ( ListDB-BST 'expertise )
+; );define ListExpertiseDB
+
+( define ( ListDB-BST treeName )
+
+  ( let ( ( %bst ( cond ( ( equal? treeName 'condition )
+                          $condition-bst
+                        )
+                        ( ( equal? treeName 'action )
+                          $action-bst
+                        )
+                        ( ( equal? treeName 'expertise )
+                          $expertise-bst
+                        )
+                        ; no ELSE to force an error msg when 'treeName' is none of the above
+                 )
+          )
+        );local
+
+    ( $ListDB-BST %bst )
+    
+  );let %bst
+       
+);define ListDB-BST
+
+( define ( $ListDB-BST tree )
+
+  ( if ( null? tree )
+  
+       nil
+       
+       ( let ( ( %left-sub ( car tree ) )
+               ( %data-node ( cadr tree ) )
+               ( %right-sub ( caddr tree ) )
+             );locals
+         
+         ( $ListDB-BST %left-sub )
+               
+         ( display-string "------------------------\n" )
+         
+         ( display-string ( string-append "( "
+                                          ( number->string ( car  ( car %data-node ) ) )
+                                          "  "
+                                          ( number->string ( cadr ( car %data-node ) ) )
+                                          " )\n"
+                          )
+         )
+         
+         ( write ( cadr %data-node ) )
+         ( newline )
+         
+         ( $ListDB-BST %right-sub )
+         
+         #t
+         
+       );let %left-sub %data-node %right-sub
+       
+  );if 'tree' is empty
+      
+);define $ListDB-BST
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( KeyUsedInConditionDB? key )
+  ( KeyUsedInBST? 'condition key )
+);define KeyUsedInConditionDB?
+  
+( define ( KeyUsedInActionDB? key )
+  ( KeyUsedInBST? 'action key )
+);define KeyUsedInActionDB?
+  
+; ( define ( KeyUsedInExpertiseDB? key )
+;   ( KeyUsedInBST? 'expertise key )
+; );define KeyUsedInExpertiseDB?
+
+( define ( KeyUsedInBST? treeName key )
+
+  ( let ( ( %bst ( cond ( ( equal? treeName 'condition )
+                          $condition-bst
+                        )
+                        ( ( equal? treeName 'action )
+                          $action-bst
+                        )
+                        ( ( equal? treeName 'expertise )
+                          $expertise-bst
+                        )
+                        ; no ELSE to force an error msg when 'treeName' is none of the above
+                 )
+          )
+          ( %result nil )
+        );local
+
+    ( set! %result ( $KeyUsedInBST? %bst ( RealKey key ) )
+    )
+    
+    ( if %result
+    
+         ( begin
+           ( display-string "Yes. By\n" )
+           %result
+         )
+         
+         #f
+         
+    );if %result (is not nil)
+    
+  );let %bst
+       
+);define KeyUsedInBST?
+
+( define ( $KeyUsedInBST? tree key )
+
+; returns #f or non-#f
+
+  ( if ( null? tree )
+  
+    #f
+    
+    ; 'tree' not empty
+    
+    ( let ( ( %left-sub ( car tree ) )
+            ( %data-node ( cadr tree ) )
+            ( %right-sub ( caddr tree ) )
+            
+            ( %key-of-data-node nil )
+            
+          );locals
+          
+      ( set! %key-of-data-node ( caar %data-node ) )
+          
+      ( cond ( ( = key %key-of-data-node )
+               ( car %data-node )            ; i.e., #t
+             )
+             ( ( < key %key-of-data-node )
+               ( $KeyUsedInBST? %left-sub key )
+             )
+             ( else
+               ( $KeyUsedInBST? %right-sub key )
+             )
+      );cond
+
+    );let %left-sub %data-node %right-sub %key-of-data-node
+       
+  );if 'tree' is empty
+      
+);define $KeyUsedInBST?
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( ListKeysOfConditionDB )
+  ( ListKeysOfBST 'condition )
+);define ListKeysOfConditionDB
+  
+( define ( ListKeysOfActionDB )
+  ( ListKeysOfBST 'action )
+);define ListKeysOfActionDB
+  
+; ( define ( ListKeysOfExpertiseDB )
+;   ( ListKeysOfBST 'expertise )
+; );define ListKeysOfExpertiseDB
+
+( define ( ListKeysOfBST treeName )
+
+  ( let ( ( %bst ( cond ( ( equal? treeName 'condition )
+                          $condition-bst
+                        )
+                        ( ( equal? treeName 'action )
+                          $action-bst
+                        )
+                        ( ( equal? treeName 'expertise )
+                          $expertise-bst
+                        )
+                        ; no ELSE to force an error msg when 'treeName' is none of the above
+                 )
+          )
+        );local
+
+    ( $ListKeysOfBST %bst )
+    
+  );let %bst
+       
+);define ListKeysOfBST
+
+( define ( $ListKeysOfBST tree )
+
+  ( if ( null? tree )
+  
+       nil
+       
+       ( let ( ( %left-sub ( car tree ) )
+               ( %data-node ( cadr tree ) )
+               ( %right-sub ( caddr tree ) )
+             );locals
+         
+         ( $ListKeysOfBST %left-sub )
+               
+         ( display-string ( string-append "( "
+                                          ( number->string ( car  ( car %data-node ) ) )
+                                          "  "
+                                          ( number->string ( cadr ( car %data-node ) ) )
+                                          " )\n"
+                          )
+         )
+         
+         ( $ListKeysOfBST %right-sub )
+         
+         #t
+         
+       );let %left-sub %data-node %right-sub
+       
+  );if 'tree' is empty
+      
+);define $ListKeysOfBST
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( SearchConditionDB key )
+  ( SearchBST 'condition key )
+);define SearchConditionDB
+  
+( define ( SearchActionDB key )
+  ( SearchBST 'action key )
+);define SearchActionDB
+  
+; ( define ( SearchExpertiseDB key )
+;   ( SearchBST 'expertise key )
+; );define SearchExpertiseDB
+
+( define ( SearchBST treeName key )
+
+; either print error msg and return nil
+; or return the data found
+
+  ( let ( ( %bst ( cond ( ( equal? treeName 'condition )
+                          $condition-bst
+                        )
+                        ( ( equal? treeName 'action )
+                          $action-bst
+                        )
+                        ( ( equal? treeName 'expertise )
+                          $expertise-bst
+                        )
+                        ; no ELSE to force an error msg when 'treeName' is none of the above
+                 )
+          )
+        );local
+
+    ( let ( ( %key ( RealKey key ) ) ; instead of ( KeyPair key )
+            ( %searchResult nil )
+          );local
+      
+      ( set! %searchResult ( $SearchBST %key %bst )
+      )
+    
+      ( if ( error-object? %searchResult )
+      
+          ( begin
+          
+            ( display-string ( string-append "SearchBST error : the key "
+                                             ( number->string %key )
+                                             " (originally "
+                                             ( number->string key )
+                                             ") is not on the BST.\n"
+                             )
+            ) 
+
+            #f
+          )
+          
+          %searchResult
+          
+      );if %searchResult is an error
+          
+    );let %key %searchResult 
+    
+  );let %bst
+       
+);define SearchBST
+
+( define ( $SearchBST key tree )
+
+; either return an error-object ( when data not found ) or the data found
+
+  ( if ( null? tree ) ; tree to search is empty
+  
+       ( create-error-object ( string-append "$SearchBST error : the given key "
+                                             ( number->string key )
+                                             " is not on the BST."
+                             )
+       )
+       
+       ; tree to search is not empty
+      
+       ( let ( ( %left-sub ( car tree ) )
+               ( %data-node ( cadr tree ) )
+               ( %right-sub ( caddr tree ) )
+               
+               ( %keyOfData nil )
+               
+             );locals
+         
+         ( set! %keyOfData ( caar %data-node ) )
+             
+         ( cond
+           ( ( = key %keyOfData )
+             ( cadr %data-node )
+           )
+           ( ( < key %keyOfData )
+             ( $SearchBST key %left-sub )
+           )
+           ( else
+             ( $SearchBST key %right-sub )
+           )
+         ) ; cond
+         
+       );let %left-sub %data-node %right-sub %keyOfData
+       
+  );if the tree to search is empty
+  
+);define $SearchBST
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( AddToConditionDB key condition )
+  ( AddToBST 'condition key condition )
+);define AddToConditionDB
+  
+( define ( AddToActionDB key action-list )
+  ( AddToBST 'action key action-list )
+);define AddToActionDB
+  
+; ( define ( AddToExpertiseDB key data )
+;   ( AddToBST 'expertise key data )
+; );define AddToExpertiseDB
+  
+( define ( AddToBST treeName key data )
+
+; if successful, will return a string containing key-info
+
+  ( let ( ( %bst ( cond ( ( equal? treeName 'condition )
+                          $condition-bst
+                        )
+                        ( ( equal? treeName 'action )
+                          $action-bst
+                        )
+                        ( ( equal? treeName 'expertise )
+                          $expertise-bst
+                        )
+                        ; no ELSE to force an error msg when 'treeName' is none of the above
+                 )
+          )
+        );local
+
+    (let ( ( %key-pair ( KeyPair key ) ) ; must be '( KeyPair key ) to force randomness
+           ( %result nil )
+         )
+         
+      ( set! %result ( $AddToBST %key-pair data %bst ) )
+         
+      ( if ( error-object? %result )
+      
+        ( begin
+        
+          ( display-string %result ) 
+          ( newline )
+          
+          #f
+          
+        );begin
+        
+        ; %result OK
+        
+        ( begin
+        
+          ( cond ( ( equal? treeName 'condition )
+                   ( set! $condition-bst %result )
+                 )
+                 ( ( equal? treeName 'action )
+                   ( set! $action-bst %result )
+                 )
+                 ( ( equal? treeName 'expertise )
+                   ( set! $expertise-bst %result )
+                 )
+                 ; no ELSE to force an error msg when 'treeName' is none of the above
+          )
+
+          ( string-append "Key (short-version long-version) : ( " 
+                          ( number->string ( car %key-pair ) )
+                          "  "
+                          ( number->string ( cadr %key-pair ) )
+                          " )" 
+          )
+          
+        );begin
+        
+      );if %result is an error-object
+      
+    );let %key-pair %result
+    
+  );let %bst
+  
+);define AddToBST
+
+( define ( $AddToBST key-pair data tree )
+
+; return the updated tree
+
+  ( if ( null? tree)
+  
+    ( list nil ( list key-pair data ) nil )
+    
+    ( let ( ( %left-sub ( car tree ) )
+            ( %data-node ( cadr tree ) )
+            ( %right-sub ( caddr tree ) )
+            
+            ( %key ( car key-pair ) )
+          );locals
+          
+      ( cond
+      
+        ( ( = %key ( caar %data-node ) )
+        
+          ( create-error-object ( string-append "$AddToBST error : the key "
+                                                ( number->string ( car %key-pair ) )
+                                                " (originally "
+                                                ( number->string ( cadr %key-pair ) )
+                                                ") is already in use by a node on the BST."
+                                )
+          )
+          
+        )
+        
+        ( ( < %key ( caar %data-node ) )
+          ( list
+            ( $AddToBST key-pair data %left-sub )
+            %data-node
+            %right-sub
+          )
+        )
+        
+        ( else
+          ( list
+            %left-sub
+            %data-node
+            ( $AddToBST key-pair data %right-sub )
+          )
+        ) 
+        
+      );cond
+      
+   );let %left-sub %data-node %right-sub
+   
+  );if tree is null
+   
+);define $AddToBST
+  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( UpdateConditionDB key data )
+  ( UpdateBST 'condition key data )
+);define UpdateConditionDB
+  
+( define ( UpdateActionDB key data )
+  ( UpdateBST 'action key data )
+);define UpdateActionDB
+  
+; ( define ( UpdateExpertiseDB key data )
+;   ( UpdateBST 'expertise key data )
+; );define UpdateExpertiseDB
+  
+( define ( UpdateBST treeName key data )
+
+  ( let ( ( %bst ( cond ( ( equal? treeName 'condition )
+                          $condition-bst
+                        )
+                        ( ( equal? treeName 'action )
+                          $action-bst
+                        )
+                        ( ( equal? treeName 'expertise )
+                          $expertise-bst
+                        )
+                        ; no ELSE to force an error msg when 'treeName' is none of the above
+                 )
+          )
+        );local
+
+    ( let ( ( %key ( RealKey key ) ) ; instead of ( KeyPair key )
+            ( %result nil )
+          );locals
+          
+      ( set! %result ( $UpdateBST %key data %bst ) )
+      
+      ( if ( error-object? %result )
+      
+        ( begin
+        
+          ( display-string ( string-append "UpdateBST error : the key "
+                                           ( number->string %key )
+                                           " (originally "
+                                           ( number->string key )
+                                           ") is not on the BST.\n"
+                           )
+          ) 
+          
+          #f
+          
+        );begin
+        
+        ( begin
+        
+          ( cond ( ( equal? treeName 'condition )
+                   ( set! $condition-bst %result )
+                 )
+                 ( ( equal? treeName 'action )
+                   ( set! $action-bst %result )
+                 )
+                 ( ( equal? treeName 'expertise )
+                   ( set! $expertise-bst %result )
+                 )
+                 ; no ELSE to force an error msg when 'treeName' is none of the above
+          )
+
+          #t
+          
+        );begin
+        
+      );if error
+      
+    );let %key-pair %result
+    
+  );let %bst
+  
+);define UpdateBST
+  
+( define ( $UpdateBST key new-data tree )
+
+; either return the updated tree or an error-object
+
+  ( if ( null? tree )
+  
+    ( create-error-object
+      ( string-append "$UpdateBST error : the key "
+                      ( number->string key )
+                      " is not on the BST."
+      )
+    )
+    
+    ( let ( ( %left-sub ( car tree ) )
+            ( %data-node ( cadr tree ) )
+            ( %right-sub ( caddr tree ) )
+          )
+          
+      ( cond
+      
+        ( ( = key ( caar %data-node ) )
+          ( list
+            %left-sub
+            ( list ( car %data-node ) new-data )
+            %right-sub
+          )
+        )
+        
+        ( ( < key ( caar %data-node ) )
+          ( list
+            ( $UpdateBST key new-data %left-sub )
+            %data-node
+            %right-sub
+          )
+        )
+        
+        ( else
+        
+          ( list
+            %left-sub
+            %data-node
+            ( $UpdateBST key new-data %right-sub)
+          )
+        )
+        
+      );cond
+      
+    );let %left-sub %data-node %right-sub
+   
+  );if tree is empty
+   
+);define $UpdateBST
+  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
+
+( define ( FindMaxBSTnode tree )
+
+  ( if ( null? tree )
+  
+    ( create-error-object "FindMaxBSTnode error : Cannot find max on an empty tree." )
+    
+    ( $FindMaxBSTnode tree )
+    
+  );if tree is null  
+  
+);define FindMaxBSTnode
+
+( define ( $FindMaxBSTnode tree )
+
+; prerequisit : the given 'tree' is not empty
+
+  ( let ( ( %data-node ( cadr tree ) )
+          ( %right-sub ( caddr tree ) )
+        )
+        
+    ( if ( null? %right-sub )
+    
+      %data-node
+      
+      ( $FindMaxBSTnode %right-sub )
+      
+    );if
+    
+  );let %data-node %right-sub
+    
+);define $FindMaxBSTnode
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( FindMinBSTnode tree )
+
+  ( if ( null? tree )
+  
+    ( create-error-object "FindMinBSTnode error : Cannot find min on an empty tree" )
+    
+    ( $FindMinBSTnode tree )
+   
+  );if tree is null
+   
+);define FindMinBSTnode
+  
+( define ( $FindMinBSTnode tree )
+
+; prerequisit : the given 'tree' is not empty
+
+  ( let ( ( %data-node ( cadr tree ) )
+          ( %left-sub ( car tree ) )
+        )
+        
+    ( if ( null? %left-sub )
+    
+      %data-node
+      
+      ( $FindMinBSTnode %left-sub )
+      
+    );if
+    
+  );let %data-node %left-sub
+   
+);define $FindMinBSTnode
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( RemoveFromConditionDB key )
+  ( RemoveFromBST 'condition key )
+);define RemoveFromConditionDB
+  
+( define ( RemoveFromActionDB key )
+  ( RemoveFromBST 'action key )
+);define RemoveFromActionDB
+  
+; ( define ( RemoveFromExpertiseDB key )
+;   ( RemoveFromBST 'expertise key )
+; );define RemoveFromExpertiseDB
+  
+( define ( RemoveFromBST treeName key )
+
+; 'key' is allowed to be any natural number
+
+  ( let ( ( %bst ( cond ( ( equal? treeName 'condition )
+                          $condition-bst
+                        )
+                        ( ( equal? treeName 'action )
+                          $action-bst
+                        )
+                        ( ( equal? treeName 'expertise )
+                          $expertise-bst
+                        )
+                        ; no ELSE to force an error msg when 'treeName' is none of the above
+                 )
+          )
+        );local
+
+    ( set! key ( RealKey key ) ) ; instead of ( KeyPair key )
+    
+    ( if ( null? %bst )
+        
+      ( create-error-object "RemoveFromBST : Cannot remove a node from an empty tree." )
+          
+      ( let ( ( %result ( $RemoveFromBST key %bst ) )
+            )
+            
+        ( if ( error-object? %result )
+        
+          ( begin
+          
+            ( display-string %result )
+            ( newline )
+            
+            #f
+            
+          );begin
+          
+          ( begin
+          
+            ( cond ( ( equal? treeName 'condition )
+                     ( set! $condition-bst %result )
+                   )
+                   ( ( equal? treeName 'action )
+                     ( set! $action-bst %result )
+                   )
+                   ( ( equal? treeName 'expertise )
+                     ( set! $expertise-bst %result )
+                   )
+                   ; no ELSE to force an error msg when 'treeName' is none of the above
+            )
+
+            #t
+            
+          );begin
+          
+        );if %result is an error-object
+        
+      );let %result
+      
+    ); if %bst is empty
+    
+  );let %bst
+    
+);define RemoveFromBST
+  
+( define ( $RemoveFromBST key tree )
+
+; return the resulting tree
+
+; prerequisite : 'tree' is not empty
+
+; assumption : there is at most one node with the designated key on this tree
+
+  ( let ( ( %left-sub ( car tree ) )
+          ( %data-node ( cadr tree ) )
+          ( %right-sub ( caddr tree ) )
+        );locals
+       
+    ( cond
+    
+      ( ( = key ( caar %data-node ) ) ; got it (the node we must remove from 'tree')!
+      
+        ( if ( not ( null? %left-sub ) )
+          
+          ( let ( ( %max-node ( FindMaxBSTnode %left-sub ) )
+                );local
+            
+            ( list
+              ( $RemoveFromBST ( caar %max-node ) %left-sub )
+              %max-node
+              %right-sub
+            )
+            
+          );let %max-node be max data node on %left-sub
+        
+          ; %left-sub is empty
+          
+          ( if ( not ( null? %right-sub ) )
+            
+            ( let ( ( %min-node ( FindMinBSTnode %right-sub ) )
+                  )
+              ( list
+                %left-sub
+                %min-node
+                ( $RemoveFromBST ( caar %min-node ) %right-sub )
+              )
+              
+            );let %min-node be min data node on %right-sub
+          
+            ; %right-sub is empty too
+            
+            nil   ; since both %right-sub and %left-sub are empty trees,
+                  ; the result of romoving this %data-node is an empty tree
+              
+          );if %right-sub is not empty
+              
+        );if %left-sub is not empty
+          
+      ); %key is same as the key stored in %data-node
+      
+      ( ( < key ( caar %data-node ) )
+      
+        ( if ( null? %left-sub )
+          
+          ( begin
+          
+            ( create-error-object ( string-append
+                                    "$RemoveFromBST error : the given key "
+                                    ( number->string %key )
+                                    " does not exist on the BST."
+                                  )
+            )
+            
+            nil
+            
+          );begin
+          
+          ; %left-sub is not empty
+      
+          ( list
+            ( $RemoveFromBST key %left-sub )
+            %data-node
+            %right-sub
+          )
+          
+        );if %left-sub is empty
+        
+      ); key is smaller than the key stored in %data-node
+      
+      ( else   
+      
+        ( if ( null? %right-sub )
+          
+          ( begin
+          
+            ( create-error-object ( string-append
+                                    "$RemoveFromBST error : the given key "
+                                    ( number->string %key )
+                                    " does not exist on the BST."
+                                  )
+            )
+            
+            nil
+            
+          );begin
+          
+          ; %right-sub is not empty
+      
+          ( list
+            %left-sub
+            %data-node
+            ( $RemoveFromBST key %right-sub )
+          )
+          
+        );if %right-sub is empty
+        
+      );else key is greater than the key stored in %data-node
+      
+    );cond
+    
+  );let %left-sub %data-node %right-sub %key
+       
+);define $RemoveFromBST
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; put in initial DB entries to prevent BST from becoming linear shaped
+
+( set! condition-7652145
+       '( DivisibleBy
+          n
+          7652145
+        )
+) ; set!
+
+; ( AddToConditionDB (+ (/ $%%% 2) $%%%) condition-7652145 )
+
+( AddToConditionDB ( + ( / ( - $%%% ( % $%%% 2 ) )
+                           2
+                       ) 
+                       $%%%
+                   ) 
+                   condition-7652145 
+)
+
+; ( AddToConditionDB (+ (/ $%%% 4) $%%%) condition-7652145 )
+
+( AddToConditionDB ( + ( / ( - $%%% ( % $%%% 4 ) )
+                           4
+                       ) 
+                       $%%%
+                   ) 
+                   condition-7652145 
+)
+
+; ( AddToConditionDB (+ (* (/ $%%% 4) 3) $%%%) condition-7652145 )
+
+( AddToConditionDB ( + ( * ( / ( - $%%% ( % $%%% 4 ) )
+                               4
+                           ) 
+                           3
+                       )
+                       $%%%
+                   ) 
+                   condition-7652145 
+)
+
+( set! condition-7652145 nil )
+
+( set! a 20 )
+( set! b 30 )
+
+( set! action-7652145
+       '( ( set! a ( + n a ) )
+          ( set! b ( + n a b ) )
+        )
+) ; set!
+
+; ( AddToActionDB (+ (/ $%%% 2) $%%%) action-7652145 )
+
+( AddToActionDB ( + ( / ( - $%%% ( % $%%% 2 ) )
+                           2
+                       ) 
+                       $%%%
+                   ) 
+                   action-7652145 
+)
+
+; ( AddToActionDB (+ (/ $%%% 4) $%%%) action-7652145 )
+
+( AddToActionDB ( + ( / ( - $%%% ( % $%%% 4 ) )
+                           4
+                       ) 
+                       $%%%
+                   ) 
+                   action-7652145 
+)
+
+; ( AddToActionDB (+ (* (/ $%%% 4) 3) $%%%) action-7652145 )
+
+( AddToActionDB ( + ( * ( / ( - $%%% ( % $%%% 4 ) )
+                               4
+                           ) 
+                           3
+                       )
+                       $%%%
+                   ) 
+                   action-7652145 
+)
+
+( set! action-7652145 nil )
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Utilities ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+( ExpertSystemShell )
+13  ; ListConditionKeys
+35
+14  ; ListActionListKeys
+15  ; SearchCondition
+661
+15  ; SearchCondition
+328564
+16  ; SearchActionList
+238
+16  ; SearchActionList
+473
+17  ; ListAllConditions
+18  ; ListAllActionLists
+3   ; ListExpertiseNames
+4   ; ListRuleSet
+NoSuchExpertise
+4   ; ListRuleSet
+ExampleExpertise
+4   ; ListRuleSet
+Expertise-01
+quit
+(ExpertSYSTEMShell)
+
+(ExampleExpertise 35000)
+(Expertise-01 35001)
+(Expertise-01 35017)
+( Expertise-01 (Expertise-01 35000) )
+( Expertise-01 (Expertise-08 35000) )
+( Expertise-01 ( begin
+                 (Expertise-01 35000)
+                 40000
+               )
+)
+
+( ExpertSystemShell )
+7  ; DefineCondition
+3518792
+( and ( >= n 200000 )
+      ( if ( = ( % n 2 ) 1 )
+           #t
+      )
+)
+
+7  ; DefineCondition
+5478952
+( >= n 100000 )
+
+7  ; DefineCondition
+9157342
+( or ( >= n 50000 )
+     ( == ( % n 5 )
+          0
+     )
+)
+
+7  ; DefineCondition
+1749826
+else
+
+7  ; DefineCondition
+4865217
+( >= n 300000 )
+
+13 ; ListConditionKeys
+
+19 ; DefineExpertiseFromDB
+TryTrySee ; Name of the to-be-defined-expertise
+y ; Define a new rule from Condition/Action-list in DB? (Y/N)
+3518792 ; Key of the condition to search
+282 ; Key of the action-list to search
+y ; Define a new rule from Condition/Action-list in DB? (Y/N)
+5478952 ; Key of the condition to search
+94 ; Key of the action-list to search
+y ; Define a new rule from Condition/Action-list in DB? (Y/N)
+9157342 ; Key of the condition to search ; was 282
+189 ; Key of the action-list to search
+y ; Define a new rule from Condition/Action-list in DB? (Y/N)
+1749826 ; Key of the condition to search ; was 282
+94 ; Key of the action-list to search
+n ; Define a new rule from Condition/Action-list in DB? (Y/N)
+; The expertise 'TryTrySee' has been established.
+quit
+; Bye!
+
+a b
+(TryTrySee 235487) a b
+(TryTrySee 235488) a b
+(TryTrySee 175487) a b
+(TryTrySee 175488) a b
+(TryTrySee 75487) a b
+(TryTrySee 75488) a b
+(TryTrySee 35487) a b
+(TryTrySee 35488) a b
+
+(ExpertSystemShell)
+3 ; ListExpertiseNames
+4 ; ListRuleSet
+TryTrySee ; name of the expertise
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+8 ; DefineActionList
+49256587
+       ( ; ( >= n 200000 )               ; was : condition
+       
+         ( let ( ( %p ( PriceTag n ) )  ; action ; it can be multiple actions
+               );local
+               
+           ( set! a ( + b
+                        ( if ( = ( % n 5 )
+                                 0
+                             )
+                             ( + n 5 )
+                        )
+                    )
+           )
+         
+           ( cond   
+                  
+             ( ( and ( <= 300000 %p ) ( <= %p 400000 ) 
+               )
+               
+               #t ; OK
+             )
+             
+             ( ( < %p 300000 )
+             
+               ( cond
+                 ( ( not ( TopSize? ) )
+                   ( UpgradeSize )
+                 )
+                 ( ( not ( TopPrice? ) )
+                   ( UpgradePrice )
+                 )
+                 ( ( not ( TopQuality? ) )
+                   ( UpgradeQuality )
+                 )
+                 ; no ELSE 
+               );cond
+               
+             ) ; %p < 300000
+             
+             ( ( < 400000 %p )
+             
+               ( cond
+                 ( ( not ( BottomSize? ) )
+                   ( DowngradeSize )
+                 )
+                 ( ( not ( BottomPrice? ) )
+                   ( DowngradePrice )
+                 )
+                 ( ( not ( BottomQuality? ) )
+                   ( DowngradeQuality )
+                 )
+                 ; no ELSE 
+               );cond
+               
+             ) ; 400000 < %p
+             
+             ; no ELSE
+             
+           );cond
+           
+           ( TransactionState )
+           
+         );let %p
+             
+       ) ; list 1 of actions for 'OverSpent' ; condition-action pair 1 with condition : n >= 200000
+       
+8 ; DefineActionList
+398574
+
+       ; list 2 of actions
+       
+       ( ; ( >= n 100000 )               ; was : condition
+       
+         ( let ( ( %p ( PriceTag n ) )  ; action ; it can be multiple actions
+               );local
+         
+           ( set! a ( + b
+                        ( if ( = ( % n 5 )
+                                 0
+                             )
+                             ( + n ( Whatever ) )
+                             n
+                        )
+                    )
+           )
+         
+           ( cond   
+                  
+             ( ( and ( <= 200000 %p ) ( <= %p 300000 ) 
+               )
+               
+               #t ; OK
+             )
+             
+             ( ( < %p 200000 )
+             
+               ( cond
+                 ( ( not ( TopSize? ) )
+                   ( UpgradeSize )
+                 )
+                 ( ( not ( TopPrice? ) )
+                   ( UpgradePrice )
+                 )
+                 ( ( not ( TopQuality? ) )
+                   ( UpgradeQuality )
+                 )
+                 ; no ELSE 
+               );cond
+               
+             ) ; %p < 200000
+             
+             ( ( < 300000 %p )
+             
+               ( cond
+                 ( ( not ( BottomSize? ) )
+                   ( DowngradeSize )
+                 )
+                 ( ( not ( BottomPrice? ) )
+                   ( DowngradePrice )
+                 )
+                 ( ( not ( BottomQuality? ) )
+                   ( DowngradeQuality )
+                 )
+                 ; no ELSE 
+               );cond
+               
+             ) ; 300000 < %p
+             
+             ; no ELSE
+             
+           );cond
+           
+           ( TransactionState )
+           
+         );let %p ; action
+             
+       ) ; list 2 of actions of 'OverSpent'; condition-action pair 2 ; with condition : n >= 100000
+
+8
+1124365
+       ; list 3 of actions
+       
+       ( ; ( >= n 50000 )               ; was : condition
+       
+         ( let ( ( %p ( PriceTag n ) )  ; action ; it can be multiple actions
+               );local
+         
+           ( set! a ( + b ( begin
+                            ( if ( = ( % n 5 )
+                                     0
+                                 )
+                                 ( + n 5 )
+                            )
+                            ( set! b ( % n 10 ) )
+                            ( + b 2 )
+                          )
+                    )
+           )
+         
+           ( cond   
+                  
+             ( ( and ( <= 50000 %p ) ( <= %p 100000 ) 
+               )
+               
+               #t ; OK
+             )
+             
+             ( ( < %p 50000 )
+             
+               ( cond
+                 ( ( not ( TopSize? ) )
+                   ( UpgradeSize )
+                 )
+                 ( ( not ( TopPrice? ) )
+                   ( UpgradePrice )
+                 )
+                 ( ( not ( TopQuality? ) )
+                   ( UpgradeQuality )
+                 )
+                 ; no ELSE 
+               );cond
+               
+             ) ; %p < 50000
+             
+             ( ( < 100000 %p )
+             
+               ( cond
+                 ( ( not ( BottomSize? ) )
+                   ( DowngradeSize )
+                 )
+                 ( ( not ( BottomPrice? ) )
+                   ( DowngradePrice )
+                 )
+                 ( ( not ( BottomQuality? ) )
+                   ( DowngradeQuality )
+                 )
+                 ; no ELSE 
+               );cond
+               
+             ) ; 100000 < %p
+             
+             ; no ELSE
+             
+           );cond
+           
+           ( TransactionState )
+           
+         );let %p ; action
+             
+       ) ; list 3 of actions ; condition-action pair 3 ; with condition : n >= 50000
+
+8
+9258674
+       ; list 4 of actions
+       
+       ( ; else                         ; was : condition ( n < 50000 )
+       
+         ( let ( ( %p ( PriceTag n ) )  ; action ; it can be multiple actions
+               );local
+         
+           ( set! a ( + b ( begin
+                            ( if ( = ( % n 5 )
+                                     0
+                                 )
+                                 ( b 2 )
+                            )
+                            ( set! b ( % n 10 ) )
+                            b
+                          )
+                    )
+           )
+         
+           ( cond   
+                  
+             ( ( and ( <= 30000 %p ) ( <= %p 50000 ) 
+               )
+               
+               #t ; OK
+             )
+             
+             ( ( < %p 30000 )
+             
+               ( cond
+                 ( ( not ( TopSize? ) )
+                   ( UpgradeSize )
+                 )
+                 ( ( not ( TopPrice? ) )
+                   ( UpgradePrice )
+                 )
+                 ( ( not ( TopQuality? ) )
+                   ( UpgradeQuality )
+                 )
+                 ; no ELSE 
+               );cond
+               
+             ) ; %p < 30000
+             
+             ( ( < 50000 %p )
+             
+               ( cond
+                 ( ( not ( BottomSize? ) )
+                   ( DowngradeSize )
+                 )
+                 ( ( not ( BottomPrice? ) )
+                   ( DowngradePrice )
+                 )
+                 ( ( not ( BottomQuality? ) )
+                   ( DowngradeQuality )
+                 )
+                 ; no ELSE 
+               );cond
+               
+             ) ; 50000 < %p
+             
+             ; no ELSE
+             
+           );cond
+           
+           ( TransactionState )
+           
+         );let %p ; action
+             
+       ) ; list 4 of actions ; condition-action pair 3 ; with condition : else (i.e., n < 50000)
+
+8
+4545125
+     ; rule 1 of Exaggerated
+
+     ( ; ( >= n 300000 )               ; condition
+     
+       ( let ( ( %p ( PriceTag n ) )  ; action ; it can be multiple actions
+             );local
+       
+         ( set! a ( + b
+                      ( if ( = ( % n 5 )
+                               0
+                           )
+                           ( + n 5 )
+                      )
+                  )
+         )
+         ( cond   
+                
+           ( ( and ( <= 500000 %p ) ( <= %p 800000 ) 
+             )
+             
+             #t ; OK
+           )
+           
+           ( ( < %p 500000 )
+           
+             ( cond
+               ( ( not ( TopSize? ) )
+                 ( UpgradeSize )
+               )
+               ( ( not ( TopPrice? ) )
+                 ( UpgradePrice )
+               )
+               ( ( not ( TopQuality? ) )
+                 ( UpgradeQuality )
+               )
+               ; no ELSE 
+             );cond
+             
+           ) ; %p < 500000
+           
+           ( ( < 800000 %p )
+           
+             ( cond
+               ( ( not ( BottomSize? ) )
+                 ( DowngradeSize )
+               )
+               ( ( not ( BottomPrice? ) )
+                 ( DowngradePrice )
+               )
+               ( ( not ( BottomQuality? ) )
+                 ( DowngradeQuality )
+               )
+               ; no ELSE 
+             );cond
+             
+           ) ; 800000 < %p
+           
+           ; no ELSE
+           
+         );cond
+         
+         ( TransactionState )
+         
+       );let %p
+           
+     ) ; rule 1 of Exaggerated ; condition-action pair 1 with condition : n >= 200000
+
+8
+8416872
+     ; rule 2 of Exaggerated
+
+     ( ; ( >= n 200000 )               ; condition
+     
+       ( let ( ( %p ( PriceTag n ) )  ; action ; it can be multiple actions
+             );local
+       
+         ( set! a ( + b
+                      ( if ( = ( % n 5 )
+                               0
+                           )
+                           ( + n ( Whatever ) )
+                           n
+                      )
+                  )
+         )
+         
+         ( cond   
+                
+           ( ( and ( <= 400000 %p ) ( <= %p 600000 ) 
+             )
+             
+             #t ; OK
+           )
+           
+           ( ( < %p 400000 )
+           
+             ( cond
+               ( ( not ( TopSize? ) )
+                 ( UpgradeSize )
+               )
+               ( ( not ( TopPrice? ) )
+                 ( UpgradePrice )
+               )
+               ( ( not ( TopQuality? ) )
+                 ( UpgradeQuality )
+               )
+               ; no ELSE 
+             );cond
+             
+           ) ; %p < 400000
+           
+           ( ( < 600000 %p )
+           
+             ( cond
+               ( ( not ( BottomSize? ) )
+                 ( DowngradeSize )
+               )
+               ( ( not ( BottomPrice? ) )
+                 ( DowngradePrice )
+               )
+               ( ( not ( BottomQuality? ) )
+                 ( DowngradeQuality )
+               )
+               ; no ELSE 
+             );cond
+             
+           ) ; 600000 < %p
+           
+           ; no ELSE
+           
+         );cond
+         
+         ( TransactionState )
+         
+       );let %p ; action
+           
+     ) ; rule 2 of Exaggerated ; condition-action pair 2 ; with condition : n >= 100000
+     
+8
+65623565
+5545587
+     ; rule 3 of Exaggerated
+
+     ( ; ( >= n 100000 )               ; condition
+     
+       ( let ( ( %p ( PriceTag n ) )  ; action ; it can be multiple actions
+             );local
+       
+         ( set! a ( + b ( begin
+                          ( if ( = ( % n 5 )
+                                   0
+                               )
+                               ( + n 5 )
+                          )
+                          ( set! b ( % n 10 ) )
+                          ( + b 2 )
+                        )
+                  )
+         )
+         
+         ( cond   
+                
+           ( ( and ( <= 300000 %p ) ( <= %p 400000 ) 
+             )
+             
+             #t ; OK
+           )
+           
+           ( ( < %p 300000 )
+           
+             ( cond
+               ( ( not ( TopSize? ) )
+                 ( UpgradeSize )
+               )
+               ( ( not ( TopPrice? ) )
+                 ( UpgradePrice )
+               )
+               ( ( not ( TopQuality? ) )
+                 ( UpgradeQuality )
+               )
+               ; no ELSE 
+             );cond
+             
+           ) ; %p < 300000
+           
+           ( ( < 400000 %p )
+           
+             ( cond
+               ( ( not ( BottomSize? ) )
+                 ( DowngradeSize )
+               )
+               ( ( not ( BottomPrice? ) )
+                 ( DowngradePrice )
+               )
+               ( ( not ( BottomQuality? ) )
+                 ( DowngradeQuality )
+               )
+               ; no ELSE 
+             );cond
+             
+           ) ; 400000 < %p
+           
+           ; no ELSE
+           
+         );cond
+         
+         ( TransactionState )
+         
+       );let %p ; action
+           
+     ) ; rule 3 of Exaggerated ; condition-action pair 3 ; with condition : n >= 200000
+
+8
+2653485
+     ; rule 4 of Exaggerated
+
+     ( ; else                         ; condition ( n < 200000 )
+     
+       ( let ( ( %p ( PriceTag n ) )  ; action ; it can be multiple actions
+             );local
+       
+         ( set! a ( + b ( begin
+                          ( if ( = ( % n 5 )
+                                   0
+                               )
+                               ( +-- b 2 )
+                          )
+                          ( set! b ( % n 10 ) )
+                          b
+                        )
+                  )
+         )
+         
+         ( cond   
+                
+           ( ( and ( <= 200000 %p ) ( <= %p 300000 ) 
+             )
+             
+             #t ; OK
+           )
+           
+           ( ( < %p 200000 )
+           
+             ( cond
+               ( ( not ( TopSize? ) )
+                 ( UpgradeSize )
+               )
+               ( ( not ( TopPrice? ) )
+                 ( UpgradePrice )
+               )
+               ( ( not ( TopQuality? ) )
+                 ( UpgradeQuality )
+               )
+               ; no ELSE 
+             );cond
+             
+           ) ; %p < 200000
+           
+           ( ( < 300000 %p )
+           
+             ( cond
+               ( ( not ( BottomSize? ) )
+                 ( DowngradeSize )
+               )
+               ( ( not ( BottomPrice? ) )
+                 ( DowngradePrice )
+               )
+               ( ( not ( BottomQuality? ) )
+                 ( DowngradeQuality )
+               )
+               ; no ELSE 
+             );cond
+             
+           ) ; 300000 < %p
+           
+           ; no ELSE
+           
+         );cond
+         
+         ( TransactionState )
+         
+       );let %p ; action
+           
+     ) ; rule 4 of Exaggerated ; condition-action pair 3 ; with condition : else (i.e., n < 200000)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+14 ; ListActionListKeys
+
+19 ; DefineExpertiseFromDB
+OverSpent
+y
+156
+231
+y
+128
+245
+y
+323
+251
+y
+362
+83
+n
+
+19 ; DefineExpertiseFromDB
+Exaggerated
+y
+373
+157
+y
+156
+40
+y
+128
+59
+y
+362
+106
+n
+
+quit
+
+(ResetTransactionState)
+
+(OverSpent 251475)
+(OverSpent 251480)
+(OverSpent 251473)
+(OverSpent 251476)
+
+(OverSpent 151473)
+(OverSpent 151475) 
+
+(OverSpent 81976)
+(OverSpent 81975)
+(OverSpent 31976)
+(OverSpent 31975)
+
+(Exaggerated 382543)
+(Exaggerated 382540)
+
+(Exaggerated 251475)
+(Exaggerated 251480)
+(Exaggerated 251473)
+(Exaggerated 251476)
+
+(Exaggerated 151480)
+(Exaggerated 151483)
+
+(Exaggerated 51480)
+(Exaggerated 51588)
+(Exaggerated 31480)
+(Exaggerated 31588)
+
+(ExpertSystemShell)
+
+11 ; RemoveCondition
+323
+11 ; RemoveCondition
+189
+13 ; ListConditionKeys
+12 ; RemoveActionList
+231
+12 ; RemoveActionList
+251
+12 ; RemoveActionList
+40
+14 ; ListActionListKeys
+15 ; SearchCondition
+9157342
+15 ; SearchCondition
+5478952
+16 ; SearchActionList
+78945
+16 ; SearchActionList
+1124365
+16 ; SearchActionList
+4545125
+15 ; SearchCondition
+2549865
+16 ; SearchActionList
+4544887
+quit
+
+(ResetTransactionState)
+
+(OverSpent 251475)
+(OverSpent 251480)
+(OverSpent 251473)
+(OverSpent 251476)
+
+(OverSpent 151473)
+(OverSpent 151475) 
+
+(OverSpent 81976)
+(OverSpent 81975)
+(OverSpent 31967)
+(OverSpent 31968)
+(OverSpent 31957)
+(OverSpent 31958)
+
+(Exaggerated 382543)
+(Exaggerated 382540)
+
+(Exaggerated 251475)
+(Exaggerated 251480)
+(Exaggerated 251473)
+(Exaggerated 251476)
+
+(Exaggerated 151480)
+(Exaggerated 151473)
+
+(Exaggerated 51480)
+(Exaggerated 51473)
+(Exaggerated 31480)
+(Exaggerated 31473)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( ++ n m )
+  ( + n m 1 )
+);define ++
+
+( ExpertSystemShell )
+
+7 ; DefineCondition
+1547254
+( >= n 50000 )
+
+8 ; DefineActionList
+7457747
+
+( ; list of actions
+
+  ( if ( > ( % ( ++ n 29 ) 20 
+           ) 
+           10 
+       )
+    ( begin
+    
+      ( if ( = ( % n 2 ) 1 )
+           Hi
+      )
+    
+      ( cond
+        ( ( not ( TopPrice? ) )
+          ( UpgradePrice )
+        )
+        ( ( not ( TopSize? ) )
+          ( UpgradeSize )
+        )
+        ( ( not ( TopQuality? ) )
+          ( UpgradeQuality )
+        )
+        ; no ELSE 
+      );cond
+      
+      ( TransactionState )
+      
+    ); begin
+    
+    ( begin
+    
+      ( if ( = ( % n 2 ) 0 )
+           ( + 'n Hi )
+      )
+    
+      ( cond
+        ( ( not ( BottomPrice? ) )
+          ( DowngradePrice )
+        )
+        ( ( not ( BottomSize? ) )
+          ( DowngradeSize )
+        )
+        ( ( not ( BottomQuality? ) )
+          ( DowngradeQuality )
+        )
+        ; no ELSE 
+      );cond
+      
+      ( TransactionState )
+      
+    );begin
+    
+  );if
+  
+);list of actions
+
+20 ; ReplaceRuleOfExpertiseWithNewlyComposedRuleUsingDB
+OverSpent ; Name of the expertise
+4 ; Ordering of the rule that is to be replaced
+362 ; key of the condition
+164 ; key of the action-list
+
+20 ; ReplaceRuleOfExpertiseWithNewlyComposedRuleUsingDB
+OverSpent ; Name of the expertise
+3 ; Ordering of the rule that is to be replaced
+1547254 ; key of the condition
+251 ; key of the action-list
+
+quit
+
+(ResetTransactionState)
+
+(OverSpent 251475)
+(OverSpent 251480)
+(OverSpent 251473)
+(OverSpent 251476)
+
+(OverSpent 151473)
+(OverSpent 151475) 
+
+(OverSpent 81976)
+(OverSpent 81975)
+(OverSpent 31967)
+(OverSpent 31968)
+(OverSpent 31957)
+(OverSpent 31958)
+
+(Exaggerated 382543)
+(Exaggerated 382540)
+
+(Exaggerated 251475)
+(Exaggerated 251480)
+(Exaggerated 251473)
+(Exaggerated 251476)
+
+(Exaggerated 151480)
+(Exaggerated 151473)
+
+(Exaggerated 51480)
+(Exaggerated 51473)
+(Exaggerated 31480)
+(Exaggerated 31473)
+
+"Great!!!""" 
+"

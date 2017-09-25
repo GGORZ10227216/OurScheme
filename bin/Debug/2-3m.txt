@@ -1,0 +1,501 @@
+Welcome to OurScheme!
+
+> a defined
+
+> "=============== Problem 1 viewable case ================="
+
+> environment cleaned
+
+> 3
+
+> 3
+
+> 3.500
+
+> -0.125
+
+> "Hi
+""
+
+> ""
+
+> ( 3
+  .
+  4
+)
+
+> ( 3
+)
+
+> ( 30
+)
+
+> ( 300
+)
+
+> nil
+
+> ( nil
+)
+
+> ( nil
+)
+
+> ( nil
+)
+
+> ( 1
+  2
+  3
+)
+
+> ( nil
+  2
+  3
+  nil
+)
+
+> ( 3
+  4
+  5
+)
+
+> nil
+
+> ( 3
+  ( 4
+    5
+  )
+)
+
+> ( 3
+  4321
+  5
+)
+
+> ( 3
+  ( 4
+    5
+  )
+)
+
+> ( 3
+  ( 4
+    5
+  )
+  6
+  ( 7
+    8
+  )
+)
+
+> a defined
+
+> b defined
+
+> ( 3
+  .
+  5
+)
+
+> 5
+
+> x defined
+
+> ( ( 3
+    4
+  )
+  5
+)
+
+> hello defined
+
+> ( 1
+  2
+  .
+  3
+)
+
+> ( ( 1
+    2
+    .
+    3
+  )
+  .
+  4
+)
+
+> ( 10
+)
+
+> ( ( 1
+    2
+    .
+    3
+  )
+  4
+)
+
+> ( ( 1
+    2
+    .
+    3
+  )
+  ( 1
+    2
+    .
+    3
+  )
+)
+
+> hello defined
+
+> ( ""CYCU ICE""
+  ""CYCU ICE""
+  ( 100
+  )
+)
+
+> ( ""CYCU ICE""
+  400
+  ( 5000
+    600
+  )
+  70
+)
+
+> there defined
+
+> ( ""CYCU ICE""
+  "Number One!"
+)
+
+> a defined
+
+> ( 5
+  30
+  40
+)
+
+> ( 30
+  40
+)
+
+> 3
+
+> 4
+
+> 3
+
+> ( 4
+  5
+)
+
+> ( 3
+  4
+)
+
+> ( "Happy New Year!"
+)
+
+> ( 3
+  4
+)
+
+> ( "Merry Christmas!"
+  .
+  6
+)
+
+> ( 3
+  4
+)
+
+> "Happy New Year!"
+
+> 30
+
+> ( 40
+)
+
+> a defined
+
+> "=============== Problem 2 viewable case ================="
+
+> environment cleaned
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> #t
+
+> nil
+
+> nil
+
+> #t
+
+> #t
+
+> #t
+
+> #t
+
+> #t
+
+> #t
+
+> nil
+
+> #t
+
+> #t
+
+> #t
+
+> nil
+
+> #t
+
+> nil
+
+> America defined
+
+> nil
+
+> #t
+
+> nil
+
+> 20
+
+> -14
+
+> 20.500
+
+> -14.500
+
+> 12
+
+> 67.500
+
+> a defined
+
+> 3
+
+> 1
+
+> 5.000
+
+> 7
+
+> 7.500
+
+> 7.500
+
+> 1
+
+> 19.125
+
+> nil
+
+> nil
+
+> nil
+
+> #t
+
+> #t
+
+> #t
+
+> #t
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> nil
+
+> nil
+
+> #t
+
+> ""Hello, there!""
+
+> "Hello, there! Wait!"
+
+> #t
+
+> nil
+
+> #t
+
+> nil
+
+> nil
+
+> nil
+
+> nil
+
+> nil
+
+> #t
+
+> #t
+
+> a defined
+
+> ( ( 3
+    ( 4
+      5
+    )
+  )
+)
+
+> #t
+
+> nil
+
+> #t
+
+> b defined
+
+> #t
+
+> c defined
+
+> nil
+
+> #t
+
+> nil
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> #t
+
+> a defined
+
+> "=============== Problem 3 viewable case ================="
+
+> environment cleaned
+
+> good
+
+> good
+
+> a defined
+
+> good
+
+> bad
+
+> a defined
+
+> ( 3
+  4
+)
+
+> ( ( 1
+    ( 2
+    )
+    1
+  )
+  1
+)
+
+> ( ( 1
+    ( 2
+    )
+    1
+  )
+  1
+)
+
+> 2
+
+> 3
+
+> 4
+
+> 3
+
+> b defined
+
+> good
+
+> else defined
+
+> good
+
+> else defined
+
+> ok
+
+> "What happened?"
+
+> "What happened?"
+
+> 3
+
+> good
+
+> bad
+
+> bad
+
+> a defined
+
+> b defined
+
+> 5
+
+> else defined
+
+> ( 1
+  2
+)
+
+> 4
+
+> ( 1
+  2
+)
+
+> else defined
+
+> nil
+
+> ERROR (no more input) : END-OF-FILE encountered
+Thanks for using OurScheme!

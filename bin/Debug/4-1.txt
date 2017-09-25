@@ -1,0 +1,877 @@
+1
+(define a "=============== Problem 1 viewable case =================")
+a
+( clean-environment )
+
+; basic testing + Eliza
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Utilities and Eliza ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; car               ; first one
+ 
+( define ( cadr x ) ; second one
+
+  ( car ( cdr x ) )
+  
+);define cadr
+
+( define ( caddr x ) ; third one
+
+  ( car ( cdr ( cdr x ) ) )
+   
+);define caddr
+
+( define ( caar x ) ; 'car' of first one
+
+  ( car ( car x ) )
+  
+);define caar
+
+( define ( caadr x ) ; 'car' of second one
+
+  ( car ( cadr x ) )
+  
+);define caar
+
+( define ( caaddr x ) ; 'car' of third one
+
+  ( car ( caddr x ) )
+   
+);define caaddr
+
+;=========================== Utilities ===============================
+
+( define ( % original divider )
+
+  ( cond ( ( not ( integer? original ) )
+           ( create-error-object ( string-append "% : " ( number->string original )
+                                                 " is not an integer."
+                                 )
+           )
+         )
+         ( ( not ( integer? divider ) )
+           ( create-error-object ( string-append "% : " ( number->string divider )
+                                                 " is not an integer."
+                                 )
+           )
+         )
+         ( else
+           ( - original ( * ( / original divider )
+                            divider
+                        )
+           )
+         );else
+         
+  );cond
+  
+);define %
+
+; Use the following definition of '%' when running Petite-Scheme (SWL)
+;
+; ( define ( % original divider )
+;   ( modulo original divider )
+; );define %
+
+( define $%%% 379 )
+
+( define ( KeyPair original )
+  
+  ( if ( < original $%%% )
+    ( create-error-object ( string-append "Please use a number greater than "
+                                          ( number->string $%%% )
+                                          " as key."
+                          )
+    )
+    ( cons ( % original $%%% )
+           ( list original )
+    )
+  );if
+  
+);define KeyPair
+
+( define ( RealKey original )
+
+; the "key" defined by KeyPair from 'original'
+  
+  ( if ( < original $%%% )
+    
+    original
+    
+    ( % original $%%% )
+
+  );if
+  
+);define RealKey
+
+;=========================== Utilities ===============================
+
+( define ( ListAppend firstList secondList )
+
+  ( cond ( ( and ( atom? firstList )
+                 ( not ( null? firstList ) )
+           )
+           ( create-error-object "( ListAppend firstList secondList ) : First one must be a list." )
+         )
+         ( ( and ( atom? secondList )
+                 ( not ( null? secondList ) )
+           )
+           ( create-error-object "( ListAppend firstList secondList ) : Second one must be a list." )
+         )
+    ( else 
+      ( $ListAppend firstList secondList )
+    )
+    
+  );cond
+  
+);define ListAppend
+
+( define ( $ListAppend firstList secondList )
+; prerequisite: both 'firstList' and 'secondList' are lists (including the case of '())
+
+  ( if ( null? firstList )
+  
+      secondList
+      
+      ( cons ( car firstList )
+             ( $ListAppend ( cdr firstList )
+                           secondList
+             )
+      );cons
+      
+  );if
+
+);define ListAppend
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( ListLength s-expr )
+
+  ( cond 
+  
+    ( ( null? s-expr ) 0 )
+    
+    ( ( atom? s-expr ) ( create-error-object "( ListLength s-expr ) : s-expr is a non-nil atom" )
+    )
+    
+    ( else ( $ListLength s-expr )
+    )
+    
+  );cond
+  
+);define ListLength
+                           
+( define ( $ListLength aList )
+
+; prerequisite: aList is either a non-empty list (i.e., it must not be '()) 
+;                        or a dotted pair
+
+  ( let ( ( remaining ( cdr aList ) )
+        );local 
+        
+    ( if ( atom? remaining ) ; either '() or a real atom, which means that aList is not really a list
+    
+         1
+         
+         ( + 1 ( $ListLength remaining ) 
+         )
+         
+    );if
+    
+  );let
+  
+);define $ListLength
+                           
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( NthElementOf n s-expr )
+
+  ( cond
+  
+    ( ( not ( integer? n ) ) 
+      ( create-error-object "( NthElementOf n s-expr ) : Illegal first argument!" )
+    )
+    
+    ( ( < n 1 )
+      ( create-error-object "( NthElementOf n s-expr ) : Illegal first argument!" )
+    )
+    
+    ; assert : n is a natural number
+    
+    ( ( null? s-expr )
+      ( create-error-object "( NthElementOf n s-expr ) : Illegal second argument!" )
+    )
+    
+    ( ( atom? s-expr )
+      ( create-error-object "( NthElementOf n s-expr ) : Illegal second argument!" )
+    )
+    
+    ; assert : s-expr is a dotted pair
+    
+    ( else
+      ( $NthElementOf n s-expr )
+    )
+    
+  );cond
+  
+);define NthElementOf
+
+( define ( $NthElementOf n s-expr )
+; prerequisite: n is a natural number and s-expr is a dotted pair (i.e., if list then non-empty)
+
+  ( if ( = n 1 )
+  
+     ( car s-expr )
+     
+     ; n > 1
+     
+     ( let ( ( rest ( cdr s-expr ) )
+           );local
+           
+        ( if ( atom? rest ) ; i.e., no more!
+        
+            ( create-error-object "( NthElementOf n s-expr ) : Value of n exceeds length of the given s-expression." )
+            
+            ( $NthElementOf ( - n 1 ) rest )
+            
+        );if
+        
+     );let
+     
+  );if
+  
+);define $NthElementOf
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( WithNthElementOfListReplaced n aList newElement )
+
+; given 4 and ( a b c d e f g ) and XYZ
+; it means: replace the 4TH of ( a b c d e f g ) with XYZ
+; result : ( a b c XYZ e f g)
+
+  ( cond ( ( not ( integer? n ) )
+           ( create-error-object "( WithNthElementOfListReplaced n aList newElement ) : n is not an integer" )
+         )
+         ( ( < n 1 ) 
+           ( create-error-object "( WithNthElementOfListReplaced n aList newElement ) : n is not a natural number" )
+         )
+         ( ( < ( ListLength aList ) n )
+           ( create-error-object "( WithNthElementOfListReplaced n aList newElement ) : value of n exceeds length of aList" )
+         )
+         ( else
+           ( $WithNthElementOfListReplaced n aList newElement )
+         )
+  );cond
+  
+);define WithNthElementOfListReplaced
+  
+( define ( $WithNthElementOfListReplaced n aList newElement )
+
+; given 4 and ( a b c d e f g ) and XYZ
+; it means: replace the 4TH of ( a b c d e f g ) with XYZ
+; result : ( a b c XYZ e f g)
+
+  ( if ( = n 1 ) ; we are to replace the first one of 'aList'
+  
+       ( cons newElement
+              ( cdr aList )
+       )
+       
+       ; n > 1
+       
+       ( let ( ( first ( car aList ) )
+               ( new-rest ( $WithNthElementOfListReplaced ( - n 1 ) ( cdr aList ) newElement
+                          )
+               )
+             )
+         ( cons first new-rest )
+       );let
+       
+  );if
+  
+);define $WithNthElementOfListReplaced
+  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; ( define ( DivisibleBy n factor )
+; 
+;   ( = n 
+;       ( * ( / n factor ) factor )
+;   )
+;    
+; );define DivisibleBy
+
+( define ( DivisibleBy n factor )
+  
+  ( = ( % n factor )
+      0
+  )
+
+);define DivisibleBy
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( PrintListOfStringsAsSentence aList )
+
+  ( if ( not ( null? aList ) )
+     ( begin
+     
+       ( display-string ( car aList ) ) 
+       ; instead of : 
+       ; ( display-string ( eval ( car aList ) ) )
+       
+       ( display-string " " )
+       ( PrintListOfStringsAsSentence ( cdr aList ) )
+     )
+     ( begin
+       ( newline )
+       #t
+     )
+  );if
+  
+);define PrintListOfStringsAsSentence
+     
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( PrintListOfSymbolsAsSentence aList )
+; with a LINE-ENTER at the end
+
+  ( if ( not ( null? aList ) )
+     ( begin
+       ( display-string ( symbol->string ( car aList ) ) )
+       ( display-string " " )
+       ( PrintListOfSymbolsAsSentence ( cdr aList ) )
+     )
+     ( begin
+       ( newline )
+       #t
+     )
+  );if
+  
+);define PrintListOfSymbolsAsSentence
+     
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( PrintListOfSymbolsStringsAsSentence aList )
+
+  ( if ( not ( null? aList ) )
+     ( begin
+	   ;(print aList)
+       ( display-string ( let ( ( element ( car aList ) )
+                              );local
+                          ( if ( symbol? element )
+                               ( symbol->string ( car aList ) ) 
+                               element
+                          )
+                        );let
+       )
+       ( display-string " " )
+       ( PrintListOfSymbolsStringsAsSentence ( cdr aList ) )
+     )
+     ( begin
+       ( newline )
+       #t
+     )
+  );if
+  
+);define PrintListOfSymbolsStringsAsSentence
+     
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+( define ( PrintListOfSymbolsNumbersStringsAsSentence aList )
+
+  ( if ( not ( null? aList ) )
+     ( begin
+       ( display-string ( let ( ( %element ( car aList ) )
+                              );local
+                          ( cond ( ( symbol? %element )
+                                   ( symbol->string %element )
+                                 )
+                                 ( ( number? %element )
+                                   ( number->string %element )
+                                 )
+                                 ( else 
+                                   %element
+                                 )
+                          )
+                        );let
+       )
+       ( display-string " " )
+       ( PrintListOfSymbolsNumbersStringsAsSentence ( cdr aList ) )
+     )
+     ( begin
+       ( newline )
+       #t
+     )
+  );if
+  
+);define PrintListOfSymbolsNumbersStringsAsSentence
+     
+;=========================== Utilities ===============================
+
+;=========================== Eliza ===============================
+
+( define ( SwitchSubject subject )
+
+  ( cond ( ( equal? subject 'I )
+           'you
+         )
+         ( ( equal? subject 'We )
+           'you
+         )
+         ( ( equal? subject 'You )
+           'I
+         )
+         ( ( equal? subject 'He )
+           'he
+         )
+         ( ( equal? subject 'She )
+           'she
+         )
+         ( ( equal? subject 'It )
+           'it
+         )
+         ( ( equal? subject 'They )
+           'they
+         )
+         ( ( equal? subject 'This )
+           'this
+         )
+         ( ( equal? subject 'That )
+           'that
+         )
+         ( ( equal? subject 'These )
+           'these
+         )
+         ( else subject )
+  );cond
+  
+);define SwitchSubject
+
+( define ( AdjustVerb verb )
+
+  ( cond ( ( equal? verb 'likes )
+           'like
+         )
+         ( ( equal? verb 'plays )
+           'play
+         )
+         ( else verb )
+  );cond
+  
+);define AdjustVerb
+
+( define ( Adverb subject )
+
+  ( cond ( ( or ( equal? subject 'I )
+                ( equal? subject 'You )
+                ( equal? subject 'We )
+                ( equal? subject 'They )
+           )
+           'do    ; Why do you
+         )
+         ( else 'does )
+  );cond
+  
+);define Adverb
+
+( define ( KindOfVerb verb )
+
+  ( if ( or ( equal? verb 'am )
+            ( equal? verb 'are )
+            ( equal? verb 'is )
+       )
+       
+       'verb-to-be
+       
+       'transitive-verb
+       
+  );if
+  
+);define KindOfVerb
+
+( define ( UnknownVerb verb )
+
+  #f ; theoretically, we should only answer sentences that we can answer ;
+     ; but for the moment, we just answer everything
+  
+);define UnknownVerb
+
+( define ( VerbToBe subject )
+
+  ( cond ( ( equal? subject 'I )
+           'am
+         )
+         ( ( or ( equal? subject 'You )
+                ( equal? subject 'you )
+           )
+           'are
+         )
+         ( else
+           'is
+         )
+  );cond
+  
+);define VerbToBe
+
+( define ( AskEliza )
+
+  ( display-string "------------------\n" )
+  
+  ( display-string
+  
+    ( string-append
+      "\nPlease use a list notation such as : (I think the weather is nice)\n"
+      "To quit 'AskEliza', just enter the word 'Bye' or 'bye' or 'Quit' or 'quit'.\n\n"
+      "Your say > "
+    )
+    
+  );display-string
+  
+  ( let ( ( %userInput '() )
+        );locals
+  
+    ( set! %userInput (read))
+    
+    ( if ( or ( equal? %userInput 'Bye )
+              ( equal? %userInput 'Quit )
+              ( equal? %userInput 'bye )
+              ( equal? %userInput 'quit )
+         )
+         
+         'Bye!
+         
+         ( begin
+         
+           ( newline )
+           ( Eliza %userInput )
+           ( newline )
+           
+           ( AskEliza )
+           
+         );begin
+         
+    );if Bye or Quit
+    
+  );let %userInput
+  
+);define AskEliza
+
+( define ( Eliza sentence )
+  
+  ( PrintListOfSymbolsStringsAsSentence ( $Eliza sentence ) )
+
+);define Eliza
+         
+( define ( $Eliza sentence )
+
+  ( cond ( ( atom? sentence )
+           ( list "Hmmm..." )
+         )
+         
+         ( ( < ( ListLength sentence ) 3 )
+           ( list "Could you please be more specific about it?" )
+         )
+         
+    ( else
+    
+      ( let ( ( %subject ( car  sentence ) )
+              ( %verb ( car ( cdr sentence ) ) )
+              ( %rest-of-the-sentence ( ListAppend ( cdr ( cdr sentence ) )
+                                                   '(?)
+                                      );ListAppend 
+              )
+              ( %kindOfVerb '() )
+            );local-var
+            
+            ( if ( UnknownVerb %verb )
+              
+              ( list "I don't quite understand. Could you please rephrase that sentence." )
+              
+              ( begin 
+            
+                ( set! %kindOfVerb ( KindOfVerb %verb ) )
+                
+                ( if ( equal? %kindOfVerb 'verb-to-be )
+                
+                     ( ListAppend  ( cons 'Why ( list ( VerbToBe ( SwitchSubject %subject ) ) 
+                                               ) 
+                                   )
+                                   ( cons
+                                     ( SwitchSubject %subject )
+                                     %rest-of-the-sentence
+                                   )
+                     );ListAppend
+                
+                     ; transitive-verb
+                     
+                     ( ListAppend  ( cons 'Why ( list ( Adverb %subject ) ) )
+                                   ( cons
+                                     ( SwitchSubject %subject )
+                                     ( cons (AdjustVerb %verb) %rest-of-the-sentence )
+                                   )
+                     );ListAppend
+                
+                );if %kindOfVerb = 'be-verb
+                
+              );begin
+            
+            ); if UnknownVerb %verb
+            
+      );let %subject %verb %rest-of-the-sentence %kindOfVerb
+      
+    );else the given 'sentence' has at least 3 words
+    
+  );cond
+  
+);define $Eliza
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Utilities and Eliza ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; correct
+
+(car (read))
+(3 4 5)
+
+; ;incorrect
+; 
+; (car (read))
+; "Hi"
+
+; correct
+
+(let ( (x (read))
+     );local
+     (car x)
+);let
+
+(3 5)
+
+; correct
+
+(let ( (x (read))
+     );local
+     (+ (car x) (read))
+);let
+
+(3 5)4 5
+
+; ;incorrect
+; 
+; (4)10
+; 
+; ; incorrect
+; 
+; (let ( (x (read))
+;      );local
+;      (+ (car x) (read))
+; );let
+; 
+; (3 5)(4)10
+; 
+; ; incorrect
+; 
+; (let ( (x (read))
+;      );local
+;      (+ (car x) (read))
+; );let
+; 
+; (3 5)"(4)10
+; 20
+; 
+; ; incorrect
+; 
+; (let ( (x (read))
+;      );local
+;      (+ (car x) (read))
+; );let
+; 
+; (3 5)(4 .)10
+; 20
+
+; correct
+(let ( (x (read))
+     );local
+  (let ( (first (car x) )
+         (second (car (cdr x)) )
+         (rest (cdr (cdr x)) )
+       );local
+    (cons second (cons first rest))
+  );let
+);let
+(what is going on here ?)
+
+rest
+
+; correct
+(let ( (x (read))
+     );local
+  (set! first (car x))
+  (set! second (car (cdr x)))
+  (set! rest (cdr (cdr x)))
+  (cons second (cons first rest))
+);let
+(what is going on here ?)
+
+rest
+
+; correct
+(let ( (x (read))
+     );local
+  (let ( (first (car x) )
+         (second (car (cdr x)) )
+         (rest (cdr (cdr x)) )
+       );local
+    (ListAppend (read) (cons second (cons first rest)) )
+  );let
+);let
+(what is going on here ?)
+(I must say)
+
+; correct
+
+(eval (let ( (x (read))
+           );local
+           (list 'cons 10 x)
+      );let
+);eval
+'(12 (18 29) (3 5))
+
+; ; error 1 : (attempt to apply non-function) : 12
+; 
+; (eval (let ( (x (read))
+;           );local
+;          (list 'cons 10 x)
+;      );let
+; );eval
+; (12 18)
+; 
+; ; error 2 : ERROR (incorrect number of arguments) : cons
+; 
+; (eval (let ( (x (read))
+;          )
+;          (ListAppend (list 'cons 10) x)
+;      );let
+; );eval
+; (12 18)
+; 
+; ; error 2 : ERROR (incorrect number of arguments) : cons
+; 
+; (eval (let ( (x (read))
+;          )
+;          (ListAppend (list 'cons 10 20) x)
+;      );let
+; );eval
+; (12 18)
+
+; correct
+
+(eval (let ( (x (read))
+         )
+         ( list 'quote (ListAppend (list 'cons 10 20) x) )
+     );let
+);eval
+(12 18)
+
+; ; error 3 : ERROR (LET format) : 
+; 
+; (let ( (x (read)) (car x))
+; (3 5)
+; )
+
+; correct
+
+(define x 5)
+(define y 10)
+
+(let ( (x (+ x (read)))
+        (y (* x (read)))
+      );local
+      ( - (+ x y ) (read))
+) 3 7 13
+
+; correct
+
+(eval (cons 'car (cdr (read))))
+(cdr '(3 4 5))
+
+; correct
+
+( let ( ( %temp (cdr (eval (cons 'cdr (cdr (read)))))
+        )
+        ( %temp1 '() )
+      )
+   ( set! %temp1 ( cdr %temp ) )
+   ( cons ( ListAppend %temp %temp1 ) ( car %temp ) )
+);let
+(cdr '(3 (4 (5)) 6 7))
+
+; correct
+
+(let ( (x (read)) )
+  (let ( (copy x) (temp '()) )
+    (set! temp (ListAppend x copy))
+    (cdr temp)
+  );let
+);let
+(3 4 5)
+       
+; ; error : ERROR (attempt to apply non-function) : 3
+; 
+; (let ( (x (read)) )
+;   (let ( (copy x) )
+;     (eval (cons 'cons (list x copy)))
+;   );let
+; );let
+; (3 4 5)
+       
+; correct
+
+(let ( (x (read)) )
+  (let ( (y (cons 'cons (cdr x))
+         ) 
+       )
+    (eval (cons 'cons (list x y)))
+  );let
+);let
+(list 4 5)
+
+; correct
+
+(let ( (x (read)) )
+  (let ( (y (cons 'cons (cdr x))
+         ) 
+         (z '(x))
+       )
+    (let ( ( x (eval (cons 'cons (list x y)))
+           )
+         )
+         (list (cons x z) y)
+    );let
+  );let
+);let
+(list 4 5)
+
+;;;;;;;;;;;;;;;;;;;;;;;;; Eliza ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(AskEliza)
+(I like Lisa)
+(You like Jolin)
+(Jolin likes to perform)
+(LinSanity likes playing basketball)
+(LinSanity plays basketball)
+(I hate you)
+(I am happy)
+(You are a genius)
+(You are really, really talkative)
+(You are a terribly strange thing)
+(Do you think I am a good guy)
+(This is not funny)
+(I am going to get crazy)
+(Can we talk about Donald Trump please)
+(Please listen very carefully to what I am saying)
+NOOOOOOO!
+(I quit)
+quit
+
+(exit)

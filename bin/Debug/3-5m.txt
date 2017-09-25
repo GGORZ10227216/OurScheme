@@ -1,0 +1,60 @@
+Welcome to OurScheme!
+
+> a defined
+
+> "=============== Problem 5 viewable case ================="
+
+> environment cleaned
+
+> x1 defined
+
+> x2 defined
+
+> x3 defined
+
+> TrickySumUp defined
+
+> 55.500
+
+> "Illegal input! the first argument must be smaller or equal to the second."
+
+> 3.500
+
+> 12
+
+> Abs defined
+
+> Real defined
+
+> Int defined
+
+> Power defined
+
+> FindRange defined
+
+> Find-Range defined
+
+> IntFloor defined
+
+> Int-Floor defined
+
+> ( 8192
+  16384
+)
+
+> 13579
+
+> 13579
+
+> 13579.000
+
+> ( 1024
+  1024
+)
+
+> 1024
+
+> -13579
+
+> 
+Thanks for using OurScheme!

@@ -1,0 +1,8 @@
+Welcome to OurScheme!
+
+> a defined
+
+> ERROR (unexpected token) : ')' expected when token at Line 1 Column 10 is >>.<<"ERROR (unexpected token) : ')' expected when token at Line 1 Column 10 is >>.<<"
+
+> 
+Thanks for using OurScheme!

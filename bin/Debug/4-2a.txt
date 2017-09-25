@@ -1,0 +1,501 @@
+Welcome to OurScheme!
+
+> a defined
+
+> "=============== Problem 2 viewable case ================="
+
+> environment cleaned
+
+> cadr defined
+
+> caddr defined
+
+> caar defined
+
+> caadr defined
+
+> caaddr defined
+
+> % defined
+
+> $%%% defined
+
+> KeyPair defined
+
+> RealKey defined
+
+> ListAppend defined
+
+> $ListAppend defined
+
+> ListLength defined
+
+> $ListLength defined
+
+> NthElementOf defined
+
+> $NthElementOf defined
+
+> WithNthElementOfListReplaced defined
+
+> $WithNthElementOfListReplaced defined
+
+> DivisibleBy defined
+
+> PrintListOfStringsAsSentence defined
+
+> PrintListOfSymbolsAsSentence defined
+
+> PrintListOfSymbolsStringsAsSentence defined
+
+> PrintListOfSymbolsNumbersStringsAsSentence defined
+
+> ExampleExpertise defined
+
+> $expertise-DB defined
+
+> RuleSetOf defined
+
+> $RuleSetOfFrom defined
+
+> WithNthRuleReplaced defined
+
+> Rule defined
+
+> DefineExpertise defined
+
+> $AddToExpertiseDB defined
+
+> $IndexOfExpertiseEntry defined
+
+> ruleList-01 defined
+
+> Expertise-01 defined
+The expertise Expertise-01 has been established. 
+#t
+
+> rule-139 defined
+
+> Expertise-02 defined
+The expertise Expertise-02 has been established. 
+#t
+
+> Expertise-03 defined
+The expertise Expertise-03 has been established. 
+#t
+
+> ListExpertiseNames defined
+
+> $ListExpertiseNames defined
+
+> ExpertSystemShell defined
+
+> DoDefineNewExpertise defined
+
+> DoRemoveExpertise defined
+
+> $WithExpertiseRemoved defined
+
+> ListRuleSet defined
+
+> DoReplaceRuleSet defined
+
+> $ReplaceRuleSet defined
+
+> DoReplaceRuleOfRuleSet defined
+
+> $ReplaceRuleOfRuleSet defined
+
+> ------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Expertise-03
+Expertise-02
+Expertise-01
+ExampleExpertise
+------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Please give the name of the expertise > ( ( ( DivisibleBy
+      n
+      15
+    )
+    ( +
+      n
+      150
+    )
+  )
+  ( ( DivisibleBy
+      n
+      7
+    )
+    ( +
+      n
+      70
+    )
+  )
+  ( ( DivisibleBy
+      n
+      4
+    )
+    ( +
+      n
+      40
+    )
+  )
+  ( else
+    ( +
+      n
+      n
+    )
+  )
+)
+------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Please give the name of the expertise > ( ( ( DivisibleBy
+      n
+      3
+    )
+    ( +
+      n
+      30
+    )
+  )
+  ( ( DivisibleBy
+      n
+      5
+    )
+    ( +
+      n
+      50
+    )
+  )
+  ( ( DivisibleBy
+      n
+      4
+    )
+    ( +
+      n
+      40
+    )
+  )
+  ( else
+    ( +
+      n
+      n
+    )
+  )
+)
+------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Please give the name of the expertise > ( ( ( DivisibleBy
+      n
+      15
+    )
+    ( +
+      n
+      150
+    )
+  )
+  ( ( DivisibleBy
+      n
+      5
+    )
+    ( +
+      n
+      50
+    )
+  )
+  ( ( DivisibleBy
+      n
+      4
+    )
+    ( +
+      n
+      40
+    )
+  )
+  ( else
+    ( +
+      n
+      n
+    )
+  )
+)
+------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Please give the name of the expertise > ( ( ( DivisibleBy
+      n
+      3
+    )
+    ( +
+      n
+      30
+    )
+  )
+  ( ( DivisibleBy
+      n
+      5
+    )
+    ( +
+      n
+      50
+    )
+  )
+  ( else
+    ( *
+      n
+      100
+    )
+  )
+)
+------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Bye!
+
+> 210
+
+> 570
+
+> 98
+
+> 60
+
+> 74
+
+> 18
+
+> 90
+
+> 70
+
+> 72
+
+> 52
+
+> 180
+
+> 70
+
+> 56
+
+> 36
+
+> 90
+
+> 90
+
+> 5600
+
+> ------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Name of the expertise you want to replace its rule > Ordering of the rule that is to be replaced - Please enter a number (e.g., 3) > The new rule to be used in its place > Expertise-01 defined
+The specified rule of Expertise-01 has been replaced. 
+------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Bye!
+
+> 32
+
+> 48
+
+> ------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Name of the expertise you want to replace its rule-set > The new set of rules to be used by this expertise > ExampleExpertise defined
+The rule-set of ExampleExpertise has been replaced. 
+------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Bye!
+
+> 90
+
+> 90
+
+> 560
+
+> ------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Name of the new expertise > The set of rules to be used by the new expertise > Expertise-04 defined
+The expertise Expertise-04 has been established. 
+------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Bye!
+
+> 90
+
+> 90
+
+> 560
+
+> GreaterThanThreshold defined
+
+> $Strange defined
+
+> ------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Name of the expertise you want to replace its rule > Ordering of the rule that is to be replaced - Please enter a number (e.g., 3) > The new rule to be used in its place > Expertise-03 defined
+The specified rule of Expertise-03 has been replaced. 
+------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Bye!
+
+> 210
+
+> 570
+
+> 328
+
+> 60
+
+> 337
+
+> 18
+
+> ------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Expertise-04
+Expertise-03
+Expertise-02
+Expertise-01
+ExampleExpertise
+------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Name of the expertise to remove > The expertise named ExampleExpertise has been removed from the expertise database. 
+------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Expertise-04
+Expertise-03
+Expertise-02
+Expertise-01
+------------------
+Available choices are
+1 or DefineExpertise ,
+2 or RemoveExpertise ,
+3 or ListExpertiseNames ,
+4 or ListRuleSet ,
+5 or ReplaceRuleSet ,
+6 or ReplaceRuleOfRuleSet ,
+7 or Quit or quit ;
+Please enter the number (or item-name) of your choice > Bye!
+
+> ERROR (attempt to apply non-function) : nil
+
+> 
+Thanks for using OurScheme!

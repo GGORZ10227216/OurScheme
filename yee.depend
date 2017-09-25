@@ -1,0 +1,40 @@
+# depslib dependency file v1.0
+1498145659 source:c:\users\orzgg\documents\yee\main.cpp
+	<cctype>
+	<cstdlib>
+	<cstring>
+	<cstdio>
+	<iostream>
+	<map>
+	<string>
+	<vector>
+	<sstream>
+	<exception>
+	<iomanip>
+
+1498207757 source:c:\users\lab312\desktop\pl_project\main.cpp
+	<cctype>
+	<cstdlib>
+	<cstring>
+	<cstdio>
+	<iostream>
+	<map>
+	<string>
+	<vector>
+	<sstream>
+	<exception>
+	<iomanip>
+
+1504686086 source:c:\users\oolab\desktop\pl_project-master-21ec9333ed29d1c6575e78abe1d5fc5f1f1dfeed\main.cpp
+	<cctype>
+	<cstdlib>
+	<cstring>
+	<cstdio>
+	<iostream>
+	<map>
+	<string>
+	<vector>
+	<sstream>
+	<exception>
+	<iomanip>
+

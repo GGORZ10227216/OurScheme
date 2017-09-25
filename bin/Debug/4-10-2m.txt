@@ -1,0 +1,2474 @@
+Welcome to OurScheme!
+
+> a defined
+
+> "=============== Problem 6 viewable case ================="
+
+> environment cleaned
+
+> x1 defined
+
+> x2 defined
+
+> x3 defined
+
+> Fcond defined
+
+> 12
+
+> 20
+
+> 0
+
+> Fif defined
+
+> 10
+
+> 1
+
+> 8
+
+> 76
+
+> Fbegin defined
+
+> 1
+
+> -76
+
+> 0
+
+> Fand defined
+
+> #t
+
+> nil
+
+> #t
+
+> nil
+
+> For defined
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> nil
+
+> #t
+
+> x4 defined
+
+> #<procedure lambda>
+
+> 10
+
+> 3
+
+> 4
+
+> environment cleaned
+
+> x1 defined
+
+> x2 defined
+
+> x3 defined
+
+> Fcond defined
+
+> ERROR (no return value) : ( Fcond
+  x1
+  x2
+)
+
+> ERROR (no return value) : ( Fcond
+  x2
+  x3
+)
+
+> 9
+
+> ERROR (no return value) : ( Fcond
+  x1
+  ( +
+    x1
+    x1
+  )
+)
+
+> Fif defined
+
+> 80
+
+> 8
+
+> ERROR (no return value) : ( Fif
+  x3
+  x2
+  x1
+)
+
+> 84
+
+> ERROR (unbound parameter) : ( Fif
+  x3
+  x2
+  x1
+)
+
+> Fbegin defined
+
+> 1
+
+> -76
+
+> 0
+
+> ERROR (incorrect number of arguments) : Fbegin
+
+> Fand defined
+
+> #t
+
+> nil
+
+> #t
+
+> nil
+
+> For defined
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> #t
+
+> nil
+
+> ERROR (> with incorrect argument type) : ( 4
+  .
+  4
+)
+
+> #t
+
+> x4 defined
+
+> #<procedure lambda>
+
+> 10
+
+> 13
+
+> x5 defined
+
+> 16
+
+> #t
+
+> ERROR (incorrect number of arguments) : lambda
+
+> 3
+
+> 4
+
+> environment cleaned
+
+> ERROR (unbound symbol) : cadr
+
+> cadr defined
+
+> #<procedure cadr>
+
+> ERROR (car with incorrect argument type) : #<procedure cadr>
+
+> ( 30
+  40
+)
+
+> cadr-clone defined
+
+> #<procedure cadr>
+
+> ( 30
+  ( 40
+  )
+)
+
+> cadr-clone defined
+
+> ( 10
+  20
+)
+
+> cadr-clone defined
+
+> ERROR (DEFINE format) : ( define
+  car
+  cadr
+)
+
+> ERROR (incorrect number of arguments) : cadr
+
+> ERROR (incorrect number of arguments) : cadr
+
+> ERROR (attempt to apply non-function) : 10
+
+> ERROR (cdr with incorrect argument type) : 10
+
+> ERROR (car with incorrect argument type) : nil
+
+> ERROR (unbound symbol) : cdar
+
+> ERROR (unbound symbol) : x
+
+> cdar defined
+
+> ( 2
+)
+
+> ERROR (cdr with incorrect argument type) : 1
+
+> ERROR (unbound symbol) : first
+
+> first defined
+
+> #<procedure car>
+
+> #<procedure car>
+
+> 10
+
+> ERROR (unbound symbol) : First
+
+> First defined
+
+> car
+
+> ERROR (attempt to apply non-function) : car
+
+> ERROR (attempt to apply non-function) : 1
+
+> second defined
+
+> 20
+
+> ( ( 40
+    50
+  )
+  60
+)
+
+> ( 40
+  50
+)
+
+> 50
+
+> ( 50
+)
+
+> ERROR (cdr with incorrect argument type) : 10
+
+> a defined
+
+> "=============== Problem 7 viewable case ================="
+
+> environment cleaned
+
+> x1 defined
+
+> x2 defined
+
+> x3 defined
+
+> Fcond defined
+
+> 24
+
+> 40
+
+> -20
+
+> Fif defined
+
+> -34
+
+> -43
+
+> 52
+
+> 32
+
+> Fbegin defined
+
+> 0
+
+> 83
+
+> 7
+
+> Fand defined
+
+> nil
+
+> nil
+
+> #t
+
+> nil
+
+> For defined
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> nil
+
+> #t
+
+> Flambda defined
+
+> #<procedure Flambda>
+
+> #<procedure lambda>
+
+> #<procedure lambda>
+
+> 6
+
+> 9
+
+> environment cleaned
+
+> x1 defined
+
+> x2 defined
+
+> x3 defined
+
+> Fcond defined
+
+> 12
+
+> 7
+
+> 20
+
+> ERROR (no return value) : ( Fcond
+  x1
+  x1
+)
+
+> ERROR (no return value) : ( Fcond
+  ( +
+    x3
+    1
+  )
+  ( -
+    ( +
+      x3
+      2
+    )
+    1
+  )
+)
+
+> Fif defined
+
+> temp1 defined
+
+> temp2 defined
+
+> temp3 defined
+
+> 80
+
+> ERROR (no return value) : ( Fif
+  x1
+  x2
+  x3
+)
+
+> ERROR (unbound parameter) : ( Fcond
+  x1
+  x1
+)
+
+> 73
+
+> ERROR (no return value) : ( Fif
+  x3
+  x2
+  x3
+)
+
+> -125
+
+> ERROR (unbound parameter) : ( Fif
+  x1
+  x2
+  x3
+)
+
+> Fbegin defined
+
+> 9
+
+> 83
+
+> ERROR (no return value) : ( Fbegin
+  -80
+)
+
+> 9
+
+> Fand defined
+
+> #t
+
+> ERROR (unbound condition) : ( if
+  ( >
+    x2
+    0
+  )
+  ( <
+    x1
+    40
+  )
+)
+
+> #t
+
+> ERROR (unbound condition) : ( if
+  ( >
+    x2
+    0
+  )
+  ( <
+    x1
+    40
+  )
+)
+
+> For defined
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> nil
+
+> #t
+
+> Flambda defined
+
+> #<procedure Flambda>
+
+> #<procedure lambda>
+
+> ERROR (no return value) : ( Flambda
+  -10
+)
+
+> 6
+
+> ERROR (no return value) : ( Flambda
+  -10
+)
+
+> 12
+
+> ERROR (no return value) : ( Flambda
+  -10
+)
+
+> ERROR (unbound parameter) : ( Flambda
+  -10
+)
+
+> ERROR (+ with incorrect argument type) : #<procedure lambda>
+
+> environment cleaned
+
+> ( 3
+  2
+  3
+)
+
+> ERROR (unbound symbol) : x
+
+> ERROR (LET format) : ( let
+  ( car
+    ( quote
+      ( 1
+        2
+        3
+      )
+    )
+  )
+  5
+)
+
+> ERROR (LET format) : ( let
+  ( ( x
+      3
+      4
+    )
+  )
+  5
+)
+
+> 2
+
+> ERROR (LET format) : ( let
+  ( ( ( car
+        ( quote
+          ( x
+            y
+            z
+          )
+        )
+      )
+      3
+    )
+  )
+  5
+)
+
+> ERROR (LET format) : ( let
+  nil
+)
+
+> 5
+
+> ERROR (LET format) : ( let
+  ( ( x
+      5
+    )
+  )
+)
+
+> ERROR (incorrect number of arguments) : cons
+
+> ERROR (incorrect number of arguments) : cons
+
+> ( 5
+  .
+  10
+)
+
+> ERROR (* with incorrect argument type) : ( 5
+  .
+  10
+)
+
+> ERROR (incorrect number of arguments) : cons
+
+> ERROR (incorrect number of arguments) : car
+
+> ERROR (attempt to apply non-function) : 1
+
+> ERROR (LET format) : ( let
+  ( ( x
+      ( 1
+        2
+        3
+      )
+    )
+  )
+)
+
+> ERROR (LET format) : ( let
+  ( ( x
+      ( 1
+        2
+        3
+      )
+    )
+    ( 5
+    )
+  )
+  10
+)
+
+> environment cleaned
+
+> a defined
+
+> 13
+
+> 5
+
+> ERROR (unbound symbol) : x
+
+> 16
+
+> 5
+
+> -2
+
+> 3
+
+> 41
+
+> ERROR (LET format) : ( let
+  ( ( a
+      17
+    )
+    ( x
+      11
+      12
+    )
+  )
+  ( -
+    a
+    x
+    ( car
+      ( cdr
+        ( cdr
+          y
+        )
+      )
+    )
+    ( let
+      ( ( x
+          21
+        )
+      )
+      ( +
+        a
+        x
+        5
+      )
+      ( -
+        0
+        a
+        x
+      )
+    )
+  )
+)
+
+> ERROR (unbound symbol) : hello
+
+> a defined
+
+> "=============== Problem 8 viewable case ================="
+
+> environment cleaned
+
+> x1 defined
+
+> x2 defined
+
+> x3 defined
+
+> Fcond defined
+
+> Fif defined
+
+> Fbegin defined
+
+> Fand defined
+
+> For defined
+
+> -10320
+
+> -10
+
+> 8
+
+> For defined
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> #t
+
+> nil
+
+> Flambda defined
+
+> #<procedure Flambda>
+
+> #<procedure lambda>
+
+> #<procedure lambda>
+
+> -60
+
+> -86
+
+> -2580
+
+> -752
+
+> environment cleaned
+
+> x1 defined
+
+> x2 defined
+
+> x3 defined
+
+> Fcond defined
+
+> Fif defined
+
+> Fbegin defined
+
+> Fand defined
+
+> For defined
+
+> 12
+
+> 7
+
+> 20
+
+> ERROR (no return value) : ( Fcond
+  x1
+  x1
+)
+
+> ERROR (no return value) : ( Fcond
+  ( +
+    x3
+    1
+  )
+  ( -
+    ( +
+      x3
+      2
+    )
+    1
+  )
+)
+
+> ERROR (unbound parameter) : ( Fcond
+  x1
+  x1
+)
+
+> temp1 defined
+
+> temp2 defined
+
+> temp3 defined
+
+> 6351
+
+> 949
+
+> ERROR (unbound parameter) : ( Fif
+  ( +
+    x1
+    x2
+  )
+  x2
+  x3
+)
+
+> For defined
+
+> ERROR (unbound parameter) : ( Fif
+  x1
+  x3
+  x4
+)
+
+> ERROR (unbound parameter) : ( Fif
+  x1
+  x3
+  x4
+)
+
+> ERROR (unbound parameter) : ( Fif
+  x1
+  x3
+  x4
+)
+
+> #t
+
+> #t
+
+> #t
+
+> Flambda defined
+
+> #<procedure Flambda>
+
+> #<procedure lambda>
+
+> #<procedure lambda>
+
+> -60
+
+> ERROR (unbound parameter) : ( Fif
+  ( Fcond
+    x3
+    x1
+  )
+  x2
+  x3
+)
+
+> 45
+
+> ERROR (unbound parameter) : ( Fcond
+  x3
+  x1
+)
+
+> ERROR (unbound parameter) : ( Fif
+  ( Fcond
+    x3
+    x1
+  )
+  x2
+  x3
+)
+
+> -480
+
+> -900
+
+> ERROR (unbound parameter) : ( Fif
+  ( Fcond
+    x3
+    x1
+  )
+  x2
+  x3
+)
+
+> environment cleaned
+
+> ERROR (LAMBDA format) : ( lambda
+)
+
+> ERROR (LAMBDA format) : ( lambda
+  x
+)
+
+> ERROR (LAMBDA format) : ( lambda
+  x
+  y
+  z
+)
+
+> #<procedure lambda>
+
+> ERROR (LAMBDA format) : ( lambda
+  ( x
+  )
+)
+
+> #<procedure lambda>
+
+> ERROR (LAMBDA format) : ( lambda
+  ( 5
+  )
+  y
+)
+
+> #<procedure lambda>
+
+> #<procedure lambda>
+
+> ERROR (LAMBDA format) : ( lambda
+  nil
+)
+
+> #<procedure lambda>
+
+> ERROR (unbound symbol) : c
+
+> 11
+
+> ERROR (incorrect number of arguments) : lambda
+
+> a defined
+
+> f defined
+
+> #<procedure lambda>
+
+> ERROR (incorrect number of arguments) : lambda
+
+> ERROR (unbound symbol) : c
+
+> ERROR (unbound symbol) : b
+
+> c defined
+
+> ERROR (+ with incorrect argument type) : #<procedure lambda>
+
+> ERROR (incorrect number of arguments) : lambda
+
+> c defined
+
+> 14
+
+> 54
+
+> x defined
+
+> y defined
+
+> g defined
+
+> 77556
+
+> 3110
+
+> ERROR (unbound symbol) : why
+
+> ERROR (unbound symbol) : no
+
+> ERROR (incorrect number of arguments) : lambda
+
+> F defined
+
+> G defined
+
+> 15
+
+> F defined
+
+> 40
+
+> F defined
+
+> 20
+
+> H defined
+
+> ( 3
+  .
+  5
+)
+
+> 10
+
+> F defined
+
+> ( 20
+  30
+)
+
+> 110
+
+> cadr defined
+
+> global defined
+
+> Try defined
+
+> 20
+
+> 10
+
+> ( 20
+  30
+)
+
+> a defined
+
+> "=============== Problem 10 viewable case ================="
+
+> environment cleaned
+
+> x1 defined
+
+> x2 defined
+
+> x3 defined
+
+> TrickySumUp defined
+
+> 55.500
+
+> "Illegal input! the first argument must be smaller or equal to the second."
+
+> 3.500
+
+> 12
+
+> Abs defined
+
+> Real defined
+
+> Int defined
+
+> Power defined
+
+> FindRange defined
+
+> Find-Range defined
+
+> IntFloor defined
+
+> Int-Floor defined
+
+> ( 8192
+  16384
+)
+
+> 13579
+
+> 13579
+
+> 13579.000
+
+> ( 1024
+  1024
+)
+
+> 1024
+
+> -13579
+
+> environment cleaned
+
+> x1 defined
+
+> x2 defined
+
+> x3 defined
+
+> TrickySumUp defined
+
+> 55.500
+
+> ERROR (unbound symbol) : Transform
+
+> 60.500
+
+> ERROR (+ with incorrect argument type) : "Illegal input! the first argument must be smaller or equal to the second."
+
+> "Illegal input! the first argument must be smaller or equal to the second."
+
+> 3.500
+
+> 12
+
+> Abs defined
+
+> Real defined
+
+> Int defined
+
+> Power defined
+
+> FindRange defined
+
+> Find-Range defined
+
+> IntFloor defined
+
+> Int-Floor defined
+
+> Transform defined
+
+> ( 8192
+  16384
+)
+
+> 13579
+
+> 13579
+
+> 13579.000
+
+> ( 1024
+  1024
+)
+
+> 1024
+
+> -13579
+
+> ERROR (no return value) : ( Transform
+  3
+  5
+  2
+)
+
+> ERROR (no return value) : ( Transform
+  below
+  above
+  below
+)
+
+> ERROR (no return value) : ( Transform
+  3
+  31258.790
+  2
+)
+
+> ERROR (no return value) : ( Transform
+  below
+  above
+  below
+)
+
+> GuaiPower defined
+
+> ERROR (no return value) : ( GuaiPower
+  2
+  12
+)
+
+> 144
+
+> Find-Range defined
+
+> ERROR (no return value) : ( GuaiPower
+  2
+  ( +
+    startWith
+    1
+  )
+)
+
+> 234
+
+> ERROR (no return value) : ( GuaiPower
+  2
+  ( +
+    startWith
+    1
+  )
+)
+
+> ERROR (no return value) : ( GuaiPower
+  2
+  ( +
+    startWith
+    1
+  )
+)
+
+> GuaiInt defined
+
+> ERROR (no return value) : ( GuaiPower
+  2
+  ( +
+    startWith
+    1
+  )
+)
+
+> ERROR (no return value) : ( GuaiInt
+  23.560
+)
+
+> ERROR (no return value) : ( GuaiPower
+  2
+  ( +
+    startWith
+    1
+  )
+)
+
+> ERROR (unbound parameter) : ( GuaiInt
+  23.560
+)
+
+> 123
+
+> ERROR (no return value) : ( GuaiPower
+  2
+  ( +
+    startWith
+    1
+  )
+)
+
+> ERROR (unbound symbol) : Go
+
+> ERROR (unbound symbol) : get
+
+> ERROR (unbound symbol) : them!
+
+> a defined
+
+> "=============== Problem 9 viewable case ================="
+
+> environment cleaned
+
+> cadr defined
+
+> caddr defined
+
+> caar defined
+
+> caadr defined
+
+> caaddr defined
+
+> % defined
+
+> $%%% defined
+
+> KeyPair defined
+
+> RealKey defined
+
+> ListAppend defined
+
+> $ListAppend defined
+
+> ListLength defined
+
+> $ListLength defined
+
+> NthElementOf defined
+
+> $NthElementOf defined
+
+> WithNthElementOfListReplaced defined
+
+> $WithNthElementOfListReplaced defined
+
+> DivisibleBy defined
+
+> PrintListOfStringsAsSentence defined
+
+> PrintListOfSymbolsAsSentence defined
+
+> PrintListOfSymbolsStringsAsSentence defined
+
+> PrintListOfSymbolsNumbersStringsAsSentence defined
+
+> @size@ defined
+
+> @price@ defined
+
+> @quality@ defined
+
+> ResetTransactionState defined
+
+> ProductIndex defined
+
+> TransactionState defined
+
+> Top? defined
+
+> Bottom? defined
+
+> TopPrice? defined
+
+> BottomPrice? defined
+
+> TopSize? defined
+
+> BottomSize? defined
+
+> TopQuality? defined
+
+> BottomQuality? defined
+
+> Downgrade defined
+
+> Upgrade defined
+
+> DowngradeSize defined
+
+> DowngradePrice defined
+
+> DowngradeQuality defined
+
+> UpgradeSize defined
+
+> UpgradePrice defined
+
+> UpgradeQuality defined
+
+> Abs defined
+
+> PriceTag defined
+
+> ExampleExpertise defined
+
+> $expertise-DB defined
+
+> RuleSetOf defined
+
+> $RuleSetOfFrom defined
+
+> WithNthRuleReplaced defined
+
+> Rule defined
+
+> DefineExpertise defined
+
+> $AddToExpertiseDB defined
+
+> $IndexOfExpertiseEntry defined
+
+> ruleList-01 defined
+
+> The expertise 'Expertise-01' has been established.
+#t
+
+> rule-139 defined
+
+> The expertise 'Expertise-02' has been established.
+#t
+
+> The expertise 'Expertise-03' has been established.
+#t
+
+> ListExpertiseNames defined
+
+> $ListExpertiseNames defined
+
+> GetNotYetUsedKeyFromUser defined
+
+> DoDefineCondition defined
+
+> DoDefineAction defined
+
+> GetNotYetUsedExpertiseNameFromUser defined
+
+> NameUsedInExpertiseDB? defined
+
+> $NameUsedInExpertiseDB? defined
+
+> DoDefineExpertiseFromDB defined
+
+> DoReplaceRuleOfExpertiseWithNewlyComposedRuleUsingDB defined
+
+> GetRuleSetFromDB defined
+
+> GetConditionFromDB defined
+
+> GetActionListFromDB defined
+
+> DoSearchCondition defined
+
+> DoSearchAction defined
+
+> DoUpdateCondition defined
+
+> DoUpdateAction defined
+
+> DoRemoveCondition defined
+
+> DoRemoveAction defined
+
+> DoListConditions defined
+
+> DoListActions defined
+
+> DoListConditionKeys defined
+
+> DoListActionKeys defined
+
+> ExpertSystemShell defined
+
+> DoDefineNewExpertise defined
+
+> DoRemoveExpertise defined
+
+> $WithExpertiseRemoved defined
+
+> ListRuleSet defined
+
+> DoReplaceRuleSet defined
+
+> $ReplaceRuleSet defined
+
+> DoReplaceRuleOfRuleSet defined
+
+> $ReplaceRuleOfRuleSet defined
+
+> nil
+
+> ListConditionBST defined
+
+> ListActionBST defined
+
+> ClearConditionDB defined
+
+> ClearActionDB defined
+
+> ListConditionDB defined
+
+> ListActionDB defined
+
+> ListDB-BST defined
+
+> $ListDB-BST defined
+
+> KeyUsedInConditionDB? defined
+
+> KeyUsedInActionDB? defined
+
+> KeyUsedInBST? defined
+
+> $KeyUsedInBST? defined
+
+> ListKeysOfConditionDB defined
+
+> ListKeysOfActionDB defined
+
+> ListKeysOfBST defined
+
+> $ListKeysOfBST defined
+
+> SearchConditionDB defined
+
+> SearchActionDB defined
+
+> SearchBST defined
+
+> $SearchBST defined
+
+> AddToConditionDB defined
+
+> AddToActionDB defined
+
+> AddToBST defined
+
+> $AddToBST defined
+
+> UpdateConditionDB defined
+
+> UpdateActionDB defined
+
+> UpdateBST defined
+
+> $UpdateBST defined
+
+> FindMaxBSTnode defined
+
+> $FindMaxBSTnode defined
+
+> FindMinBSTnode defined
+
+> $FindMinBSTnode defined
+
+> RemoveFromConditionDB defined
+
+> RemoveFromActionDB defined
+
+> RemoveFromBST defined
+
+> $RemoveFromBST defined
+
+> ( DivisibleBy
+  n
+  7652145
+)
+
+> "Key (short-version long-version) : ( 189  568 )"
+
+> "Key (short-version long-version) : ( 94  473 )"
+
+> "Key (short-version long-version) : ( 282  661 )"
+
+> nil
+
+> 20
+
+> 30
+
+> ( ( set!
+    a
+    ( +
+      n
+      a
+    )
+  )
+  ( set!
+    b
+    ( +
+      n
+      a
+      b
+    )
+  )
+)
+
+> "Key (short-version long-version) : ( 189  568 )"
+
+> "Key (short-version long-version) : ( 94  473 )"
+
+> "Key (short-version long-version) : ( 282  661 )"
+
+> nil
+
+> ? > ( 94  473 )
+( 189  568 )
+( 282  661 )
+? > Sorry! The choice you give is not in the list of choices.
+? > ( 94  473 )
+( 189  568 )
+( 282  661 )
+? > Key of the condition to be searched for > ( DivisibleBy
+  n
+  7652145
+)
+? > Key of the condition to be searched for > SearchBST error : the key 350 (originally 328564) is not on the BST.
+? > Key of the action-list to be searched for > SearchBST error : the key 238 (originally 238) is not on the BST.
+? > Key of the action-list to be searched for > ( ( set!
+    a
+    ( +
+      n
+      a
+    )
+  )
+  ( set!
+    b
+    ( +
+      n
+      a
+      b
+    )
+  )
+)
+? > ------------------------
+( 94  473 )
+( DivisibleBy
+  n
+  7652145
+)
+------------------------
+( 189  568 )
+( DivisibleBy
+  n
+  7652145
+)
+------------------------
+( 282  661 )
+( DivisibleBy
+  n
+  7652145
+)
+? > ------------------------
+( 94  473 )
+( ( set!
+    a
+    ( +
+      n
+      a
+    )
+  )
+  ( set!
+    b
+    ( +
+      n
+      a
+      b
+    )
+  )
+)
+------------------------
+( 189  568 )
+( ( set!
+    a
+    ( +
+      n
+      a
+    )
+  )
+  ( set!
+    b
+    ( +
+      n
+      a
+      b
+    )
+  )
+)
+------------------------
+( 282  661 )
+( ( set!
+    a
+    ( +
+      n
+      a
+    )
+  )
+  ( set!
+    b
+    ( +
+      n
+      a
+      b
+    )
+  )
+)
+? > Expertise-03
+Expertise-02
+Expertise-01
+ExampleExpertise
+? > Please give the name of the expertise > "NoSuchExpertise not found in expertise-DB"
+? > Please give the name of the expertise > ( ( ( DivisibleBy
+      n
+      3
+    )
+    ( cond
+      ( ( not
+          ( TopSize?
+          )
+        )
+        ( UpgradeSize
+        )
+      )
+      ( ( not
+          ( TopPrice?
+          )
+        )
+        ( UpgradePrice
+        )
+      )
+      ( ( not
+          ( TopQuality?
+          )
+        )
+        ( UpgradeQuality
+        )
+      )
+    )
+    ( TransactionState
+    )
+  )
+  ( ( DivisibleBy
+      n
+      5
+    )
+    ( cond
+      ( ( not
+          ( BottomSize?
+          )
+        )
+        ( DowngradeSize
+        )
+      )
+      ( ( not
+          ( BottomPrice?
+          )
+        )
+        ( DowngradePrice
+        )
+      )
+      ( ( not
+          ( BottomQuality?
+          )
+        )
+        ( DowngradeQuality
+        )
+      )
+    )
+    ( TransactionState
+    )
+  )
+  ( else
+    ( if
+      ( not
+        ( TopPrice?
+        )
+      )
+      ( UpgradePrice
+      )
+    )
+    ( TransactionState
+    )
+  )
+)
+? > Please give the name of the expertise > ( ( ( DivisibleBy
+      n
+      3
+    )
+    ( cond
+      ( ( not
+          ( TopSize?
+          )
+        )
+        ( UpgradeSize
+        )
+      )
+      ( ( not
+          ( TopPrice?
+          )
+        )
+        ( UpgradePrice
+        )
+      )
+      ( ( not
+          ( TopQuality?
+          )
+        )
+        ( UpgradeQuality
+        )
+      )
+    )
+    ( TransactionState
+    )
+  )
+  ( ( DivisibleBy
+      n
+      5
+    )
+    ( cond
+      ( ( not
+          ( BottomSize?
+          )
+        )
+        ( DowngradeSize
+        )
+      )
+      ( ( not
+          ( BottomPrice?
+          )
+        )
+        ( DowngradePrice
+        )
+      )
+      ( ( not
+          ( BottomQuality?
+          )
+        )
+        ( DowngradeQuality
+        )
+      )
+    )
+    ( TransactionState
+    )
+  )
+  ( else
+    ( if
+      ( not
+        ( TopPrice?
+        )
+      )
+      ( UpgradePrice
+      )
+    )
+    ( TransactionState
+    )
+  )
+)
+? > Bye!
+
+> ERROR (unbound symbol) : ExpertSYSTEMShell
+
+> "quality : 3 size : 2 price : 3 ProductIndex : 5"
+
+> "quality : 3 size : 3 price : 3 ProductIndex : 6"
+
+> "quality : 3 size : 3 price : 4 ProductIndex : 7"
+
+> ERROR (number->string with incorrect argument type) : "quality : 3 size : 2 price : 4 ProductIndex : 6"
+
+> ERROR (unbound symbol) : Expertise-08
+
+> "quality : 3 size : 1 price : 3 ProductIndex : 4"
+
+> ? > Key (at least 5 digits) associated with the to-be-defined-item > The condition to be added to the DB > Key (short-version long-version) : ( 156  3518792 )
+? > Key (at least 5 digits) associated with the to-be-defined-item > The condition to be added to the DB > Key (short-version long-version) : ( 128  5478952 )
+? > Key (at least 5 digits) associated with the to-be-defined-item > The condition to be added to the DB > Key (short-version long-version) : ( 323  9157342 )
+? > Key (at least 5 digits) associated with the to-be-defined-item > The condition to be added to the DB > Key (short-version long-version) : ( 362  1749826 )
+? > Key (at least 5 digits) associated with the to-be-defined-item > The condition to be added to the DB > Key (short-version long-version) : ( 373  4865217 )
+? > ( 94  473 )
+( 128  5478952 )
+( 156  3518792 )
+( 189  568 )
+( 282  661 )
+( 323  9157342 )
+( 362  1749826 )
+( 373  4865217 )
+? > Name of the to-be-defined-expertise > Define a new rule from Condition/Action-list in DB? (Y/N) > Key of the condition > Key of the action-list > Define a new rule from Condition/Action-list in DB? (Y/N) > Key of the condition > Key of the action-list > Define a new rule from Condition/Action-list in DB? (Y/N) > Key of the condition > Key of the action-list > Define a new rule from Condition/Action-list in DB? (Y/N) > Key of the condition > Key of the action-list > Define a new rule from Condition/Action-list in DB? (Y/N) > The expertise 'TryTrySee' has been established.
+? > Bye!
+
+> 20
+
+> 30
+
+> 471024
+
+> 235507
+
+> 471024
+
+> ERROR (unbound condition) : ( if
+  ( =
+    ( %
+      n
+      2
+    )
+    1
+  )
+  #t
+)
+
+> 235507
+
+> 471024
+
+> 1057505
+
+> 410994
+
+> 1057505
+
+> 1819475
+
+> 586482
+
+> 1819475
+
+> 2556931
+
+> 661969
+
+> 2556931
+
+> 3369876
+
+> 737457
+
+> 3369876
+
+> ERROR (unbound symbol) : ==
+
+> 737457
+
+> 3369876
+
+> ERROR (unbound symbol) : ==
+
+> 737457
+
+> 3369876
+
+> ? > TryTrySee
+Expertise-03
+Expertise-02
+Expertise-01
+ExampleExpertise
+? > Please give the name of the expertise > ( ( ( and
+      ( >=
+        n
+        200000
+      )
+      ( if
+        ( =
+          ( %
+            n
+            2
+          )
+          1
+        )
+        #t
+      )
+    )
+    ( set!
+      a
+      ( +
+        n
+        a
+      )
+    )
+    ( set!
+      b
+      ( +
+        n
+        a
+        b
+      )
+    )
+  )
+  ( ( >=
+      n
+      100000
+    )
+    ( set!
+      a
+      ( +
+        n
+        a
+      )
+    )
+    ( set!
+      b
+      ( +
+        n
+        a
+        b
+      )
+    )
+  )
+  ( ( or
+      ( >=
+        n
+        50000
+      )
+      ( ==
+        ( %
+          n
+          5
+        )
+        0
+      )
+    )
+    ( set!
+      a
+      ( +
+        n
+        a
+      )
+    )
+    ( set!
+      b
+      ( +
+        n
+        a
+        b
+      )
+    )
+  )
+  ( else
+    ( set!
+      a
+      ( +
+        n
+        a
+      )
+    )
+    ( set!
+      b
+      ( +
+        n
+        a
+        b
+      )
+    )
+  )
+)
+? > Key (at least 5 digits) associated with the to-be-defined-item > The action-list to be added to the DB > Key (short-version long-version) : ( 231  49256587 )
+? > Key (at least 5 digits) associated with the to-be-defined-item > The action-list to be added to the DB > Key (short-version long-version) : ( 245  398574 )
+? > Key (at least 5 digits) associated with the to-be-defined-item > The action-list to be added to the DB > Key (short-version long-version) : ( 251  1124365 )
+? > Key (at least 5 digits) associated with the to-be-defined-item > The action-list to be added to the DB > Key (short-version long-version) : ( 83  9258674 )
+? > Key (at least 5 digits) associated with the to-be-defined-item > The action-list to be added to the DB > Key (short-version long-version) : ( 157  4545125 )
+? > Key (at least 5 digits) associated with the to-be-defined-item > The action-list to be added to the DB > Key (short-version long-version) : ( 40  8416872 )
+? > Key (at least 5 digits) associated with the to-be-defined-item > Sorry, this key is already in use. Please specify another one.
+Key (at least 5 digits) associated with the to-be-defined-item > The action-list to be added to the DB > Key (short-version long-version) : ( 59  5545587 )
+? > Key (at least 5 digits) associated with the to-be-defined-item > The action-list to be added to the DB > Key (short-version long-version) : ( 106  2653485 )
+? > ( 40  8416872 )
+( 59  5545587 )
+( 83  9258674 )
+( 94  473 )
+( 106  2653485 )
+( 157  4545125 )
+( 189  568 )
+( 231  49256587 )
+( 245  398574 )
+( 251  1124365 )
+( 282  661 )
+? > Name of the to-be-defined-expertise > Define a new rule from Condition/Action-list in DB? (Y/N) > Key of the condition > Key of the action-list > Define a new rule from Condition/Action-list in DB? (Y/N) > Key of the condition > Key of the action-list > Define a new rule from Condition/Action-list in DB? (Y/N) > Key of the condition > Key of the action-list > Define a new rule from Condition/Action-list in DB? (Y/N) > Key of the condition > Key of the action-list > Define a new rule from Condition/Action-list in DB? (Y/N) > The expertise 'OverSpent' has been established.
+? > Name of the to-be-defined-expertise > Define a new rule from Condition/Action-list in DB? (Y/N) > Key of the condition > Key of the action-list > Define a new rule from Condition/Action-list in DB? (Y/N) > Key of the condition > Key of the action-list > Define a new rule from Condition/Action-list in DB? (Y/N) > Key of the condition > Key of the action-list > Define a new rule from Condition/Action-list in DB? (Y/N) > Key of the condition > Key of the action-list > Define a new rule from Condition/Action-list in DB? (Y/N) > The expertise 'Exaggerated' has been established.
+? > Bye!
+
+> #t
+
+> "quality : 3 size : 4 price : 3 ProductIndex : 7"
+
+> ERROR (unbound condition) : ( if
+  ( =
+    ( %
+      n
+      2
+    )
+    1
+  )
+  #t
+)
+
+> ERROR (unbound parameter) : ( if
+  ( =
+    ( %
+      n
+      5
+    )
+    0
+  )
+  ( +
+    n
+    5
+  )
+)
+
+> ERROR (unbound condition) : ( if
+  ( =
+    ( %
+      n
+      2
+    )
+    1
+  )
+  #t
+)
+
+> "quality : 3 size : 5 price : 3 ProductIndex : 8"
+
+> ERROR (unbound symbol) : Whatever
+
+> "quality : 3 size : 4 price : 3 ProductIndex : 7"
+
+> "quality : 3 size : 3 price : 3 ProductIndex : 6"
+
+> ERROR (unbound symbol) : ==
+
+> ERROR (unbound symbol) : ==
+
+> ERROR (unbound parameter) : ( if
+  ( =
+    ( %
+      n
+      5
+    )
+    0
+  )
+  ( +
+    n
+    5
+  )
+)
+
+> "quality : 3 size : 4 price : 3 ProductIndex : 7"
+
+> ERROR (unbound symbol) : Whatever
+
+> ERROR (unbound condition) : ( if
+  ( =
+    ( %
+      n
+      2
+    )
+    1
+  )
+  #t
+)
+
+> "quality : 3 size : 5 price : 3 ProductIndex : 8"
+
+> ERROR (unbound condition) : ( if
+  ( =
+    ( %
+      n
+      2
+    )
+    1
+  )
+  #t
+)
+
+> "quality : 3 size : 5 price : 4 ProductIndex : 9"
+
+> "quality : 3 size : 5 price : 5 ProductIndex : 10"
+
+> ERROR (unbound symbol) : +--
+
+> "quality : 3 size : 5 price : 5 ProductIndex : 10"
+
+> ERROR (unbound symbol) : +--
+
+> "quality : 3 size : 5 price : 5 ProductIndex : 10"
+
+> ? > Key of the condition to remove > ? > Key of the condition to remove > ? > ( 94  473 )
+( 128  5478952 )
+( 156  3518792 )
+( 282  661 )
+( 362  1749826 )
+( 373  4865217 )
+? > Key of the action-list to remove > ? > Key of the action-list to remove > ? > Key of the action-list to remove > ? > ( 59  5545587 )
+( 83  9258674 )
+( 94  473 )
+( 106  2653485 )
+( 157  4545125 )
+( 189  568 )
+( 245  398574 )
+( 282  661 )
+? > Key of the condition to be searched for > SearchBST error : the key 323 (originally 9157342) is not on the BST.
+? > Key of the condition to be searched for > ( >=
+  n
+  100000
+)
+? > Key of the action-list to be searched for > SearchBST error : the key 113 (originally 78945) is not on the BST.
+? > Key of the action-list to be searched for > SearchBST error : the key 251 (originally 1124365) is not on the BST.
+? > Key of the action-list to be searched for > ( ( let
+    ( ( %p
+        ( PriceTag
+          n
+        )
+      )
+    )
+    ( set!
+      a
+      ( +
+        b
+        ( if
+          ( =
+            ( %
+              n
+              5
+            )
+            0
+          )
+          ( +
+            n
+            5
+          )
+        )
+      )
+    )
+    ( cond
+      ( ( and
+          ( <=
+            500000
+            %p
+          )
+          ( <=
+            %p
+            800000
+          )
+        )
+        #t
+      )
+      ( ( <
+          %p
+          500000
+        )
+        ( cond
+          ( ( not
+              ( TopSize?
+              )
+            )
+            ( UpgradeSize
+            )
+          )
+          ( ( not
+              ( TopPrice?
+              )
+            )
+            ( UpgradePrice
+            )
+          )
+          ( ( not
+              ( TopQuality?
+              )
+            )
+            ( UpgradeQuality
+            )
+          )
+        )
+      )
+      ( ( <
+          800000
+          %p
+        )
+        ( cond
+          ( ( not
+              ( BottomSize?
+              )
+            )
+            ( DowngradeSize
+            )
+          )
+          ( ( not
+              ( BottomPrice?
+              )
+            )
+            ( DowngradePrice
+            )
+          )
+          ( ( not
+              ( BottomQuality?
+              )
+            )
+            ( DowngradeQuality
+            )
+          )
+        )
+      )
+    )
+    ( TransactionState
+    )
+  )
+)
+? > Key of the condition to be searched for > SearchBST error : the key 332 (originally 2549865) is not on the BST.
+? > Key of the action-list to be searched for > SearchBST error : the key 298 (originally 4544887) is not on the BST.
+? > Bye!
+
+> #t
+
+> "quality : 3 size : 4 price : 3 ProductIndex : 7"
+
+> ERROR (unbound condition) : ( if
+  ( =
+    ( %
+      n
+      2
+    )
+    1
+  )
+  #t
+)
+
+> ERROR (unbound parameter) : ( if
+  ( =
+    ( %
+      n
+      5
+    )
+    0
+  )
+  ( +
+    n
+    5
+  )
+)
+
+> ERROR (unbound condition) : ( if
+  ( =
+    ( %
+      n
+      2
+    )
+    1
+  )
+  #t
+)
+
+> "quality : 3 size : 5 price : 3 ProductIndex : 8"
+
+> ERROR (unbound symbol) : Whatever
+
+> "quality : 3 size : 4 price : 3 ProductIndex : 7"
+
+> "quality : 3 size : 3 price : 3 ProductIndex : 6"
+
+> ERROR (unbound symbol) : ==
+
+> ERROR (unbound symbol) : ==
+
+> ERROR (unbound symbol) : ==
+
+> ERROR (unbound symbol) : ==
+
+> ERROR (unbound parameter) : ( if
+  ( =
+    ( %
+      n
+      5
+    )
+    0
+  )
+  ( +
+    n
+    5
+  )
+)
+
+> "quality : 3 size : 4 price : 3 ProductIndex : 7"
+
+> ERROR (unbound symbol) : Whatever
+
+> ERROR (unbound condition) : ( if
+  ( =
+    ( %
+      n
+      2
+    )
+    1
+  )
+  #t
+)
+
+> "quality : 3 size : 5 price : 3 ProductIndex : 8"
+
+> ERROR (unbound condition) : ( if
+  ( =
+    ( %
+      n
+      2
+    )
+    1
+  )
+  #t
+)
+
+> "quality : 3 size : 5 price : 4 ProductIndex : 9"
+
+> "quality : 3 size : 5 price : 5 ProductIndex : 10"
+
+> ERROR (unbound symbol) : +--
+
+> "quality : 4 size : 5 price : 5 ProductIndex : 15"
+
+> ERROR (unbound symbol) : +--
+
+> "quality : 4 size : 4 price : 5 ProductIndex : 14"
+
+> ++ defined
+
+> ? > Key (at least 5 digits) associated with the to-be-defined-item > The condition to be added to the DB > Key (short-version long-version) : ( 176  1547254 )
+? > Key (at least 5 digits) associated with the to-be-defined-item > The action-list to be added to the DB > Key (short-version long-version) : ( 164  7457747 )
+? > Name of the expertise you want to replace its rule > Ordering of the rule that is to be replaced - Please enter a number (e.g., 3) > We now need to compose a new rule using existing DB entries.
+Key of the condition > Key of the action-list > The specified rule of OverSpent has been replaced. 
+? > Name of the expertise you want to replace its rule > Ordering of the rule that is to be replaced - Please enter a number (e.g., 3) > We now need to compose a new rule using existing DB entries.
+Key of the condition > Key of the action-list > SearchBST error : the key 251 (originally 251) is not on the BST.
+Key of the action-list > ERROR (< with incorrect argument type) : quit
+
+> #t
+
+> "quality : 3 size : 4 price : 3 ProductIndex : 7"
+
+> ERROR (unbound condition) : ( if
+  ( =
+    ( %
+      n
+      2
+    )
+    1
+  )
+  #t
+)
+
+> ERROR (unbound parameter) : ( if
+  ( =
+    ( %
+      n
+      5
+    )
+    0
+  )
+  ( +
+    n
+    5
+  )
+)
+
+> ERROR (unbound condition) : ( if
+  ( =
+    ( %
+      n
+      2
+    )
+    1
+  )
+  #t
+)
+
+> "quality : 3 size : 5 price : 3 ProductIndex : 8"
+
+> ERROR (unbound symbol) : Whatever
+
+> "quality : 3 size : 4 price : 3 ProductIndex : 7"
+
+> "quality : 3 size : 3 price : 3 ProductIndex : 6"
+
+> ERROR (unbound symbol) : ==
+
+> ERROR (unbound symbol) : ==
+
+> ERROR (unbound symbol) : ==
+
+> ERROR (unbound symbol) : ==
+
+> ERROR (unbound parameter) : ( if
+  ( =
+    ( %
+      n
+      5
+    )
+    0
+  )
+  ( +
+    n
+    5
+  )
+)
+
+> "quality : 3 size : 4 price : 3 ProductIndex : 7"
+
+> ERROR (unbound symbol) : Whatever
+
+> ERROR (unbound condition) : ( if
+  ( =
+    ( %
+      n
+      2
+    )
+    1
+  )
+  #t
+)
+
+> "quality : 3 size : 5 price : 3 ProductIndex : 8"
+
+> ERROR (unbound condition) : ( if
+  ( =
+    ( %
+      n
+      2
+    )
+    1
+  )
+  #t
+)
+
+> "quality : 3 size : 5 price : 4 ProductIndex : 9"
+
+> "quality : 3 size : 5 price : 5 ProductIndex : 10"
+
+> ERROR (unbound symbol) : +--
+
+> "quality : 4 size : 5 price : 5 ProductIndex : 15"
+
+> ERROR (unbound symbol) : +--
+
+> "quality : 4 size : 4 price : 5 ProductIndex : 14"
+
+> "Great!!!"
+
+> ""
+
+> ERROR (no closing quote) : END-OF-LINE encountered at Line 1 Column 2
+
+> ERROR (no more input) : END-OF-FILE encountered
+Thanks for using OurScheme!

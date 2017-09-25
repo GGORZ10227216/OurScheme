@@ -1,0 +1,1360 @@
+2
+(define a "=============== Problem 6 viewable case =================")
+a
+
+ ; define + lambda (用para.做為(initialized)"local para") - basic - incl.: COND IF BEGIN AND OR
+
+(clean-environment) ; first round ; no error
+
+(define x1 3)(define x2 4)(define x3 5)
+(define (Fcond x4 x1) (cond ((> x4 x1) (+ x4 x1)) ((< x4 x1)(* x4 x1))(else (- x4 x1))))
+(Fcond x1 x2)
+(Fcond x2 x3)
+(Fcond x1 x1)
+(define (Fif x1 x4 x3) (if (>= x2 x3) (+ x1 x3) (- x3 x4)))
+(Fif 30 40 50)
+(Fif x1 x2 x3)
+(Fif x3 x2 x1)
+(Fif x2 x2 80)
+(define (Fbegin x3) (begin (+ x1 x3) (- x2 x3)))
+(Fbegin x1)
+(Fbegin 80)
+(Fbegin x2)
+(define (Fand x4 x2 x5) (and (> x4 x2) (> x2 x5) (> x5 0)))
+(Fand x3 x2 x1)
+(Fand x3 10 x1)
+(Fand 7 6 x2)
+(Fand 7 1 -7)
+(define (For x1 x4 x3) (or (> x1 x4) (> x4 x3) (> x1 100) (> x4 100) (> x3 100)))
+(For 10 20 30)
+(For 1000 20 30)
+(For 30 40 20)
+(For x1 x2 x3)
+(For x2 x2 x2)
+(For x2 x1 20)
+(define x4 (lambda (x1) (* x1 2)))
+x4
+(x4 x3)
+x1
+x2
+
+(clean-environment) ; second round ; with error
+
+(define x1 3)(define x2 4)(define x3 5)
+(define (Fcond x4 x1) (cond ((> x4 x1) (+ x4 x1)) ((= x4 x1)(* x4 x1)))) ; no return-value when x4 < x1
+(Fcond x1 x2)
+(Fcond x2 x3)
+(Fcond x1 x1)
+(Fcond x1 (+ x1 x1))
+(define (Fif x1 x4 x3) (if (>= x3 x1) (+ x1 x3) )) ; no return-value when x3 < x1
+(Fif 30 40 50)
+(Fif x1 x2 x3)
+(Fif x3 x2 x1)
+(Fif x2 x2 80)
+(+ x1 x2 (Fif x3 x2 x1))
+(define (Fbegin x3) (begin (+ x1 x3) (- x2 x3)))
+(Fbegin x1)
+(Fbegin 80)
+(Fbegin x2)
+(Fbegin 352 (+ 2 3))
+(define (Fand x4 x2 x5) (and (> x4 x2) (> x2 x5) (> x5 0)))
+(Fand x3 x2 x1)
+(Fand x3 10 x1)
+(Fand 7 6 x2)
+(Fand 7 1 -7)
+(define (For x1 x4 x3) (or (> x1 x4) (> x4 x3) (> x1 100) (> x4 100) (> x3 100)))
+(For 10 20 30)
+(For 1000 20 30)
+(For 30 40 20)
+(For x1 x2 x3)
+(For x1 (+ (- x2 1) 5) x3)
+(For x2 x2 x2)
+(For x2 (cons x2 x2) x2)
+(For x2 x1 20)
+(define x4 (lambda (x1) (* x1 2)))
+x4
+(x4 x3)
+(+ (x4 x3) x1)
+(define x5 x4)
+(+ (x4 x3) (x5 x1))
+(> (x5 x3) (x4 x1))
+(+ 3 (x5 x1 x2))
+x1
+x2
+
+(clean-environment)
+
+cadr
+(define (cadr x) (car (cdr x))
+  )
+cadr
+(car cadr)
+(cadr '( (10 20) (30 40) (50 60) 70 . 80 ))
+(define cadr-clone cadr)
+cadr-clone
+(cadr-clone '( (10 20) (30 (40)) (50 60) 70 . 80 ))
+(define cadr-clone car)
+(cadr-clone '( (10 20) (30 (40)) (50 60) 70 . 80 ))
+(define cadr-clone cadr)
+(define car cadr)
+(cadr '(10 20) 30)
+(cadr-clone '(10 20) 30)
+( cadr (10 20) )
+( cadr 10 )
+( cadr '(10) )
+(cdar x)
+(cadr x)
+(define (cdar y) (cdr (car y))
+  )
+(cdar '((1 2) (3 4) 5 6 7 . 8)
+  )
+(cdar '(1 2 (3 4) 5 6 7 8)
+  )
+first
+(define first car)
+car
+first
+(first '(10 20 30))
+First
+(define First 'car)
+First
+(First (1 2 3))
+(first (1 2 3))
+(define second cadr)
+(second '(10 20 30))
+(second '( (10 (20) 30) ((40 50) 60) (70 (80 (90))) )
+  )
+(first (second '( (10 (20) 30) ((40 50) 60) (70 (80 (90))) )
+         )
+  )
+(second (first (second '( (10 (20) 30) ((40 50) 60) (70 (80 (90))) )
+                 )
+          )
+  )
+(cdr (first (second '( (10 (20) 30) ((40 50) 60) (70 (80 (90))) )
+              )
+       )
+  )
+(cdr (first (first '( (10 (20) 30) ((40 50) 60) (70 (80 (90))) )
+              )
+       )
+  )
+(define a "=============== Problem 7 viewable case =================")
+a
+
+ ; define + lambda (用para.做為(initialized)"local para") - complex - COND IF BEGIN AND OR (nested calls)
+
+(clean-environment) ; first round, no error
+
+(define x1 3)(define x2 4)(define x3 5)
+(define (Fcond x4 x1) 
+        (cond ( (> x4 x1) 
+                (+ x4 x1)
+                ( if (< x4 x1)
+                     (+ x4 x1 22)
+                     (+ x4 x1 33)
+                )
+              ) 
+              ( (< x4 x1) 
+                (* x4 x1)
+                ( if (< x4 x1)
+                     (* x4 x1 2)
+                     (* x4 x1 3)
+                )
+              )
+              ( else 
+                (- x4 x1)
+                (if (= x4 x1)
+                    (- x4 x1 20)
+                    (- x4 x1 30)
+                )
+              );else
+        );cond
+);define
+(Fcond x1 x2)
+(Fcond x2 x3)
+(Fcond x1 x1)
+(define (Fif x1 x4 x3) 
+        (if (>= x2 x3) 
+            ( begin 
+              (+ x1 x3) 
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (+ x1 x3 33)
+                   (+ x1 x3 44)
+              );if
+            );begin
+            ( begin 
+              (- x3 x4)
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (- x3 x4 33)
+                   (- x3 x4 44)
+              );if
+            );begin
+        );if
+);define
+(Fif 30 40 50)
+(Fif x1 x2 x3)
+(Fif x3 x2 x1)
+(Fif x2 x2 80)
+(define (Fbegin x3) 
+        ( begin 
+          ( begin (+ x1 x3) )
+          ( begin (- x2 x3) )
+          ( cond ( (> x3 x1) (+ x3 x1) ) 
+                 ( (< x3 x1) (* x3 x1) )
+                 ( else      (- x3 x1) )
+          );cond
+        );begin
+);define
+(Fbegin x1)
+(Fbegin 80)
+(Fbegin x2)
+(define (Fand x4 x2 x5) 
+        (and ( if ( > x1 0 )
+                  ( < x1 40 )
+                  ( > (- x1 x5) 27)
+             )
+             (> x4 x2) 
+             (> x2 x5) 
+             (> x5 0)
+        );and
+);define
+(Fand x3 x2 (+ x3 x2))
+(Fand x3 10 x1)
+(Fand 7 6 x2)
+(Fand (+ 7 x3) 1 (- -7 x2))
+(define (For x1 x4 x3) 
+        (or (and 
+              (> x1 50)
+              (> x4 170)
+            )
+            (> x1 x4) 
+            (> x4 x3) 
+            (> x1 100) 
+            (> x4 100) 
+            (> x3 100)
+        );or
+);define
+(For 10 20 30)
+(For 1000 20 30)
+(For 30 40 20)
+(For x1 x2 x3)
+(For x2 x2 x2)
+(For x2 x1 20)
+( define ( Flambda x1 )
+         ( if ( > x1 0 )
+              ( lambda ( x2 ) ( * x2 2 )
+              );lambda
+              ( lambda ( x3 ) ( * x3 3 )
+              );lambda
+         );if
+);define
+Flambda
+( Flambda 10 )
+( Flambda -10 )
+( ( Flambda 10 ) x1 )
+( ( Flambda -10 ) x1 )
+
+(clean-environment) ; second round, with error
+
+(define x1 3)(define x2 4)(define x3 5)
+(define (Fcond x4 x1) ;    x4 is p1    x1 is p2
+        (cond ( (> x4 x1) 
+                ( if (< x4 x2)
+                     (+ x4 x1 22)
+                     ; (+ x4 x1 33) ; no return-value when p1 > p2 and p1 >= x2
+                )                   ; but OK
+                (+ x4 x1)
+              ) 
+              ( (< x4 x1) 
+                ( if (< x4 x1)
+                     (* x4 x1 2)
+                     (* x4 x1 3)
+                )
+                (* x4 x1)
+              )
+              ( else 
+                (- x4 x1)
+                (if (= x4 x3)
+                    (- x4 x1 20)
+                    ; (- x4 x1 30) ; no return-value when p1 = p2 and p1 <> x3
+                )                  ; result not OK
+              );else
+        );cond
+);define
+(Fcond x1 x2)
+(Fcond x2 (- x2 1))
+(Fcond x2 x3)
+(Fcond x1 x1)
+(Fcond (+ x3 1) (- (+ x3 2) 1))
+(define (Fif x1 x4 x3) ;      x1 is p1    x4 is p2    x3 is p3
+        (if (>= x2 x3) 
+            ( begin 
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (+ x1 x3 33)
+                   ; (+ x1 x3 44) ; no return value when x2 >= p3 AND ( p1 <= 50 OR p2 <= 50 )
+              );if                ; but OK
+              ; (display-string "Hello\n")
+              (+ x1 x3) 
+            );begin
+            ( begin 
+              (- x3 x4)
+              ; (display-string "Hi\n")
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (- x3 x4 33)
+                   ; (- x3 x4 44) ; no return value when x2 < p3 AND ( p1 <= 50 OR p2 <= 50 )
+              );if                ; result not OK
+            );begin
+        );if
+);define
+(define temp1 70)(define temp2 80)(define temp3 (- x2 1))
+(Fif 130 40 -50)
+(Fif x1 x2 x3)
+(Fif x1 (Fcond x1 x1) x3)
+(Fif temp1 temp2 temp3)
+(Fif x3 x2 x3)
+(Fif (+ x2 51) (* 50 2) 8)
+(Fcond x2 (Fif x1 x2 x3))
+( define (Fbegin x3)  ;       x3 : p1
+  ( begin 
+    ( begin (+ x1 x3) )
+    ( begin (- x2 x3) )
+    ( cond ( (> x3 x1) (+ x3 x1) ) 
+           ( (< x3 x1) (* x3 x1) )
+           ; ( else      (- x3 x1) ) ; no return value when p1 = x1
+    );cond                           ; but OK
+  );begin
+  ( begin 
+    ( begin (+ x1 x3) )
+    ( begin (- x2 x3) )
+    ( cond ( (> x3 x1) (+ x3 x1) ) 
+           ( (= x3 x1) (* x3 x1) )
+           ; ( else      (- x3 x1) ) ; no return value when p1 < x1
+    );cond                           ; result not OK
+  );begin
+);define
+(Fbegin x1)
+(Fbegin 80)
+(Fbegin -80)
+(Fbegin (- x2 (- x2 x1)))
+(define (Fand x4 x2 x5)  ;   x4 : p1    x2 : p2    x5 : p3
+        (and ( if ( > x2 0 )
+                  ( < x1 40 )
+                  ; ( > (- x1 x5) 27) ; no return value when p2 <= 0
+             )                        ; result not OK
+             (> x4 x2) 
+             (> x2 x5) 
+             (> x5 0)
+        );and
+);define
+(Fand x3 x2 x1)
+(Fand x3 -10 x1)
+(Fand 7 6 x2)
+(Fand 7 (- x2 x2 3) -7)
+(define (For x1 x4 x3) 
+        (or (and 
+              (> x1 50)
+              (> x4 170)
+            )
+            (> x1 x4) 
+            (> x4 x3) 
+            (> x1 100) 
+            (> x4 100) 
+            (> x3 100)
+        );or
+);define
+(For 10 20 30)
+(For 1000 20 30)
+(For 30 40 20)
+(For x1 x2 x3)
+(For x2 x2 x2)
+(For x2 x1 20)
+( define ( Flambda x1 )    ;    x1 : p1
+  ( begin
+    ( if ( > x1 40 )
+         ( lambda ( x2 ) ( * x2 2 )
+         );lambda
+         ; ( lambda ( x3 ) ( * x3 3 ) ; no return value when p1 <= 40
+         ; );lambda                   ; but OK
+    );if
+    ( if ( > x1 0 )
+         ( lambda ( x2 ) ( * x2 2 )
+         );lambda
+         ; ( lambda ( x3 ) ( * x3 3 ) ; no return value when p1 <= 0
+         ; );lambda                   ; result not OK
+    );if
+  ); begin
+);define
+Flambda
+( Flambda 10 )
+( Flambda -10 )
+( ( Flambda 10 ) x1 )
+( ( Flambda -10 ) x1 )
+( + ( ( Flambda 10 ) x1 ) ( ( Flambda 10 ) x1 ) )
+( + ( ( Flambda 10 ) x1 ) ( ( Flambda -10 ) x1 ) )
+( + ( ( Flambda 10 ) x1 ) ( Flambda -10 ) )
+( + ( ( Flambda 10 ) x1 ) ( Flambda 10 ) )
+
+(clean-environment)
+
+( let ( (x 3) (y '(1 2 3))
+        )
+        (cons 1 '(4 5))       ; this will be evaluated ; but no use
+        (cons x (cdr y))      ; the value of this one is the value of LET
+  )
+x
+(let (car '(1 2 3))  ; first argument of LET should be a list of 
+                       ; two-element lists
+       5
+  )
+(let ((x 3 4)) 5     ; first argument of LET should be a list of
+                       ; two-element lists ( '(x 3 4)' is not a
+                       ;                     two-element list )
+  )
+(let ((x 3)
+       ) 
+       ( + 5 x )
+       ( - 5 x ) 
+  )
+(let ( ( (car '(x y z)) ; first argument of LET should be a list of
+           3              ; two-element lists ;
+         )                ; Furthermore, the first element of each 
+       )                  ; two-element list must be a symbol
+       5
+  )
+(let ()             ; There should be at least one S-expression following
+                      ; the first argument
+                      ; ...
+  )                   ; ...
+(let () 5           
+  )
+(let ( ( x 
+           5
+         )
+       )        
+  )
+(let ( ( x (cons 5) )
+       )
+       ( + x x )
+  )
+(let ( ( x (cons 5) ) ; ...
+       )
+     (car 5 6 x)      ; LET的這裡該有(起碼一個)S-expression才對
+  )
+(let ( ( x (cons 5 10) )
+     )
+     (car x )
+     (cdr (cons x x))
+)
+(let ( ( x (cons 5 10) )
+     )
+     (car x )
+     (cdr (cons x x))
+     ( + 3 (* x 5) (- x 3) )
+)
+(cons (car '(1 2 3) '(4 5)) ; ...
+        '(6 7)
+        '(8 9)
+  )
+(cons (car '(1 2 3) '(4 5) ) ; ...
+        '(6 7)
+  )
+(let ((x (1 2 3)) ) 5  ; Syntax-check OK
+  )
+(let ( (x (1 2 3)) )   ; Syntax-check not OK
+  )
+(let ( (x (1 2 3)) (5) )   ; Syntax-check not OK
+       10
+  )
+  
+(clean-environment)
+
+(define a 5)
+(let ( (x 6) (y '(1 2 3))
+       )
+       (+ a x (car (cdr y))
+       )
+  )
+a
+x
+(let ( (x 6) (y '(1 2 3))
+         (a 7)               ; local variable "shadows" global variable
+       )
+       (+ a x (car (cdr (cdr y)))
+       )
+  )
+a
+(let ( (x 6) (y '(1 2 3))
+         (a 7)
+       )
+       (+ a x (car (cdr (cdr y)))
+       )
+       (- a x (car (cdr (cdr y)))
+       )
+  )
+(let ( (x 6) (y '(1 2 3))
+         (a 7)
+       )
+       (+ a x (car (cdr (cdr y)))
+       )
+       (let ( (a 17) (x 11) 
+            )
+            (- a x (car (cdr (cdr y)))
+            )
+       )
+  )
+(let ( (x 6) (y '(1 2 3))
+         (a 7)
+       )
+       (+ a x (car (cdr (cdr y)))
+       )
+       (let ( (a 17) (x 11) 
+            )
+            (- a x (car (cdr (cdr y)))
+               (let ( (x 21) )
+                    (+ a x 5)
+                    (- 0 a x)
+               )
+            )
+       )
+  )
+(let ( (x 6) 
+       (y '(1 2 3))
+       (a 7)
+     )
+     (+ a x (car (cdr (cdr y)))
+     )
+     (let ( (a 17) (x 11 12) 
+          )
+          (- a x (car (cdr (cdr y)))
+             (let ( (x 21) )
+                  (+ a x 5)
+                  (- 0 a x)
+             )
+          )
+     )
+)
+(let ( (x 6) (y '(1 2 3))
+         (a 7)
+       )
+       (+ a x (car (cdr (cdr y)))
+       )
+       (let ( (a 17) (x 11) 
+            )
+            (- a x (car (cdr (cdr y)))
+               (let ( (x 21) )
+                    (+ a x 5)
+                    (- 0 a hello)
+               )
+            )
+       )
+  )
+(define a "=============== Problem 8 viewable case =================")
+a
+
+ ; define + lambda (用para.做為(initialized)"local para") - complex - COND IF BEGIN AND OR (nested calls)
+ ; + functional composition // functions 呼叫 functions
+ 
+(clean-environment) ; first round, no error.
+
+(define x1 3)(define x2 4)(define x3 5)
+(define (Fcond x4 x1) 
+        (cond ( (> x4 x1) 
+                (+ x4 x1)
+                ( if (< x4 x1)
+                     (+ x4 x1 22)
+                     (+ x4 x1 33)
+                )
+              ) 
+              ( (< x4 x1) 
+                (* x4 x1)
+                ( if (< x4 x1)
+                     (* x4 x1 2)
+                     (* x4 x1 3)
+                )
+              )
+              ( else 
+                (- x4 x1)
+                (if (= x4 x1)
+                    (- x4 x1 20)
+                    (- x4 x1 30)
+                )
+              );else
+        );cond
+);define
+(define (Fif x1 x4 x3) 
+        (if (>= x2 x3) 
+            ( begin 
+              (+ x1 x3) 
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (+ x1 x3 33)
+                   (+ x1 x3 44)
+              );if
+            );begin
+            ( begin 
+              (- x3 x4)
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (- x3 x4 33)
+                   (- x3 x4 44)
+              );if
+            );begin
+        );if
+);define
+(define (Fbegin x3) 
+        ( begin 
+          ( begin (+ x1 x3) )
+          ( begin (- x2 x3) )
+          ( cond ( (> x3 x1) (+ x3 x1) ) 
+                 ( (< x3 x1) (* x3 x1) )
+                 ( else      (- x3 x1) )
+          );cond
+        );begin
+);define
+(define (Fand x4 x2 x5) 
+        (and ( if ( > x1 0 )
+                  ( < x1 40 )
+                  ( > (- x1 x5) 27)
+             )
+             (> x4 x2) 
+             (> x2 x5) 
+             (> x5 0)
+        );and
+);define
+(define (For x1 x4 x3) 
+        (or (and 
+              (> x1 50)
+              (> x4 170)
+            )
+            (> x1 x4) 
+            (> x4 x3) 
+            (> x1 100) 
+            (> x4 100) 
+            (> x3 100)
+        );or
+);define
+
+; (Fcond x1 x2)
+; (Fcond x2 x3)
+; (Fcond x1 x1)
+; (Fif 30 40 50)
+; (Fif x1 x2 x3)
+; (Fif x3 x2 x1)
+; (Fif x2 x2 80)
+; (Fbegin x1)
+; (Fbegin 80)
+; (Fbegin x2)
+; (Fand x3 x2 x1)(Fand x3 10 x1)(Fand 7 6 x2)(Fand 7 1 -7)
+; (For 10 20 30)(For 1000 20 30)(For 30 40 20)(For x1 x2 x3)(For x2 x2 x2)(For x2 x1 20)
+
+(Fcond (Fif x1 x2 x3) (Fcond (Fbegin 80) x2))
+(Fcond (Fcond (Fbegin x1) x2) (Fif x1 x2 x3))
+(Fif (Fbegin x2) (Fcond (Fif x1 x2 x3) (Fcond x2 x3)) (Fif (+ x1 x2) x2 x3))
+(define (For x1 x4 x3) 
+        (or (and 
+              (> (Fif x1 x2 x3) 50)
+              (> (Fif x2 x2 80) 170)
+            )
+            (> (Fif x1 x2 x3) (Fif x2 x2 80)) 
+            (> x4 x3) 
+            (> x1 100) 
+            (> x4 100) 
+            (> x3 100)
+        );or
+);define
+(For 10 20 30)(For 1000 20 30)(For 30 40 20)(For x1 x2 x3)(For x2 x2 x2)(For x2 x1 20)
+( define ( Flambda x1 )
+         ( if ( > x1 0 )
+              ( lambda ( x2 ) ( * ( Fcond x2 x3 
+                                  );Fcond
+                                  3 
+                              );*
+              );lambda
+              ( lambda ( x3 ) ( * ( Fif ( Fcond x3 x1 
+                                        );Fcond 
+                                        x2 
+                                        x3 
+                                  );Fif
+                                  2 
+                              );*
+              );lambda
+         );if
+);define
+Flambda
+( Flambda 10 )
+( Flambda -10 )
+( ( Flambda 10 ) x3 )
+( ( Flambda -10 ) x3 )
+( ( Flambda 10 ) ( ( Flambda -10 ) x3) )
+( ( Flambda -10 ) ( ( Flambda 10 ) x3 ) )
+
+(clean-environment) ; second round, with error
+
+(define x1 3)(define x2 4)(define x3 5)
+(define (Fcond x4 x1) ;    x4 is p1    x1 is p2
+        (cond ( (> x4 x1) 
+                ( if (< x4 x2)
+                     (+ x4 x1 22)
+                     ; (+ x4 x1 33) ; no return-value when p1 > p2 and p1 >= x2
+                )                   ; but OK
+                (+ x4 x1)
+              ) 
+              ( (< x4 x1) 
+                ( if (< x4 x1)
+                     (* x4 x1 2)
+                     (* x4 x1 3)
+                )
+                (* x4 x1)
+              )
+              ( else 
+                (- x4 x1)
+                (if (= x4 x3)
+                    (- x4 x1 20)
+                    ; (- x4 x1 30) ; no return-value when p1 = p2 and p1 <> x3
+                )                  ; result not OK
+              );else
+        );cond
+);define
+(define (Fif x1 x4 x3) ;      x1 is p1    x4 is p2    x3 is p3
+        (if (>= x2 x3) 
+            ( begin 
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (+ x1 x3 33)
+                   ; (+ x1 x3 44) ; no return value when x2 >= p3 AND ( p1 <= 50 OR p2 <= 50 )
+              );if                ; but OK
+              ; (display-string "Hello\n")
+              (+ x1 x3) 
+            );begin
+            ( begin 
+              (- x3 x4)
+              ; (display-string "Hi\n")
+              ( if ( and ( > x1 50 ) ( > x4 50 ) )
+                   (- x3 x4 33)
+                   ; (- x3 x4 44) ; no return value when x2 < p3 AND ( p1 <= 50 OR p2 <= 50 )
+              );if                ; result not OK
+            );begin
+        );if
+);define
+( define (Fbegin x3)  ;       x3 : p1
+  ( begin 
+    ( begin (+ x1 x3) )
+    ( begin (- x2 x3) )
+    ( cond ( (> x3 x1) (+ x3 x1) ) 
+           ( (< x3 x1) (* x3 x1) )
+           ; ( else      (- x3 x1) ) ; no return value when p1 = x1
+    );cond                           ; but OK
+  );begin
+  ( begin 
+    ( begin (+ x1 x3) )
+    ( begin (- x2 x3) )
+    ( cond ( (> x3 x1) (+ x3 x1) ) 
+           ( (= x3 x1) (* x3 x1) )
+           ; ( else      (- x3 x1) ) ; no return value when p1 < x1
+    );cond                           ; result not OK
+  );begin
+);define
+(define (Fand x4 x2 x5)  ;   x4 : p1    x2 : p2    x5 : p3
+        (and ( if ( > x2 0 )
+                  ( < x1 40 )
+                  ; ( > (- x1 x5) 27) ; no return value when p2 <= 0
+             )                        ; result not OK
+             (> x4 x2) 
+             (> x2 x5) 
+             (> x5 0)
+        );and
+);define
+(define (For x1 x4 x3) 
+        (or (and 
+              (> x1 50)
+              (> x4 170)
+            )
+            (> x1 x4) 
+            (> x4 x3) 
+            (> x1 100) 
+            (> x4 100) 
+            (> x3 100)
+        );or
+);define
+
+; (Fcond x1 x2)
+; (Fcond x2 x3)
+; (Fcond x1 x1)
+; (Fif 30 40 50)
+; (Fif x1 x2 x3)
+; (Fif x3 x2 x1)
+; (Fif x2 x2 80)
+; (Fbegin x1)
+; (Fbegin 80)
+; (Fbegin x2)
+; (Fand x3 x2 x1)(Fand x3 10 x1)(Fand 7 6 x2)(Fand 7 1 -7)
+; (For 10 20 30)(For 1000 20 30)(For 30 40 20)(For x1 x2 x3)(For x2 x2 x2)(For x2 x1 20)
+
+
+(Fcond x1 x2)
+(Fcond x2 (- x2 1))
+(Fcond x2 x3)
+(Fcond x1 x1)
+(Fcond (+ x3 1) (- (+ x3 2) 1))
+(cons (Fcond x1 x1) 10)
+;; (define temp1 70)(define temp2 80)(define temp3 (- x2 1))
+;; (Fif 130 40 -50)
+;; (Fif x1 x2 x3)
+;; (Fif temp1 temp2 temp3)
+;; (Fif x3 x2 x3)
+;; (Fif (+ x2 51) (* 50 2) 8)
+;; (Fbegin x1)
+;; (Fbegin 80)
+;; (Fbegin -80)
+;; (Fbegin (- x2 (- x2 x1)))
+;; (Fand x3 x2 x1)
+;; (Fand x3 -10 x1)
+;; (Fand 7 6 x2)
+;; (Fand 7 (- x2 x2 3) -7)
+
+; (Fcond (Fif x1 x2 x3) (Fcond (Fbegin 80) x2))
+; (Fcond (Fcond (Fbegin x1) x2) (Fif x1 x2 x3))
+; (Fif (Fbegin x2) (Fcond (Fif x1 x2 x3) (Fcond x2 x3)) (Fif (+ x1 x2) x2 x3))
+
+; replacing >>(Fif x1 x2 x3)<< with >>(Fif temp1 temp2 temp3)<<
+(define temp1 70)(define temp2 80)(define temp3 (- x2 1))
+(Fcond (Fif temp1 temp2 temp3) (Fcond (Fbegin 80) x2))
+(Fcond (Fcond (Fbegin x1) x2) (Fif temp1 temp2 temp3))
+(Fif (Fbegin x2) (Fcond (Fif temp1 temp2 temp3) (Fcond x2 x3)) (Fif (+ x1 x2) x2 x3))
+
+; (define (For x1 x4 x3) 
+;         (or (and 
+;               (> (Fif x1 x2 x3) 50)
+;               (> (Fif x2 x2 80) 170)
+;             )
+;             (> (Fif x1 x2 x3) (Fif x2 x2 80)) 
+;             (> x4 x3) 
+;             (> x1 100) 
+;             (> x4 100) 
+;             (> x3 100)
+;         );or
+; );define
+
+(define (For x1 x4 x3) 
+        (or (and 
+              (> (Fif temp1 temp2 temp3) 50)
+              (> (Fif x1 x3 x4) 170)
+            )
+            (> (Fif temp1 temp2 temp3) (Fcond x2 (- x2 1))) 
+            (> x3 x1) 
+            (> x1 100) 
+            (> x4 100) 
+            (> x3 100)
+        );or
+);define
+
+(For 7 20 30)(For 100 120 30)(For 30 40 120)(For x1 x2 x3)(For x2 x2 x2)(For x2 x1 20)
+( define ( Flambda x1 )    ;    x1 : p1
+  ( begin
+    ( if ( > x1 40 )
+         ( lambda ( x2 ) ( * ( Fcond x2 x3 
+                             );Fcond
+                             3 
+                         );*
+         );lambda
+         ; ( lambda ( x3 ) ( * ( Fif ( Fcond x3 x1  ; no return value when p1 <= 40
+         ;                           );Fcond        ; but OK
+         ;                           x2 
+         ;                           x3 
+         ;                     );Fif
+         ;                     2 
+         ;                 );*
+         ; );lambda
+    );if
+    ( if ( > x1 0 )
+         ( lambda ( x2 ) ( * ( Fcond x2 x3 
+                             );Fcond
+                             3 
+                         );*
+         );lambda
+         ( lambda ( x3 ) ( * ( Fif ( Fcond x3 x1 
+                                   );Fcond 
+                                   x2 
+                                   x3 
+                             );Fif
+                             2 
+                         );*
+         );lambda
+    );if
+  );begin
+);define
+Flambda
+( Flambda 10 )
+( Flambda -10 )
+( ( Flambda 10 ) x3 ) ; ok
+( ( Flambda -10 ) x3 ) ; error
+( ( Flambda 10 ) x1 ) ; ok
+( ( Flambda -10 ) x1 ) ; error
+( ( Flambda 10 ) ( ( Flambda -10 ) x3) )
+( ( Flambda -10 ) ( ( Flambda 10 ) x3 ) )
+( ( Flambda 10 ) ( ( Flambda 10 ) x3) )
+( ( Flambda -10 ) ( ( Flambda -10 ) x3 ) )
+
+(clean-environment)
+
+( lambda )
+( lambda x )   
+( lambda x y z )
+( lambda (x) y z       ; the evaluation of a lambda expression
+                         ; produces an internal representation of a 
+  )                      ; function
+( lambda (x) )
+( lambda () y )
+( lambda (5) y )
+( lambda () 5 )
+( lambda () () )      ; a parameter-less function that returns 'nil'
+( lambda () )
+( lambda () (+ c 5)    ; defines a function without calling it
+  )
+( ( lambda () (+ c 5)  ; first, the internal representation of a function
+    )                    ; is produced ; this internal representation
+                         ; is "the evaluated result of the first argument"
+                         ; once the binding of the first argument (of
+                         ; the top-level list) is obtained and found
+                         ; to be a function, that function is applied ;
+  )
+( ( lambda () (+ 5 5) (+ 5 6) 
+    )
+  )
+( ( lambda () (+ 5 5) (+ c 6)
+    )
+    8
+  )
+( define a 2 )
+( define f ( lambda (x) (+ x x c) ; the binding of 'f' is defined
+             )                      ; to be the internal representation
+  )                                 ; of a function
+f
+(f 1 2 3)
+(f a)
+(f b)
+(define c f)
+(c a)
+(c a b)
+( define c 10 )
+(f a)
+( f ( ( lambda (x y)
+          (+ x y)
+        )
+        ( f a )
+        8
+      )
+  )
+(define x 20)
+(define y 30)
+(define g ( lambda (x)
+              (* x (+ 5 x)
+              )
+            )
+  )
+(g (+ (g (f a)
+        )
+        c
+     )
+  )
+( f ( ( lambda (x y)
+          (+ x y)
+        )
+        ( f x )
+        (* (- y x)
+           (g c)
+        )
+      )
+  )
+( f ( ( lambda (x y)
+          (+ x no)
+        )
+        ( f x )
+        (* (- y x)
+           (g why)
+        )
+      )
+  )
+( f ( ( lambda (x y)
+          (+ x no)
+        )
+        ( f x )
+        (* (- y x)
+           (g c)
+        )
+      )
+  )
+( f ( ( lambda (x y)
+          (+ x no)
+        )
+        ( f x )
+        (* (- y x)
+           (g c why)
+        )
+      )
+  )
+(define F 5)
+(define G 10)
+(+ F G)
+(define F (lambda (x) (+ x x x)))
+(+ (F 10) G)
+(define F (car (cons car cdr)))
+(+ (F (cons G G)) G)
+(define H (lambda (x)
+              (cond ( (= x 1) car )
+                    ( (= x 2) cons )
+                    ( (= x 3) cdr )
+                    ( (= x 4) F )
+                    ( (= x x) 100 ) ) ) )
+( (H 2) 3 5 )
+( (H 4) '(10 20 30))
+(define F cdr)
+( (H 4) '(10 20 30))
+(+ ((H 1) '(10 20 30)) (H 2015))
+(define (cadr x) (car (cdr x)))
+(define global '(10 20 30))
+(define (Try F) (F global))
+(Try cadr)
+(Try car)
+(Try cdr)
+(define a "=============== Problem 9 viewable case =================")
+a
+
+ ; define + lambda (用para.做為(initialized)"local para") - complex - COND IF BEGIN AND OR (nested calls)
+ ; + functional composition // functions 呼叫 functions
+ ; + let (local vs. global)
+ 
+(clean-environment) ; first round, no error
+
+(define x1 3)(define x2 4)(define x3 5)
+(let ((x1 (+ x1 x2)) (y (+ x1 x2))) x1)
+x1 x2
+( define ( Transform tag x1 x5 )
+  ( if ( > tag 0 )
+       ( let ( ( x3 (+ x1 x5) )
+             )
+             (+ x3 x2)
+       );let
+       ( let ( ( x3 (- x1 x5) )
+             )
+             (+ x3 x2)
+       );let
+   );if
+);define Transform
+( define x1 (Transform 3 x2 x3) )
+( define x2 (Transform -3 x1 x3) )
+x1 x2 x3
+( define (SumUp start end) 
+  
+  ; return the sum of start, start+1, start+2, ..., end
+  ; requirement : start <= end
+  ; integer version + some nonsense code, which should not hurt
+  
+  ( cond ( (= start end) start )
+         ( (> start end) "Illegal input! the first argument must be smaller or equal to the second.")
+         ( else
+             ( let ( ( new-start (+ start 1) )
+                     ( x1 (+ x1 x2) )
+                     ( x3 (+ x3 5) )
+                   )
+                   ( - x1 x3 )
+                   ( + start ( SumUp new-start end ) )
+             );let
+         );else
+  );cond
+   
+);define SumUp
+
+(SumUp 5 10)
+(SumUp 5 3)
+(SumUp 5 5)
+(+ x1 x2 x3)
+
+(define (SumUp start end) 
+
+  ; return the sum of start, start+1, start+2, ..., end
+  ; requirement : start <= end
+  ; float version + some nonsense code, which should not hurt
+  
+  (cond ( (= start end) start )
+        ( (> start end) "Illegal input! the first argument must be smaller or equal to the second.")
+        ( else
+            ( let ( ( new-start (+ start 1) )
+                    ( x1 (+ x1 x2) )
+                    ( x3 (+ x3 5) )
+                  )
+                  ( - x1 x3)
+                  ( + start 
+                      ( if ( > new-start end ) ; just in case we've got a float here
+                           end
+                          ( SumUp new-start end ) 
+                      );if
+                  );+
+            );let
+        );else
+  );cond
+  
+);define SumUp
+
+(SumUp 3.5 10)
+(SumUp 3.5 3)
+(SumUp 3.5 3.5)
+(SumUp 3.5 (SumUp 8 10))
+(+ x1 x2 x3)
+
+(clean-environment) ; second round, with error
+
+(define x1 3)(define x2 4)(define x3 5)
+(let ((x1 (+ x1 x2)) (y (+ x1 x2))) y)
+x1 x2
+( define ( Transform tag x1 x5 )   ;    x1 : p2     x5 : p3
+  ( begin
+    ( if ( > tag 0 )
+         ( let ( ( x3 (+ x1 x5) )
+               )
+               (+ x3 x2)
+         );let
+         ; ( let ( ( x3 (- x1 x5) )  ; no return value when tag <= 0 ; but OK
+         ;       )
+         ;       (+ x3 x2)
+         ; );let
+    );if
+    ( if ( > tag 0 )
+         ( let ( ( x3 (+ x1 x5) )
+               )
+               ( if ( < x1 x5 )
+                    ( + x3 x2 )     ; no return value  when tag > 0 AND p2 >= p3 ; result NOT OK
+               )
+         );let
+         ( let ( ( x3 (- x1 x5) )
+               )
+               (+ x3 x2)
+         );let
+    );if
+  );begin
+);define Transform
+( define x1 (Transform 3 30 20) )
+( define x1 (Transform 3 20 30) )
+( define x2 (Transform -3 20 30) )
+( define x2 (Transform -3 30 20) )
+( define x2 (Transform -3 (Transform 3 30 20) 30) )
+x1 x2 x3
+( define (SumUp start end) 
+  
+  ; return the sum of start, start+1, start+2, ..., end
+  ; requirement : start <= end
+  ; integer version + some nonsense code, which should not hurt
+  
+  ( cond ( (= start end) start )
+         ( (> start end) "Illegal input! the first argument must be smaller or equal to the second.")
+         ( else
+             ( let ( ( new-start (+ start 1) )
+                     ( x1 (+ x1 x2) )
+                     ( x3 (+ x3 5) )
+                   )
+                   ( if ( = start ( - end 7 ) )
+                     ( - x1 (Transform start end start) )
+                   )
+                   ( + start ( SumUp new-start end ) )
+             );let
+         );else
+  );cond
+   
+);define SumUp
+
+(SumUp 5 10)
+(SumUp 5 20)
+(SumUp 5 3)
+(SumUp 5 5)
+(SumUp (Transform 3 x2 x3) 10)
+(SumUp (Transform -3 x1 x3) 10)
+(SumUp (Transform 3 (Transform -3 x1 x3) x3) 10)
+(SumUp (Transform -3 x1 (Transform 3 x2 x3)) 10)
+(+ x1 x2 x3)
+
+(define (SumUp start end) 
+
+  ; return the sum of start, start+1, start+2, ..., end
+  ; requirement : start <= end
+  ; float version + some nonsense code, which should not hurt
+  
+  (cond ( (= start end) start )
+        ( (> start end) "Illegal input! the first argument must be smaller or equal to the second.")
+        ( ( > ( - end start ) 10 ) 
+          ( SumUp start (Transform start end start) )
+        )
+        ( else
+          ( let ( ( new-start (+ start 1) )
+                  ( x1 (+ x1 x2) )
+                  ( x3 (+ x3 5) )
+                )
+                ( - x1 x3)
+                ( + start 
+                    ( if ( > new-start end ) ; just in case we've got a float here
+                         end
+                        ( SumUp new-start end ) 
+                    );if
+                );+
+          );let
+        );else
+  );cond
+  
+);define SumUp
+
+(SumUp 3.5 10)
+(SumUp 3.5 3)
+(SumUp 3.5 3.5)
+(SumUp 3.5 35)
+(SumUp 3.5 (SumUp (Transform -3 x1 x3) 10))
+(+ x1 x2 x3)
+
+; (clean-environment)
+
+(define ( atom? exp )
+     (not (pair? exp)
+     )
+  )
+(atom? "Hi!")
+(atom? '(1 2))
+(atom? (1 2))
+(atom? (car '("Hi" "there!")))
+(append (1 2 3))
+(define ( append exp1 exp2 )
+    (cond ( (or (and (atom? exp1)
+                     (not (null? exp1))
+                )
+                (and (atom? exp2)
+                     (not (null? exp2))
+                )
+            )
+            (list "invalid argument" exp1 exp2)
+          )
+          ; neither exp1 nor exp2 is a non-nil atom (anyone can be nil though)
+          ( (null? exp1)
+            exp2
+          )
+          ( (null? exp2)
+            exp1
+          )
+          ; neither exp1 nor exp2 is an atom
+          ( #t
+            (cons (car exp1)
+                  (append (cdr exp1)
+                          exp2
+                  )
+            ); cons
+          ); #t
+    ); cond
+  ); define
+(append '(1 2 3) '(4 5))
+(append '(10 ((20 30) 40)) '((50 (60)) (70 (80 90)))) 
+(append (append '(1 2) '(3 4))
+          (append '((5) 6) '(7 8))
+  )
+(append '(1 2 . 3) '(4 5))
+(append (cons 1 2)
+          (car '((3 4) 5))
+  )
+( define (list? exp)
+     ( cond ( (null? exp)
+              #t
+            )
+            ( (atom? exp) ; non-nil atom
+              #f
+            )
+            ; pair
+            ( #t
+              (list? (cdr exp))
+            )
+     );cond
+  );define
+(list? '(1 2 3 4))
+(list? '(1 2 3 . 4))
+(list? '(1 2 (3 . 4)))
+(list? '(13579 ((2 3) . 4) 5))
+(list? (list (car '(1 2 3)) 4 5))
+( define ( append1 exp1 exp2 )
+     (cond ( (or (not (list? exp1))
+                 (not (list? exp2))
+             )
+             "invalid argument"
+           )
+           ( #t
+             (append exp1 exp2)
+           )
+     );cond
+  );define
+(append1 '(1 2 . 3) '(4 5))
+(append1 (cons 1 2)
+           (car '((3 4) 5))
+  )
+(list? (append1 '(1 2) '(3 4))
+  )
+(list? (list? (append1 '(1 2) '(3 4)
+                )
+         )
+  )
+(append1 '(10 ((20 30) 40)) '((50 (60)) (70 (80 90)))) 
+(append1 '(10 ((20 30) 40))
+  )
+(append1 '(10 (car ((20 30) 40))
+            )
+           ("What")
+  )
+(define (reverse exp)
+    (cond ( (atom? exp)
+            exp
+          )
+          ( (not (list? exp))
+            "invalid argument"
+          )
+          ( #t
+            (append (reverse (cdr exp))
+                    (list (car exp))
+            )
+          )
+    );cond
+  ); define
+(reverse '(1 2 3 4))
+(reverse (cons (Transform 3 x2 x3) (list "Hi")))
+(reverse a)
+(reverse (car a))
+(reverse (car 'a))
+(reverse (car '(a b c)))
+(reverse (append1 '(10 ((20 30) 40)) 
+                    '((50 (60)) (70 (80 90)))
+           )
+  ) 
+(define (pairing exp)
+    (cond ((null? exp)
+           exp
+          )
+          ((atom? exp)
+           (cons exp (list exp))
+          )
+          ( #t
+            (let ((first (car exp))
+                 )
+               (cons (cons first (list first))
+                     (pairing (cdr exp))
+               )
+            );let
+          );#t
+    );cond
+  );define
+(pairing '(1 2 3 4))
+(reverse (pairing '(1 2 3 4)))
+(define (AllAdd aList aNum)
+          (if (null? aList) 
+              aList
+              (cons (+ (car aList) aNum)
+                    (AllAdd (cdr aList) aNum)
+              )
+          )
+  )
+(AllAdd '(1 2 3 4) 5)
+(AllAdd '(1 2 3 4) (Transform -3 20 30))
+(AllAdd '(1 2 3 4) (Transform 3 30 20))
+(AllAdd '(1 2 add 4) 5)
+(AllAdd '(1 2 add 4) "Hi")
+(AllAdd (car '(1 2 3) 4) 5)
+(AllAdd (car '(1 2 3)) "Hi")
+"Go get them!

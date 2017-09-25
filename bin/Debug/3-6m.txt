@@ -1,0 +1,285 @@
+Welcome to OurScheme!
+
+> a defined
+
+> "=============== Problem 6 viewable case ================="
+
+> environment cleaned
+
+> x1 defined
+
+> x2 defined
+
+> x3 defined
+
+> Fcond defined
+
+> 12
+
+> 20
+
+> 0
+
+> Fif defined
+
+> 10
+
+> 1
+
+> 8
+
+> 76
+
+> Fbegin defined
+
+> 1
+
+> -76
+
+> 0
+
+> Fand defined
+
+> #t
+
+> nil
+
+> #t
+
+> nil
+
+> For defined
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> nil
+
+> #t
+
+> x4 defined
+
+> #<procedure lambda>
+
+> 10
+
+> 3
+
+> 4
+
+> environment cleaned
+
+> x1 defined
+
+> x2 defined
+
+> x3 defined
+
+> Fcond defined
+
+> ERROR (no return value) : ( Fcond
+  x1
+  x2
+)
+
+> ERROR (no return value) : ( Fcond
+  x2
+  x3
+)
+
+> 9
+
+> ERROR (no return value) : ( Fcond
+  x1
+  ( +
+    x1
+    x1
+  )
+)
+
+> Fif defined
+
+> 80
+
+> 8
+
+> ERROR (no return value) : ( Fif
+  x3
+  x2
+  x1
+)
+
+> 84
+
+> ERROR (unbound parameter) : ( Fif
+  x3
+  x2
+  x1
+)
+
+> Fbegin defined
+
+> 1
+
+> -76
+
+> 0
+
+> ERROR (incorrect number of arguments) : Fbegin
+
+> Fand defined
+
+> #t
+
+> nil
+
+> #t
+
+> nil
+
+> For defined
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> #t
+
+> nil
+
+> ERROR (> with incorrect argument type) : ( 4
+  .
+  4
+)
+
+> #t
+
+> x4 defined
+
+> #<procedure lambda>
+
+> 10
+
+> 13
+
+> x5 defined
+
+> 16
+
+> #t
+
+> ERROR (incorrect number of arguments) : lambda
+
+> 3
+
+> 4
+
+> environment cleaned
+
+> ERROR (unbound symbol) : cadr
+
+> cadr defined
+
+> #<procedure cadr>
+
+> ERROR (car with incorrect argument type) : #<procedure cadr>
+
+> ( 30
+  40
+)
+
+> cadr-clone defined
+
+> #<procedure cadr>
+
+> ( 30
+  ( 40
+  )
+)
+
+> cadr-clone defined
+
+> ( 10
+  20
+)
+
+> cadr-clone defined
+
+> ERROR (DEFINE format) : ( define
+  car
+  cadr
+)
+
+> ERROR (incorrect number of arguments) : cadr
+
+> ERROR (incorrect number of arguments) : cadr
+
+> ERROR (attempt to apply non-function) : 10
+
+> ERROR (cdr with incorrect argument type) : 10
+
+> ERROR (car with incorrect argument type) : nil
+
+> ERROR (unbound symbol) : cdar
+
+> ERROR (unbound symbol) : x
+
+> cdar defined
+
+> ( 2
+)
+
+> ERROR (cdr with incorrect argument type) : 1
+
+> ERROR (unbound symbol) : first
+
+> first defined
+
+> #<procedure car>
+
+> #<procedure car>
+
+> 10
+
+> ERROR (unbound symbol) : First
+
+> First defined
+
+> car
+
+> ERROR (attempt to apply non-function) : car
+
+> ERROR (attempt to apply non-function) : 1
+
+> second defined
+
+> 20
+
+> ( ( 40
+    50
+  )
+  60
+)
+
+> ( 40
+  50
+)
+
+> 50
+
+> ( 50
+)
+
+> ERROR (cdr with incorrect argument type) : 10
+
+> 
+Thanks for using OurScheme!

@@ -1,0 +1,59 @@
+1
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Basic, no error, with comment
+(1 . (2 . (3 . 4)))
+(-1.5 .("2.25".(^&%$*+-= . nil)))    
+(-1.5   
+   .   
+   ("2.25"   
+    .  
+    (^&%$*+-=   
+ 
+     .   
+     ()  
+
+    )
+   ) 
+   ; some comment here   
+      
+  )     
+(-1.5   
+   .   
+   ("2.25"   
+    .  ; comment all over   " 
+    (^&%$*+-=   
+ 
+     .   
+     #f  
+
+    )
+   ) 
+  
+      ; some comment there
+  )     
+(10 
+   
+   12.())   ; same as : ( 10 12. () )
+(10 ().125)   ; same as : ( 10 () .125 )
+( 1 +2.5
+
+)
+
+( 1 2.a)
+(1                         2.25.5)
+    
+         (  
+ nil  
+ 
+       )  
+    
+         (  
+ nil  
+       .
+    nil       )  
+    
+(
+  exit 
+       )    (Hello there)
+123
+"For all we know,"
+(nil."and for all we care.")

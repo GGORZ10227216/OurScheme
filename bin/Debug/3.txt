@@ -1,0 +1,48 @@
+1
+; was : Proj1-2 test 3
+";;;;;;;;;;;;;;;;;;;;;;;;;;;; Test 2 : Simple, with error"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Simple, with error, with comment, with tricks
+   
+   v   
+           ; comment on the first line
+           ; comment on the second line  
+   Hello   ; comment on the third line   
+
+      there    !    
+    
+
+    @$%--3#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!.%%%%^^^&    ; well? 
+; How about this?
+;a string on the next line ; a string here ;"Flying with an eagle..."
+      "   ( 1 2.54 3 . -4. 5 6 Hi there . 7 . nil ) "
+; How about this?
+;a string on the next line ; a string here ;"Flying with an eagle..."
+      "   ( 1 2.54 3 . -4. 5 6 Hi there . 7 . nil () ) 
+
+  This     is       ICE !       ; and some comment here  
+#t t nil () #f at#fgh        ; and more comment
+325
+-   325.
+      
+
+    +3.25     .375     3a5b
+     
+
+
+        exit    
+    #  f      
+    #g .
+    ; bla bla bla bla bla     
+  #t   
+   
+( 525
+   .
+)
+    20 . 30
+
+      (        
+      )    
+      
+      #f      
+
+     ()   )

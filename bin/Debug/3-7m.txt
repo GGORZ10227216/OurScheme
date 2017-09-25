@@ -1,0 +1,395 @@
+Welcome to OurScheme!
+
+> a defined
+
+> "=============== Problem 7 viewable case ================="
+
+> environment cleaned
+
+> x1 defined
+
+> x2 defined
+
+> x3 defined
+
+> Fcond defined
+
+> 24
+
+> 40
+
+> -20
+
+> Fif defined
+
+> -34
+
+> -43
+
+> 52
+
+> 32
+
+> Fbegin defined
+
+> 0
+
+> 83
+
+> 7
+
+> Fand defined
+
+> nil
+
+> nil
+
+> #t
+
+> nil
+
+> For defined
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> nil
+
+> #t
+
+> Flambda defined
+
+> #<procedure Flambda>
+
+> #<procedure lambda>
+
+> #<procedure lambda>
+
+> 6
+
+> 9
+
+> environment cleaned
+
+> x1 defined
+
+> x2 defined
+
+> x3 defined
+
+> Fcond defined
+
+> 12
+
+> 7
+
+> 20
+
+> ERROR (no return value) : ( Fcond
+  x1
+  x1
+)
+
+> ERROR (no return value) : ( Fcond
+  ( +
+    x3
+    1
+  )
+  ( -
+    ( +
+      x3
+      2
+    )
+    1
+  )
+)
+
+> Fif defined
+
+> temp1 defined
+
+> temp2 defined
+
+> temp3 defined
+
+> 80
+
+> ERROR (no return value) : ( Fif
+  x1
+  x2
+  x3
+)
+
+> ERROR (unbound parameter) : ( Fcond
+  x1
+  x1
+)
+
+> 73
+
+> ERROR (no return value) : ( Fif
+  x3
+  x2
+  x3
+)
+
+> -125
+
+> ERROR (unbound parameter) : ( Fif
+  x1
+  x2
+  x3
+)
+
+> Fbegin defined
+
+> 9
+
+> 83
+
+> ERROR (no return value) : ( Fbegin
+  -80
+)
+
+> 9
+
+> Fand defined
+
+> #t
+
+> ERROR (unbound condition) : ( if
+  ( >
+    x2
+    0
+  )
+  ( <
+    x1
+    40
+  )
+)
+
+> #t
+
+> ERROR (unbound condition) : ( if
+  ( >
+    x2
+    0
+  )
+  ( <
+    x1
+    40
+  )
+)
+
+> For defined
+
+> nil
+
+> #t
+
+> #t
+
+> nil
+
+> nil
+
+> #t
+
+> Flambda defined
+
+> #<procedure Flambda>
+
+> #<procedure lambda>
+
+> ERROR (no return value) : ( Flambda
+  -10
+)
+
+> 6
+
+> ERROR (no return value) : ( Flambda
+  -10
+)
+
+> 12
+
+> ERROR (no return value) : ( Flambda
+  -10
+)
+
+> ERROR (unbound parameter) : ( Flambda
+  -10
+)
+
+> ERROR (+ with incorrect argument type) : #<procedure lambda>
+
+> environment cleaned
+
+> ( 3
+  2
+  3
+)
+
+> ERROR (unbound symbol) : x
+
+> ERROR (LET format) : ( let
+  ( car
+    ( quote
+      ( 1
+        2
+        3
+      )
+    )
+  )
+  5
+)
+
+> ERROR (LET format) : ( let
+  ( ( x
+      3
+      4
+    )
+  )
+  5
+)
+
+> 2
+
+> ERROR (LET format) : ( let
+  ( ( ( car
+        ( quote
+          ( x
+            y
+            z
+          )
+        )
+      )
+      3
+    )
+  )
+  5
+)
+
+> ERROR (LET format) : ( let
+  nil
+)
+
+> 5
+
+> ERROR (LET format) : ( let
+  ( ( x
+      5
+    )
+  )
+)
+
+> ERROR (incorrect number of arguments) : cons
+
+> ERROR (incorrect number of arguments) : cons
+
+> ( 5
+  .
+  10
+)
+
+> ERROR (* with incorrect argument type) : ( 5
+  .
+  10
+)
+
+> ERROR (incorrect number of arguments) : cons
+
+> ERROR (incorrect number of arguments) : car
+
+> ERROR (attempt to apply non-function) : 1
+
+> ERROR (LET format) : ( let
+  ( ( x
+      ( 1
+        2
+        3
+      )
+    )
+  )
+)
+
+> ERROR (LET format) : ( let
+  ( ( x
+      ( 1
+        2
+        3
+      )
+    )
+    ( 5
+    )
+  )
+  10
+)
+
+> environment cleaned
+
+> a defined
+
+> 13
+
+> 5
+
+> ERROR (unbound symbol) : x
+
+> 16
+
+> 5
+
+> -2
+
+> 3
+
+> 41
+
+> ERROR (LET format) : ( let
+  ( ( a
+      17
+    )
+    ( x
+      11
+      12
+    )
+  )
+  ( -
+    a
+    x
+    ( car
+      ( cdr
+        ( cdr
+          y
+        )
+      )
+    )
+    ( let
+      ( ( x
+          21
+        )
+      )
+      ( +
+        a
+        x
+        5
+      )
+      ( -
+        0
+        a
+        x
+      )
+    )
+  )
+)
+
+> ERROR (unbound symbol) : hello
+
+> 
+Thanks for using OurScheme!

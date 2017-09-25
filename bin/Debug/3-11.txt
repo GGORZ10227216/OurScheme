@@ -1,0 +1,1115 @@
+1
+(define a "=============== Problem 5 viewable case =================")
+a
+
+ ; define + lambda (用para.做為(initialized)"local para") - complex - COND IF BEGIN AND OR (nested calls)
+ ; + functional composition // functions 呼叫 functions
+ ; + let (local vs. global)
+ ; + nested locals vs. globals
+ 
+(clean-environment) ; first round, no error
+
+(define x1 3)(define x2 4)(define x3 5)
+
+( define (TrickySumUp start end) 
+  
+  ; return the sum of start, start+1, start+2, ..., end
+  ; requirement : start <= end
+  ; float version + some nonsense code, which should not hurt
+  
+  ( cond ( (= start end) start )
+         ( (> start end) "Illegal input! the first argument must be smaller or equal to the second.")
+         ( else
+           ( let ( ( new-start (+ start 1) )
+                   ( x1 (+ x1 x2) )
+                   ( x3 (+ x3 5) )
+                 )
+                 
+                 ; instead of
+                 
+                 ; ( + start 
+                 ;     ( if ( > new-start end ) ; just in case we've got a float here
+                 ;          end
+                 ;         ( TrickySumUp new-start end ) 
+                 ;     ) ; if
+                 ; );+
+                 
+                 ; we use below
+                 
+                 ( if ( > new-start end ) ; just in case we've got a float here
+                      ( begin (+ x1 x2) (+ start end))
+                      ( let ( ( sum-of-the-rest 
+                                (TrickySumUp new-start end) 
+                              )
+                            )
+                            ( + start sum-of-the-rest )
+                      );let
+                 );if
+           );let
+         );else
+  );cond
+   
+);define TrickySumUp
+
+(TrickySumUp 3.5 10)
+(TrickySumUp 3.5 2)
+(TrickySumUp 3.5 3.5)
+(+ x1 x2 x3)
+
+( define ( Abs x )
+  ; return the absolute value of X
+
+  ( if ( not ( real? x ) )
+       "Abs: the given argument has to be a real number (including integer)"
+       ( if ( < x 0 )
+            ( * x -1 )
+            x
+       );if
+  );if
+  
+);define Abs
+
+( define ( Real x ) 
+
+  ( cond ( ( not ( real? x ) )
+           "cannot cast something that is neither a real nor an integer into a real"
+         )
+         ( ( integer? x ) ( * 1.0 x )
+         )
+         ( else x )
+  );cond
+  
+);define Real
+
+( define ( Int x ) 
+  ; return the integer part of x
+
+  ( cond ( ( integer? x ) 
+           x 
+         )
+  
+         ; x is not an integer
+         
+         ( ( not ( real? x ) )
+           "Int: cannot cast something that is neither an integer nor a real into an integer"
+         )
+         
+         ; x is a real
+         
+         ( else
+  
+           ( if ( and ( < -1 x ) 
+                      ( <  x  1 ) 
+                );and
+           
+                0
+                
+                ; x is a real and either x <= -1 or 1 <= x
+           
+                ( let ( ( x ( Abs x ) )
+                        ( negative ( < x 0 ) )
+                      )
+                      ( let ( ( below-above ( FindRange x ) ) ; below <= x <= above
+                            )
+                            ( let ( ( below ( car below-above ) )
+                                    ( above ( car ( cdr below-above ) ) )
+                                  )
+                                  ( let ( ( floor ( IntFloor below x above ) )
+                                        )
+                                        ( if negative
+                                             ( * -1 floor )
+                                             floor
+                                        );if
+                                  );let
+                            );let
+                      );let
+                );let
+           );if
+         );else
+  );cond
+
+);define Int
+
+( define ( Power a n )
+  ; return a**n
+  ; requirement: n has to be an integer
+  
+  ( cond ( ( not ( integer? n ) )
+           "Power : n has to be an integer"
+         )
+         
+         ; n an integer
+         
+         ( ( < n 0 )
+           ( let ( ( positive ( * -1 n ) )
+                 )
+                 ( / 1.0 ( Power a positive ) )
+           );let
+         )
+         
+         ; n is a non-negative integer
+         
+         ( ( = n 0 )
+           1
+         )
+         
+         ; n is a positive integer
+         
+         ( else 
+           ( * a ( Power a ( - n 1 ) ) )
+         )
+  );cond
+  
+);define Power
+           
+( define ( FindRange x )
+  ; starting with 2**0, find n and m, so that n <= m and 2**n <= x1 < 2**m
+  ; return >>( 2**n 2**m )<<
+  ; x is assumed to be greater than or equal to 1
+  
+  ( if ( < x 1 )
+       "FindRange: x must be greater than or equal to 1"
+       ( Find-Range x 0 )
+  );if
+  
+);define FindRange 
+
+( define ( Find-Range x startWith )
+  ; starting with 2**startWith, find n and m, so that n <= m and 2**n <= x1 < 2**m
+  ; return >>( 2**n 2**m )<<
+  ; x is assumed to be greater than or equal to 1
+  
+  ( let ( ( start ( Power 2 startWith ) )
+          ( end ( Power 2 ( + startWith 1 ) ) )
+        )
+    ( cond ( ( = x start )
+             ( list start start )
+           )
+           ( ( < x end )
+             ( list start end )
+           )
+           ( else ; ( <= end x )
+             ( Find-Range x ( + startWith 1 ) )
+           )
+    );cond
+  );let
+
+);define Find-Range
+       
+( define ( IntFloor below x above )
+  ( if ( not ( and ( <= below x )
+                   ( <= x above )
+             )
+       )
+       "IntFloor: the three arguments should be BELOW <= X <= ABOVE"
+       ( Int-Floor below x above )
+  );if
+);define
+
+( define ( Int-Floor below x above ) 
+  ; BELOW and ABOVE are two integers s. t. BELOW <= x <= ABOVE
+  ; find the integer FLOOR, so that FLOOR <= x < FLOOR+1
+  ; return FLOOR
+  
+  ( cond ( ( = below x ) below )
+         ( ( = above x ) above )
+         ( ( = ( + below 1 ) above )
+           below
+         )
+         
+         ; BELOW + 1 < ABOVE
+         
+         ( else
+           ( let ( ( middle ( / ( + below above ) 2 ) 
+                   )
+                 )
+                 
+                 ; MIDDLE is neither BELOW nor ABOVE
+                 ; i.e., BELOW < MIDDLE < ABOVE
+                 
+                 ( if ( < x middle )
+                      ( Int-Floor below x middle )
+                      ( Int-Floor middle x above )
+                 );if
+           );let
+         );else
+  );cond
+
+);define Int-Floor
+
+(FindRange 13579.246810)
+(IntFloor 8192 13579.246810 16384)
+(Int 13579.246810)
+(Real (Int 13579.246810))
+(FindRange 1024)
+(Int 1024)   
+(Int -13579.246810)
+;;;;;;;;; From Proj. 2 Prob. 15 ;;;;;;;;;;;;;;;;;;;;;;
+1
+; =============== Problem 1 可見數據 ====================
+(define a "=============== Problem 1 viewable case =================")
+a
+
+(clean-environment)
+
+; when the being evaluated S-expr is an atom, the result is that atom
+; (in our standard print-form)
+
+3
++3
++3.5
+-.12549
+"Hi\n\""""
+
+; when a function is being evaluated, the parameters of this function
+; are evaluated BEFORE this function is "applied" 
+; to the evaluated results (of the parameters)
+
+; 1. A list (or rather, a dotted pair) is CONSTRUCTED.
+
+(cons 3 4)     ; an operation on two objects
+(cons 3
+      nil
+)            ; '(3 . nil)' = '(3)'
+(cons 30
+      ()
+)            ; same thing
+(cons 300
+      #f
+)            ; same thing
+()
+(cons () nil)(cons #f #f)(cons nil ())
+(list 1 2 3)(list nil 2 3 #f)
+
+; 2. quote - a way to "by pass" the default interpretation of an S-exp
+
+'(3 4 5)'()
+(quote (3 (4 5)))
+
+(cons 3 '(4321 5))
+
+(list 3 '(4 5))
+(list 3 
+        '(4 5) 
+        6 
+        '(7 8))
+        
+; 3. To give a (symbolic) name to an object
+
+; Meaning of DEFINE revisited ("令")
+
+; Basically, DEFINE establishes a (temporary) binding between a symbol 
+; and (the internal representation of) an S-expression
+
+(define a 5)   ; "令a為5"; 讓我們把"那個東西"又稱為'a'
+(define b (cons 3 5))
+b             ; Is 'b' a name of some thing?
+a             ; Is 'a' a name of some thing?
+(define x '((3 4) 5))   ; 讓我們把"那個東西"又稱為'x'
+x              ; Is 'x' a name of some thing?
+
+; Combining (1), (2) and (3)
+
+(define hello '(1 2 . 3))
+hello
+(cons hello 
+      4
+)  
+(cons 10 #f)     
+(cons hello 
+      '(4)
+)    
+(list hello hello)   
+(define hello "\"CYCU ICE\"")
+(list hello hello '(100))
+(cons hello 
+        '(400 (5000 600) 70)
+  )       
+(define there "Number One!")
+(list hello there)
+
+(define a '(30 40))
+(cons 5 a)
+a
+
+; Whenever a function is called, its parameters are evaluated BEFORE
+; the function is "applied" to the evaluated results of the parameters ;  
+; However, this requires that (the evaluated result of) the first 
+; component of the being-evaluated list must be bound to a function ;
+; if (the evaluated result of) the first component of the being-evaluated list
+; is not bound to a function in the first place, the evaluation process 
+; stops, and an appropriate error message is issued.
+
+; 4. Different parts of a list (or a dotted pair) can be 
+;    individually accessed (by using 'car' and 'cdr')
+
+(car '(3 . 4))  ; the "left part" of a dotted pair
+(cdr '(3 . 4))  ; the "right part" of a dotted pair
+(car '(3 4 5))    
+(cdr '(3 4 5))
+(car '((3 4) "Happy New Year!")  )
+(cdr '((3 4) "Happy New Year!")  )
+(car '((3 4) "Merry Christmas!" . 6)  )
+(cdr '((3 4) "Merry Christmas!" . 6)  )
+(car '((3 4) . "Happy New Year!")  )
+(cdr '((3 4) . "Happy New Year!")  )
+(car a)
+(cdr a)
+
+; =============== Problem 2 可見數據 ====================
+(define a "=============== Problem 2 viewable case =================")
+a
+
+(clean-environment)
+
+; 5. Primitive predicates (A predicate is a function that returns
+;      #t or nil (i.e., #f); By convention, the name of a predicate
+;      should have a suffix '?')
+
+(pair? 3)      ; Other Lisps may not have PAIR?; they have ATOM? and LIST?
+(pair? '(3 4))
+(pair? '(3 . 4))
+(pair? "Hello, there!")
+(null? ())     ; is it the empty list?
+(null? #f)     ; #f = nil = ()
+(null? '(3 . 4))
+(integer? 3)
+(integer? 3.4)
+(integer? -.4)
+(real? +3)
+(real? 3.4)
+(real? .5)
+(number? 3)
+(number? 3.4)
+(string? "Hi")
+(string? +3.4)
+(boolean? #t)
+(boolean? ())
+(boolean? #f)
+(boolean? '(3 . 4))
+(symbol? 'abc)
+(symbol? 3)
+(define America '(U. S. A.))
+(symbol? America    ; Once the symbol America is evaluated,
+  )                 ; do we get a symbol?
+(pair? America)     ; does the binding of >>America<< starts with a cons-cell?
+(boolean? America)
+
+; 6. Basic arithmetic, logical and string operations
+
+(+ 3 7 10)
+(- 3 7 10)   ; the result of int OPR int is int
+(+ 3 7.5 10) ; the result of int OPR float is float
+(- 3 7.5 10) ; order of evaluation is left associative (i.e., from left to right)
+(* 3 4)
+(* 3 4.5 5)
+(define a 5)
+(/ 15 a)     ; be careful! there may be DIVISION BY 0
+(/ 7 a)
+(/ 15.0 3)
+(/ 15 2)
+(/ 15.0 2)
+(/ 15 2.0)
+(/ 45 3 5 2)
+(+ 15.125 4)
+(not #t)
+(not 3)
+(not '(1 2))
+(not ())
+(not nil)
+(> 3 2)
+(> 5 3 1)
+(> 5 3 5)
+(> 3.125 2 -5)
+(>= 3.25 2 2)
+(< 3.125 2 4)
+(<= 3.125 2)
+(<= 2 2 2 2 2 2 2 2)
+(= 2 2 2)
+(= 2 3 2)
+(= 2 a)
+(= 2 a a)
+(>= a a a)
+(string-append "\"Hello," " there!\"")
+(string-append "Hello," " there!" " Wait!")
+(string>? "az" "aw")
+(string>? "az" "aw" "ax")
+(string>? "az" "aw" "atuv")
+(string<? "az" "aw")
+(string<? "az" "aw" "ax")
+(string<? "az" "aw" "atuv")
+(string=? "az" "aw")
+(string=? "az" "aw" "ax")
+(string=? "az" (string-append "a" "z"))
+
+; 8. eqv? and equal?
+
+; eqv? returns "true" only when the two being compared
+; objects are atoms (except in the case of strings)
+; or when the two being compared objects "occupy the
+; same memory space".
+
+; equal?, on the other hand, is the usual notion of 
+; equality comparison
+
+(eqv? 3 3)
+(define a '((3 (4 5))))
+a
+(eqv? a a)
+(eqv? a '((3 (4 5))))
+(equal? a '((3 (4 5))))
+(define b a)
+(eqv? a b)
+(define c '((3 (4 5))))
+(eqv? a c)
+(equal? a c)
+(eqv? '((3 (4 5))) '((3 (4 5))))
+(eqv? "Hi" "Hi")
+(equal? a a)
+(equal? '((3 (4 5))) '((3 (4 5))))
+(equal? '((3 (4 5))) '(3 4 5))
+(equal? "Hi" "Hi")
+
+; =============== Problem 3 可見數據 ====================
+(define a "=============== Problem 3 viewable case =================")
+a
+
+(clean-environment)
+
+; 9. Conditionals
+
+(if (> 3 2) 'good 'bad)
+(if (> 3 2) 'good)
+(define a 5)
+(if a 'good 'bad)
+(if (not a) 'good 'bad)
+(define a nil)
+(if a '(1 2) '(3 4))
+(if (not a) '((1 (2) 1) 1) '((3) (4 3)))
+(if (not a) '((1 (2) 1) 1) )
+(if 1 2 3)
+(if (cons 1 2) 3 4)
+(if nil 3 4)
+(if #t 3 4)
+
+(define b 4)
+(cond ((> 3 b) 'bad)
+      ((> b 3) 'good)
+      (else "What happened?") ; note that 'else' is a keyword in OurScheme ; 
+)                             ; however, it is not a primitive
+(define else #t) ; a non-primitive symbol can always have a binding
+(cond ((> 3 b) 'bad)
+      (else 'good)            ; this 'else' is a "normal" symbol
+      ((> b 3) 'ok)
+)
+(define else #f)
+(cond ((> 3 b) 'bad)
+      (else 'good)            
+      ((> b 3) 'ok)
+)
+(cond ((> 3 b) 'bad)
+      ((> b 5) 'bad)
+      (else "What happened?") ; only when being here is 'else' a keyword
+)
+(cond ((> 3 b) 'bad)
+      ((> b 5) 'bad)
+      (#t "What happened?")   ; can also use #t to mean "in all other cases"
+)
+(cond (#t 3))
+(cond ((> 3 4) 'bad)
+      ((> 4 3) 'good)
+)
+(cond ('(3 4) 'bad)
+      ((> 4 3) 'good)
+)
+(cond (5 'bad)
+      ((> 4 3) 'good)
+)
+  
+; more 搞怪examples
+
+(define a 10)
+(define b 20)
+
+(cond ((> a b) 3)
+      (#f 4)
+      (else 5)
+) ; should get 5
+
+(define else '(1 2))
+
+else ; should get >>(1 2)<<
+
+(cond ((> b 100) 3)
+      (else 4)
+      (else 5)
+) ; should get 4
+
+(cond ((> a 100) 3)
+      ((not else) 4)
+      (else else)
+) ; should get >>(1 2)<<
+
+(define else #f)
+
+(cond ((> a b) 1)
+      (else 2)
+      (else else)
+) ; should get nil
+
+
+; =============== Problem 4 可見數據 ====================
+(define a "=============== Problem 4 viewable case =================")
+a
+
+(clean-environment)
+
+(begin 3)
+(begin 3 4 5)
+
+(begin 
+   (car '(1 2 3))
+   (cdr '(1 2 3))
+)
+
+(begin
+   (list '(1 2 3))
+)
+
+(define a 5)
+
+( and        ; 'and' either returns the evaluated result of
+  (pair? 3)  ; the first one that is evaluated to nil
+  a          ; or the evaluated result of the last one
+)                          
+
+( and #t a )
+
+( or         ; 'or' either returns the evaluated result of
+  a          ; the first one that is not evaluated to nil
+  (null? ()) ; or the evaluated result of the last one
+)
+
+; ------- functional compositions (same category) -------
+
+(define hello "\"CYCU ICE\"")
+(define there "Number One!")
+(cons (car (list hello there)) there)
+
+(define a '(30 40))
+(cons 5 a)
+a
+(define a (cons 3 a))
+(cons (cons 5 a) a)
+a
+(car (car (cons a a)))
+(cdr (list a a (car (car (cons a a)))))
+(define a (cdr (list a a (car (car (cons a a)))))
+)
+(car (cdr a))
+(cons (car (cdr (cdr (car a))))
+      (cdr a)
+)
+(define a
+ (list (car (cdr a))
+       (cons (car (cdr (cdr (car a))))
+             (cdr a)
+       )
+       (car (cdr a))
+ )
+)
+a
+(define b a)
+(define b (cons (list a b) a))
+b
+(cons (car b) (car (cdr b)))
+
+; ------- functional compositions (same category) -------
+
+(define a 5)
+(define b 10)
+(define c 20)
+(define list1 '(11 22 33))
+(define list2 '(12 23 34))
+(define str1 "abc")
+(define str2 (string-append "d" "de"))
+(define var1
+ (- ( + (- a b) (* c a 3) 
+    )
+    (* a (+ b c (car list1)))
+    (car (cdr list2))
+ )
+)
+(>= var1 (car (cdr (cdr list2))))
+(string>? (string-append "Hello" str1)
+          str2
+)
+(not (> a 3))
+; etc.
+
+; ------- functional compositions (different categories) -------
+
+(cons
+  (cons (+ 30 50)
+        (cdr '(The sun shines bright))
+  )
+  (list (null? '())
+        (pair? '(30 (40)))
+        (- (+ 5 7) (+ 2 3))
+        '(1 2 . (3))
+  )
+)
+(if (> a b)
+    (* a
+      (+ (car list1)
+         (car (cdr list2)))
+    )
+    (* b
+      (+ (car list2)
+         (car (cdr list1)))
+    )
+)
+(if (not (> a b))
+    (* a
+      (+ (car list1)
+         (car (cdr list2)))
+    )
+    (* b
+      (+ (car list2)
+         (car (cdr list1)))
+    )
+)
+
+(define d 20)
+(begin
+   3 4 d)
+(begin
+   (+ 3 5)
+   (- 4 5)
+   (* d d)
+)
+(define a 20)
+(define b 40)
+(list
+     ( if (> a b)
+          (+ a (* a b))
+          (- b (+ a a))
+     )
+
+          ( begin
+            (- b (+ a a))
+            (> 70 b)
+          )
+)
+(if #t (begin 3 4 5))
+(cond ((> 5 3) 'good 'better 'best) (#t 'OK?)   )
+(define a (+ a b a))
+
+(cond ( (> a b) (+ a b) (- a b) (* a b) ) 
+      (  else 'OK? )   
+)
+
+(cond ( (< a b) 
+        (+ a b) (- a b) (- a Look!) (* a b)
+      ) 
+      (  else
+         ( list 'OK? 'Correct? )
+         ( cons 'OK? 'Correct? ) 
+      )   
+)
+
+; =============== Problem 5 可見數據 ====================
+(define a "=============== Problem 5 viewable case =================")
+a
+
+(clean-environment)
+
+; ------- Some newly added stuff -------
+
+; In OurScheme (and Lisp too), there is no discrimination against 
+; functions
+
+cons ; the binding of this (primitive) symbol is a function
+car  ; the binding of this (primitive) symbol is also a function
+
+(define myCons cons) ; just like int/float/string can be the binding
+(define myCar car)   ; of a symbol, a function can be a binding too
+
+myCons ; what is the (current) binding of this symbol?
+
+(myCons cons myCar) ; the evaluated result of 'myCons' is a function
+(myCons 3 '(4 myCar))
+
+((myCar (cons myCons cons)) '(10) 20)
+
+
+
+
+
+(begin 
+   (myCar '(1 2 3))
+   (cdr '(1 2 3))
+   (car (cdr '(1 (20 myCons))))
+)
+
+(begin
+   (list (list 1 - 3 +)
+         (myCons 25 car)
+   )
+)
+((myCar (cons myCons cons)) 
+ (cdr (cdr '(Hi! (How is) (it) going ?)
+      )
+ )
+ (cdr '(Hi! (How is) (it) going ?)
+ )
+)
+
+
+(define >? string>?)
+(define <? string<?)
+(define =? string=?)
+
+(define first "CYCU")
+(define second "NCU")
+(define third "NSYU")
+
+(define cc 
+        (if (>? first second)
+            "Good"
+            (if (<? first second)
+                "Bad"
+                "So So"
+            )
+        )
+)
+cc
+
+(if (=? second first)
+    "Really?"
+    (if (>? second first)
+        "OK."
+        (if (<? second first)
+            "Must be."
+            "Impossible."
+        )
+    )
+)
+
+(cons 'Whether (cdr (cdr '(To be or not to be ?)))
+)
+(cdr (car (cons '(That is the question !) ()
+          )
+     )
+)
+(cdr (cdr (list "Hi," " Everybody!" "Wake up!")))
+(define sun-shine '(The sun shines bright))
+(define money 50)
+
+(cons (- (+ 30 money) 40)
+      (cdr (cdr sun-shine))
+)
+(define a 20)
+(define d 20)
+(define b 40)
+(if (> a (+ b d))
+    +
+    /
+)
+(+ d
+   ( if (> a b)
+        (+ a (* a b))
+        (- b (+ a a))
+   )
+)
+(+ d
+   ( if (> a b)
+        (+ a (* a b))
+        ( begin
+          (- b (+ a a))
+          70
+        )
+   )
+)
+(if #t (begin 3 4 a) (begin 6 7))
+(cond ( (> b a) "Good" "Better" "Best") 
+        ( else 'Never 'let 'it 'rest!)   )
+(define a (+ a b a))
+
+(cond ( (> (* a 2) (* b 2)) (+ a b) (+ (- a b) (* a b)) ) 
+      ( (> a b) Look! )
+      ( (< 20 10) It's a bird !)
+      (  It's a plane ! ) 
+      (  #t It's Superman !  )
+)
+
+(cond ( (< a b) 
+        (+ a b) (- a b) (- a Look!) (* a b)
+      ) 
+      (  #t 
+         ( list
+                ( list 'OK? 'Correct? )
+                ( list 'OK? 'Correct? )
+         ) 
+      )   
+)
+
+; =============== Problem 6 可見數據 ====================
+(define a "=============== Problem 6 viewable case =================")
+a
+
+(clean-environment)
+
+(define operators (list + - * /))
+( (car (cdr operators))
+  ((car operators) 10 20)
+  ((car (cdr (cdr operators))) 11 22)
+)
+
+(define listOfNum '(10.1254 20.318503 30.1 40.2 50 60 70 80.999 90.9)
+ )
+(define listOfStr '("What?" "When?" "Where?" "Who?" "How?" "Why?" "How come?") 
+ )
+(define listOfSym '(What? When? Where? Who? How? Why? HowCome?)
+ )
+(cons (car listOfSym)
+      (cons (car (cdr listOfStr))
+            (list (car (cdr (cdr listOfNum))))
+      )
+)
+(cons (car (cdr (cdr listOfNum)))
+      (cons (car (cdr listOfStr))
+            (list (car listOfSym))
+      )
+)
+
+(define abc operators)
+((car abc) 100 200)
+abc
+
+(define abc
+  (list
+    (cons (car listOfSym)
+          (cons (car (cdr listOfStr))
+                (list (car (cdr (cdr listOfNum))))
+          )
+    ) ; cons
+    (cons (car (cdr (cdr listOfNum)))
+          (cons (car (cdr listOfStr))
+                (list (car listOfSym))
+          )
+    ) ; cons
+  ) ; list
+) ; define
+abc
+(cons (car (car abc))
+      (cdr abc)
+)
+
+(define efg
+  (cons (car abc)
+        (car (cdr abc))
+  )
+)
+efg
+abc
+( + (car listOfNum)
+    (car (cdr listOfNum))
+    (car (cdr (cdr listOfNum)))
+)
+( - ( + (car listOfNum)
+        (car (cdr listOfNum))
+        (car (cdr (cdr listOfNum)))
+    )
+    ( if ( string>? (car listOfStr) (car (cdr listOfStr))
+         )
+         10
+         15
+    )
+)
+(define What? (car listOfNum))
+(define When? (car (cdr listOfNum)))
+listOfSym
+( cons (list (car listOfSym)
+             What?
+       )
+       (cdr listOfSym)
+)
+listOfSym
+(define listOfSym
+        ( cons (list (car listOfSym)
+                     What?
+               )
+               (cdr listOfSym)
+        )
+)
+listOfSym
+( cons (car listOfSym)
+       ( cons (list (car (cdr listOfSym))
+                    When?
+              )
+              (cdr (cdr listOfSym))
+       )
+)
+listOfSym
+(define listOfSym
+        ( cons (car listOfSym)
+               ( cons (list (car (cdr listOfSym))
+                            When?
+                      )
+                      (cdr (cdr listOfSym))
+               )
+        )
+)
+listOfSym
+(define listOfSym '(What? When? Where? Who? How? Why? HowCome?)
+  )
+listOfSym
+(define listOfSym
+        ( cons (list (car listOfSym)
+                     (car listOfNum)
+               )
+               (cdr listOfSym)
+        )
+)
+listOfSym
+(define listOfSym
+        ( cons (car listOfSym)
+               ( cons (list (car (cdr listOfSym))
+                            (car (cdr listOfNum))
+                      )
+                      (cdr (cdr listOfSym))
+               )
+        )
+)
+listOfSym
+";;;;;;;;;;;;;;;;;;;;;;;;;;;; Test 5 : Medium, no error"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Medium, no error, with comment
+'(1 . (2 . (3 . 4));)
+) '(1 . (2 . (3 . ())
+   ))
+'(1 . (2 3 . (4
+)))
+'(1 2 3 . 4)
+'(1 2 3 . nil)
+'(1 (2 . (3)) . (4))
+'(t () . (1 2 3 . #f))
+'((1 2 3)
+   (4 . 5) 
+   . 
+   (6 (7 . nil) 
+      (8 . 9)
+   )
+  ) '((1 2 3)
+   (4 . 5) 
+   . 
+   (6 (7.#f) ((8.5)
+   )
+  )) '(1 2 3) '(1)
+    
+  '(1.(2))';(1;2"3")      
+    (  
+ nil  
+       .
+    nil       
+    )  
+'( !;)
+    .
+    ( %^&
+      .
+      abc
+    )
+  )
+       '(Hi
+           .
+           (there.(     ; '(', though a token, is also a separater
+                        ; ; ; ; ;
+                    How is it going?)
+           )
+          )
+'(1 2 3 "To Taiwan. It's fine.")'.nil '(.25
+#f
+)
+";;;;;;;;;;;;;;;;;;;;;;;;;;;; Test 7 : Complex, no error"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Complex, no error, with comment
+'(+.3751 . ("OurScheme allows the use of '\\n', '\\t' and  '\\\"' in a string." . (3 . 4));)
+) '(1 . (2 . (3 . ())
+   ))
+'(1 . (2 "Use '\"' to start and close a string." . (4
+)))
+'(1 2 3 . +.31499)
+'(1 2 3 . nil)
+'(1 (2 . (3)) . (4))
+'(t () . (1 .375 3 . #f))
+'((1 2 3)
+   (+-3.25 . 5) 
+   . 
+   (6 (7 . nil) 
+      (8 . 9)
+   )
+  ) '((1 2 3)
+   (4 . +25) 
+   . 
+   (6 (-7.#f) ((8.5)
+   )
+  )) '(1 2 3) '(++1)
+    
+  '(1.(-2))';(1;2"3")      
+    (  
+ nil  
+       .
+    nil       
+    )  
+'(((1 . -+2) 
+    . (("You need to handle >>\\<<"."You also need to handle >>\"<<") 
+       . 
+       ((exit) . 6)
+      )
+   ) 
+   . (7 . 8)
+  )
+  '(exit 0)
+'(Hi! (exit) (How about using . (Lisp (instead of . C?))))
+'(define (f z)  ; a function named 'f', which has one parameter 'z'
+
+   (let ((x 5)  ; let 'x' (a "local identifier") be 5
+         (y "Hi Hello"
+        )  ; let 'x' (a "local identifier") be 5
+   
+    (define foo (lambda (y) (bar x y)exit)) ; 'foo' is a "local" function
+                                        ; for any input 'y', 
+                                        ; 'foo' returns (bar x y)
+                                        
+    (define bar (lambda (a b) (+ (* a b) a))) ; 'bar' a local function too
+                                        ; for any input pair 'a' and 'b',
+                                        ; return (+ (* a b) a)
+                                        
+    (+ (foo (+ x 3))   ; this function 'f' calls 'foo',
+       z)              ; adds its return-value with 'z' and then
+                       ; return the resulting value
+   )))
+'(The sun shines bright(
+    in(the old Kentucky's home)T's summer
+    (the larkies are gay).nil)-of-the-world)
+'(The sun shines bright(
+    in(the old Kentucky's home)T's summer
+    (the larkies are gay). nil)-of-the-world)
+';hi
+there
+';hi
+(there'is)
+''(''('(cons 'a b)))
+''(''('(cons 'a b) (c ())) (d e))
+''(''('(cons'a b)(c'()))(d e))
+'
+   '
+    ( '
+       '
+        ( '
+           ( cons'a'b )
+          ( c'(exit) )
+        )
+      ( d e )
+    ) '( 
+;(a((b(c)  
+    exit)

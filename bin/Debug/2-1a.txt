@@ -1,0 +1,222 @@
+Welcome to OurScheme!
+
+> a defined
+
+> "=============== Problem 1 viewable case ================="
+
+> environment cleaned
+
+> 3
+
+> 3
+
+> 3.500
+
+> -0.125
+
+> "Hi
+""
+
+> ""
+
+> ( 3
+  .
+  4
+)
+
+> ( 3
+)
+
+> ( 30
+)
+
+> ( 300
+)
+
+> nil
+
+> ( nil
+)
+
+> ( nil
+)
+
+> ( nil
+)
+
+> ( 1
+  2
+  3
+)
+
+> ( nil
+  2
+  3
+  nil
+)
+
+> ( 3
+  4
+  5
+)
+
+> nil
+
+> ( 3
+  ( 4
+    5
+  )
+)
+
+> ( 3
+  4321
+  5
+)
+
+> ( 3
+  ( 4
+    5
+  )
+)
+
+> ( 3
+  ( 4
+    5
+  )
+  6
+  ( 7
+    8
+  )
+)
+
+> a defined
+
+> b defined
+
+> ( 3
+  .
+  5
+)
+
+> 5
+
+> x defined
+
+> ( ( 3
+    4
+  )
+  5
+)
+
+> hello defined
+
+> ( 1
+  2
+  .
+  3
+)
+
+> ( ( 1
+    2
+    .
+    3
+  )
+  .
+  4
+)
+
+> ( 10
+)
+
+> ( ( 1
+    2
+    .
+    3
+  )
+  4
+)
+
+> ( ( 1
+    2
+    .
+    3
+  )
+  ( 1
+    2
+    .
+    3
+  )
+)
+
+> hello defined
+
+> ( ""CYCU ICE""
+  ""CYCU ICE""
+  ( 100
+  )
+)
+
+> ( ""CYCU ICE""
+  400
+  ( 5000
+    600
+  )
+  70
+)
+
+> there defined
+
+> ( ""CYCU ICE""
+  "Number One!"
+)
+
+> a defined
+
+> ( 5
+  30
+  40
+)
+
+> ( 30
+  40
+)
+
+> 3
+
+> 4
+
+> 3
+
+> ( 4
+  5
+)
+
+> ( 3
+  4
+)
+
+> ( "Happy New Year!"
+)
+
+> ( 3
+  4
+)
+
+> ( "Merry Christmas!"
+  .
+  6
+)
+
+> ( 3
+  4
+)
+
+> "Happy New Year!"
+
+> 30
+
+> ( 40
+)
+
+> ERROR (no more input) : END-OF-FILE encountered
+Thanks for using OurScheme!

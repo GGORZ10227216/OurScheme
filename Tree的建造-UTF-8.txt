@@ -1,0 +1,78 @@
+﻿Q/A regarding tree construction
+
+※ 引述《...》之銘言：
+> 在您繁忙改考卷之際還打擾您
+> 對於 PROJECT 還有些問題想請教
+> 還是不太瞭解
+> 是用什麼依據來決定東西是放在左邊還是右邊節點
+> 又 是用什麼依據來決定 要多生出一個節點
+> 而這個節點又是在左邊或是右邊呢
+> 我不太瞭解這個部份
+> 如果有文章可以看的話也請提示一下
+> 感謝在心，大恩大德，畢生難忘
+
+1. Translate EVERY '(...)' thing into a format like the following :
+
+   ( □ . ( ◇ . ( ◎ . ( ■ . ◇ ))))
+
+   Note : the reason I use □ and ◇ and ◎ and ■ and ◇ in the above
+          notation is becaue □ (or ◇, or ◎, or ■, or ◇) itself
+          can be a '(...)' thing.
+
+          You must realize that what we have here is a recursive situation.
+
+   // ================================ this is a comment line
+
+   Rules of translation :
+
+   1. ( □  ◇  ◎  ■ . ◇ ) is directly translated into
+
+      ( □ . ( ◇ . ( ◎ . ( ■ . ◇ ))))
+
+   2. ( □  ◇  ◎  ■ ) is first translated into ( □  ◇  ◎  ■ . nil ),
+      and then translated into ( □ . ( ◇ . ( ◎ . ( ■ . nil ))))
+
+2. For any ( □ . ( ◇ . ( ◎ . ( ■ . ◇ )))),
+   construct a tree in the following way.
+
+   // Again, note that what we have here is a recursive situation.
+
+   For each
+   
+           ( XXX   .   YYY )
+           
+   construct a node.  Suppose this node is called AAA.
+
+   For XXX, construct its corresponding tree.  Call this tree XXX'.
+   (If XXX is just an atom such as "Hi", then XXX' is just one leaf-node)
+
+   For YYY, construct its corresponding tree.  Call this tree YYY'.
+
+   Let the left-pointer of AAA point to XXX'.
+
+   Let the right-pointer of AAA point to YYY'.
+   
+   AAA is now the root of the tree you just constructed for
+   
+           ( XXX   .   YYY )
+
+3. Note :
+
+   The result of your "tree construction" is a tree described below.
+
+   a. Each leaf is an "atom"-node containing either a string or an int
+      or a float or a boolean or (I forgot what others there are).
+
+   b. Each internal node is a "cons"-node containing only two pointers.
+
+4. Note :
+
+   According to my definition in (3).  A tree can be just one node which
+   is a leaf-node.
+
+5. 'nil' (or '()' or '#f') is a special atom.
+
+   For 'nil' (or '()' or '#f'), you should construct a special atom-node
+   for it.  Whenever the system "sees" this atom-node, the system
+   should know that it is the internal representation of 'nil' (or '()'
+   or '#f').

@@ -1,722 +1,537 @@
-2017 spring, PL project 3 (OurScheme Project 3) - temporary version
+ï»¿// ===========================================================================
 
-Due : 6/25, 2017(Sunday) before midnight
+How to write OurScheme (Latest modification : 02/06, 2017)
 
-==================================================================
+// ===========================================================================
 
-For this project, you need to extend EvalSExp(), so that it is capable of
-evaluating user-defined functions.
+Main program for Project 1
 
-In order to do so, you must first extend your implementation of DEFINE, so
-that the user can define a function before he/she calls such a function.
+  Print 'Welcome to OurScheme!'
 
-You also need to allow the creation and use of "local definitions" via the
-use of the 'let' construct.
-
-The use of "nameless functions" (via the use 'lambda') should also be allowed.
-
-In other words, the main focus of Proj. 3 consists of three special "forms":
-'let', 'lambda', and 'define'.
-
-In addition, you must also handle error cases (see Part II below).
-
-==================================================================
-
-              Part I - Basic requirement
-
-==================================================================
-
-¦b¥¿¦¡¤¶²ĞProject 3¤§«e¡A§Ú­Ì¥²¶·¥ıÂç²M¤@­Ó·§©À¡G
-
-    ½Ö¬Ofunction¡H ½Ö¤£¬Ofunction¡H ¦pªG¤£¬Ofunction¡A¨º¬O¤°»ò¡H
-
-There are ten reserve words in OurScheme. Below is a list of these
-reserve words : // according to our textbook, a 'reserve word' is a
-                // word that is reserved for the system to use
-
-  quote
-  and
-  or
-  begin
-  if
-  cond
-  define
-  lambda
-  set!
-  let
-
-'let', 'lambda' and 'define' are three of the above mentioned reserve
-words. They are not functions. Whenever a reserve word appears, the
-system should check the syntax of the related code fragment.
-
-Though S-expressions starting with any one of the above ten reserve 
-words are actually "forms" and not functions, some of them may 
-nevertheless return values. For this reason, we will also refer to 
-these "forms" as "functional forms".
-
-¥»¾Ç´ÁªºOurScheme project¤£·|§@Ãş¦ü¥H¤U­n¨D(¦ı±N¨ÓªºOurScheme project·|)
-
- > define // or 'quote' or 'begin' or ... (Á`¦@¤Q­Ócases)
- DEFINE format
- 
- > (define abc quote) // or 'define' or 'begin' or ...
- QUOTE format
-
-==================================================================
-
-¡° let
-
-  The syntax of 'let' is the following :
+  repeat
   
-    ( let ( ... ) ......... )
-  
-  where 
-  
-  (a) '...' is a sequence of S-expressions, with each S-expression being 
-      of the form
-  
-          ( SYMBOL S-expression )
-  
-  (b) '.........' is a non-empty (!!!) sequence of S-expressions.
-  
-  In words, 'let' has at least two parameters.
-  
-  Its first argument is a list of zero or more pairs, where each pair
-  
-  must be of the form : ( SYMBOL S-expression)
-  
-  The working of 'let' is as follows :
-  
-  ¡¯ The '...' part defines local symbols with bindings.
-  
-     e.g., 
-     
-     if '( ... )' is
-     
-       ( ( x 5 ) 
-         ( y '(1 2 3))
-       )
-     
-     then
-     
-       two local symbols 'x' and 'y' are defined
-       AND
-       'x' is bound to the atom 5, while 'y' is bound to the list (1 2 3).
-  
-  ¡¯ The '.........' are normal S-expressions.  These S-expressions
-     are such that
-     
-     (i) The "LET-defined" local variables (i.e., 'x' and 'y') can appear 
-         in these S-expressions, and the system knows what their bindings
-         are.
-         
-     (ii) The evaluated result of the last S-expression in '.........'
-          is taken to be the evaluated result of the entire LET expression.
-  
-  Example :
-  
-  > (clean-environment)
-  environment cleaned
-  
-  > ( let ( (x 3) (y '(1 2 3))
+    Print '> '
+
+    ReadSExp(exp);
+    
+    if no error
+      then PrintSExp(exp);
+    else 
+      PrintErrorMessage() ;
+      
+  until (OR (user entered '(exit)')
+              (END-OF-FILE encountered)
           )
-          (cons 1 '(4 5))       ; this will be evaluated ; but no use
-          (cons x (cdr y))      ; the value of this one is the value of LET
-    )
-  ( 3
+
+  Print 'Thanks for using OurScheme!' or EOF error message
+
+Main program for the remaining projects
+
+  Print 'Welcome to OurScheme!'
+  
+  repeat
+  
+    Print : '> '
+    
+    ReadSExp( s_exp ); 
+    
+    if no error
+      then result <- EvalSExp( s_exp );
+           if error
+             PrintErrorMessage();
+           else
+             PrintSExp( result ) ;
+    else PrintErrorMessage() ;
+    
+  until user has just entered LEFT_PAREN "exit" RIGHT_PAREN
+         or
+         EOF encountered
+  
+  Print 'Thanks for using OurScheme!' or EOF error message
+
+ä¸€ã€ Read in an S-expression
+
+First, try to read in an S-expression.
+
+terminal :
+
+  LEFT-PAREN  // '('
+  RIGHT-PAREN // ')'
+  INT         // e.g., '123', '+123', '-123'
+  STRING     // "This is an example of a string." 
+              // (strings do not extend across lines)
+              // OurSchemeçš„stringæœ‰C/Javaçš„printf()çš„escapeçš„æ¦‚å¿µï¼Œä½†åªé™æ–¼'\n', '\"', '\t'
+              // èˆ‡'\n' ï¼› å¦‚æœ'\'å­—å…ƒä¹‹å¾Œçš„å­—å…ƒä¸æ˜¯'n', '"', 't', æˆ–'\'ï¼Œæ­¤(ç¬¬ä¸€å€‹)'\'å­—å…ƒå°±ç„¡
+              // ç‰¹æ®Šæ„ç¾©(è€Œåªæ˜¯ä¸€å€‹æ™®é€šå­—å…ƒ)ã€‚
+              // (ä¾‹ï¼š "There is an ENTER HERE>>\nSee?!", "Use '\"' to start and close a string."
+              //       "OurScheme allows the use of '\\n', '\\t' and  '\\"' in a string."
+              //       "Please enter YES\NO below this line >\n" 
+              //       "You need to handle this \\"        "You also need to handle this\"" )
+  DOT         // '.'
+  FLOAT       // '123.567', '123.', '.567', '+123.4', '-.123'
+  NIL         // 'nil' or '#f', but not 'NIL' nor 'nIL'
+  T           // 't' or '#t', but not 'T' nor '#T'
+  QUOTE       // '
+  SYMBOL      // a consecutive sequence of printable characters 
+              // that are not numbers,
+              // and do not contain '(', ')', 
+              // single-quote, double-quote and white-spaces ;
+              // Symbols are case-sensitive 
+              // (i.e., uppercase and lowercase are different);
+
+Note :
+
+  With the exception of strings, token are separated by the following "separators" :
+    (a) one or more white-spaces
+    (b) '('                             (note : '(' is a token by itself)
+    (c) ')'                             (note : ')' is a token by itself)
+    (d) the single-quote character (')  (note : this is a token by itself)
+    (e) the double-quote character (")  (note : this starts a STRING)
+    (f) semi-colon (;)                     (note : this is the start of a line comment)
+
+Examples :
+
+  '3.25' is a FLOAT.
+  '3.25a' is a SYMBOL.
+  'a.b' is a SYMBOL.
+  '#f' is NIL
+  '#fa' (alternatively, 'a#f') is a SYMBOL.
+
+Note :
+
+  '.' can mean several things : 
+  it is either part of a FLOAT or part of a SYMBOL or a DOT.
+    
+  It means a DOT only when it "stands alone".
+  
+  '#' can also mean two things :
+    it is either part of NIL (or T) or part of a SYMBOL.
+  
+  It is part of NIL (or T) only when it is '#t' or '#f' that 
+  "stand alone".
+  
+<S-exp> ::= <ATOM> 
+            | LEFT-PAREN <S-exp> { <S-exp> } [ DOT <S-exp> ] 
+              RIGHT-PAREN
+            | QUOTE <S-exp>
+            
+<ATOM>  ::= SYMBOL | INT | FLOAT | STRING 
+            | NIL | T | LEFT-PAREN RIGHT-PAREN
+
+Once the attempt to read in an S-expression fails, the line containing the error-char is ignored.  Start to read in an S-expression from the next input line.
+
+> (t . nil . (1 2 3))
+ERROR (unexpected character) : line 1 column 10 character '.'
+
+> (12 (    . 3))
+ERROR (unexpected character) : line 1 column 11 character ' '
+
+> ())
+nil
+
+> ERROR (unexpected character) : line 1 column 1 character ')'
+
+> (1 2 3) )
+( 1
+  2
+  3
+)
+
+> ERROR (unexpected character) : line 1 column 2 character ')'
+
+>'(1 2 3) )
+( quote
+  ( 1
     2
     3
   )
-  
-  > x
-  ERROR (unbound symbol) : x 
+)
 
-  If there is anything syntactically wrong with the syntax of 'let',
-  the system should print : ERROR (let format)
+> ERROR (unexpected character) : line 1 column 2 character ')'
+
+äºŒã€ Always check the syntax of the userâ€™s input; Must make sure that it is an 
+     S-expression before evaluating it.
+
+   User input å¯èƒ½æœƒæœ‰çš„ä¸‰ç¨®syntax errorçš„ç›¸é—œmessage(çš„ç¯„ä¾‹)å¦‚ä¸‹ï¼š
+      ERROR (unexpected character) : line 1 column 2 character ')'
+      ERROR (unexpected character) : line 3 column 27 LINE-ENTER encountered
+      ERROR : END-OF-FILE encountered when there should be more input
+
+ä¸‰ã€ The part of eval() concerning error messages : // Note : once an error occurs,
+                                                              //    the call to eval() is over
+if what is being evaluated is an atom but not a symbol
+
+  return that atom
   
-  Example :
-  
-  > (let (car '(1 2 3))  ; first argument of 'let' should be a list of pairs 
-                         ; moreover, there ought to be a second argument
-    )
-  ERROR (let format)
-  
-  > (let ((x 3 4)) 5     ; first argument of LET should be a list of
-                         ; pairs ; '(x 3 4)' is not an acceptable pair
-    )
-  ERROR (let format)
-  
-  > (let ((x 3)
-         ) 
-         5     
-    )
+else if what is being evaluated is a symbol 
+
+  check whether it is bound to an S-expression or an internal function
+
+  if unbound
+    ERROR (unbound symbol) : abc
+  else 
+    return that S-expression or internal function (i.e., its binding)
+
+else // what is being evaluated is (...) ; we call it the main S-expression below
+      // this (...) cannot be nil (nil is an atom)
+  if (...) is not a (pure) list
+    ERROR (non-list) : (...)  // (...)è¦pretty print
+
+  else if first argument of (...) is an atom â˜†, which is not a symbol
+    ERROR (attempt to apply non-function) : â˜†
+
+  else if first argument of (...) is a symbol SYM
+
+    check whether SYM is the name of a function (i.e., check whether ã€ŒSYM has a
+                                      binding, and that binding is an internal functionã€)
+
+    if SYM is the name of a known function
+
+      if the current level is not the top level, and SYM is 'clean-environment' or    
+          or 'define' orã€€'exit'
+
+        ERROR (clean-environment format) / ERROR (define format) / ERROR (level of exit)
+        // Project 2 çš„test dataè¦å®šè¦ ERROR (clean-environment/define format)ï¼Œæš«ä¸æ”¹å®ƒã€‚
+
+      if SYM is 'define' or 'set!' or 'let' or 'cond' or 'lambda'
+
+        check the format of this expression // æ³¨æ„ï¼šæ­¤æ™‚å°šæœªcheck num-of-arg
+        // (define symbol    // æ³¨æ„ï¼šåªèƒ½å®£å‘Šæˆ–è¨­å®š éprimitiveçš„symbol (é€™æ˜¯final decision!)
+        //         S-expression
+        // )
+        // (define ( one-or-more-symbols )
+        //           one-or-more-S-expressions
+        // )
+        // (set! symbol
+        //       S-expression
+        // )
+        // (lambda (zero-or-more-symbols)
+        //           one-or-more-S-expressions
+        // )
+        // (let (zero-or-more-PAIRs)
+        //        one-or-more-S-expressions
+        // )
+        // (cond one-or-more-AT-LEAST-DOUBLETONs
+        // )
+        // where PAIR df= ( symbol S-expression )
+        //        AT-LEAST-DOUBLETON df= a list of two or more S-expressions
+
+        if format error (åŒ…æ‹¬attempting to redefine system primitive) 
+          ERROR (COND format) : <the main S-exp> 
+          or
+          ERROR (DEFINE format) : <the main S-exp> // æœ‰å¯èƒ½æ˜¯å› ç‚ºredefining primitiveä¹‹æ•…
+          or
+          ERROR (SET! format) : <the main S-exp>    // æœ‰å¯èƒ½æ˜¯å› ç‚ºredefining primitiveä¹‹æ•…
+          or
+          ERROR (LET format) : <the main S-exp>     // æœ‰å¯èƒ½æ˜¯å› ç‚ºredefining primitiveä¹‹æ•…
+          or
+          ERROR (LAMBDA format) : <the main S-exp>  // æœ‰å¯èƒ½æ˜¯å› ç‚ºredefining primitiveä¹‹æ•…
+
+        evaluate ( ... ) 
+        // for 'cond', there may be ERROR (COND did not return value) : <the main S-exp>
+
+        return the evaluated result (and exit this call to eval())
+
+      else if SYM is 'if' or 'and' or 'or'
+
+        check whether the number of arguments is correct
+
+        if number of arguments is NOT correct
+          ERROR (incorrect number of arguments) : if
+
+        evaluate ( ... ) 
+
+        return the evaluated result (and exit this call to eval())
+
+      else // SYM is a known function name 'abc', which is neither 
+            // 'define' nor 'let' nor 'cond' nor 'lambda'
+
+        check whether the number of arguments is correct
+
+        if number of arguments is NOT correct
+          ERROR (incorrect number of arguments) : abc
+
+    else // SYM is 'abc', which is not the name of a known function
+
+      ERROR (unbound symbol) : abc
+      or
+      ERROR (attempt to apply non-function) : â˜† // â˜† is the binding of abc
+
+  else // the first argument of ( ... ) is ( ã€‚ã€‚ã€‚ ), i.e., it is ( ( ã€‚ã€‚ã€‚ ) ...... )
+
+    evaluate ( ã€‚ã€‚ã€‚ )
+
+    // if any error occurs during the evaluation of ( ã€‚ã€‚ã€‚ ), we just output an
+    // an appropriate error message, and we will not proceed any further
+
+    if no error occurs during the evaluation of ( ã€‚ã€‚ã€‚ ) 
+
+      check whether the evaluated result (of ( ã€‚ã€‚ã€‚ )) is an internal function
+
+      if the evaluated result (of ( ã€‚ã€‚ã€‚ )) is an internal function
+
+        check whether the number of arguments is correct
+
+        if num-of-arguments is NOT correct
+          ERROR (incorrect number of arguments) : name-of-the-function
+          or
+          ERROR (incorrect number of arguments) : lambda expression 
+                                                        // in the case of nameless functions
+
+      else // the evaluated result (of ( ã€‚ã€‚ã€‚ )) is not an internal function
+        ERROR (attempt to apply non-function) : â˜† //  â˜† is the evaluated result
+    
+  eval the second argument S2 of (the main S-expression) ( ... )
+
+  if the type of the evaluated result is not correct 
+    ERROR (xxx with incorrect argument type) : the-evaluated-result
+    // xxx must be the name of some primitive function!
+
+  if no error
+    eval the third argument S3 of (the main S-expression) ( ... )
+
+  if the type of the evaluated result is not correct 
+    ERROR (xxx with incorrect argument type) : the-evaluated-result
+
+  ...
+
+  if no error
+
+    apply the binding of the first argument (an internal function) to S2-eval-result, 
+    S3-eval-result, ... 
+
+    if no error
+      if there is an evaluated result to be returned
+        return the evaluated result
+      else
+        ERROR (no return result) : name-of-this-function
+        or
+        ERROR (no return result) : lambda expression // if there is such a case ...
+
+end // else what is being evaluated is (...) ; we call it the main S-expression
+
+Note : 
+
+1. error messageä¹‹ã€Œå…¶ä»–ã€
+
+å¦‚æœä½ çš„ç³»çµ±ç¢°åˆ°ä¸€å€‹errorã€è€Œä»¥ä¸Ševalçš„algorithmä¸­å°æ­¤errorã€Œè©²æœ‰ä½•error messageã€ä¸¦æ²’æœ‰è¦ç¯„(é€™æœ‰é»åƒæ˜¯if-then-else-if-then-...-else-if-then-elseä¸­çš„æœ€å¾Œé‚£å€‹ã€Œelseã€)ï¼Œä½ å°±output
+
+                ERROR : aaa
+
+å…¶ä¸­aaaæ˜¯user inputä¸­ã€Œå‡ºå•é¡Œçš„é‚£å€‹ã€Œè¢«evaluateçš„functionã€çš„first argumentã€ã€‚
+
+ç•¶ä½ ä¾ç…§ä»¥ä¸Ševalçš„algorithmä¾†evaluate an S-expressionæ™‚ï¼Œä½ æœƒä¸æ–·çš„è¦evaluate a functionï¼Œä¸€æ—¦é€™ç¨®ã€Œprojectä¸¦æœªè¦ç¯„çš„errorã€ç™¼ç”Ÿï¼Œã€Œç•¶æ™‚ã€é‚£å€‹è¢«evaluateçš„functionçš„first argumentå°±æ˜¯é€™è£¡æ‰€è¬‚çš„aaaã€‚
+
+// ã€Œprojectæœªè¦ç¯„ã€ df= projectä¸­(èˆ‡test dataä¸­)æœªæåˆ°é€™ç¨®errorï¼Œä½†æ˜æ˜å°±æ˜¯å€‹error
+//                          |                           // i.e., OR
+//                          projectä¸­æœ‰æåˆ°é€™ç¨®errorï¼Œä½†æ²’èªªerror messageæ‡‰è©²æ˜¯å•¥
+
+  e.g.,
+
+  > (/ 3 0)
+  ERROR : /
+
+2. Some examples of error messages
+
+> (car nil)
+ERROR (car with incorrect argument type) : nil
+
+> (define (f a) (cons a a))
+f defined
+
+> (f 5)
+( 5
+  .
   5
-  
-  > (let ( ( (car '(x y z)) ; first argument of LET should be a list of pairs
-             3              
-           )                ; Furthermore, the first element of each 
-         )                  ; pair must be a symbol
-         5
-    )
-  ERROR (let format)
-           
-  
-  > (let ()             ; There should be at least one S-expression following
-                        ; the first argument
-    )                   
-  ERROR (let format)
-  
-  > (let () 5           
-    )
-  5
-  
-  > (let ( ( ( car '(x y z)) 
-             5
-           )
-         )        
-    )
-  ERROR (let format)
-  
-  > (let ( ( x (cons 5) ) ; the problem is not in LET-format
-         )
-         ( + x x )
-    )
-  ERROR (incorrect number of arguments) : cons
-  
-  > (let ( ( x (cons 5) ) 
-         )
-    )
-  ERROR (let format)
-  
-  > (let ((x (1 2 3))) 5)  ; LET-format OK
-  ERROR (attempt to apply non-function) : 1
-  
-  > (let ((x (1 2 3))
-         )
-    )
-  ERROR (let format)  
+)
 
-¡° lambda
+> (f 5 a)
+ERROR (incorrect number of arguments) : f
 
-   The syntax of 'lambda' is :
-   
-     ( lambda ( zero-or-more-symbols ) one-or-more-S-expressions )
-   
-   A lambda expression defines a (nameless) function. The evaluation of
-   this lambda expression returns the function it defines.
-   
-   A lambda expression has two or more parameters.
-   
-   The first argument is a list of zero-or-more-symbols (these symbols
-   
-   are the arguments of the function being defined by the lambda expression).
-   
-   The one-or-more-S-expressions constitute the function's body.
-   
-   Example :
-   
-   > (clean-enviornment)
-   environment cleaned
-   
-   > ( lambda )
-   ERROR (lambda format)
-   
-   > ( lambda x )   
-   ERROR (lambda format)
-   
-   > ( lambda x y z )
-   ERROR (lambda format)
-   
-   > ( lambda (x) y z       ; the evaluation of a lambda expression
-                            ; produces an internal representation of a 
-     )                      ; function
-   #<procedure lambda>
-   
-   > ( lambda (x) )
-   ERROR (lambda format)
-   
-   > ( lambda () y ) ; this function just returns the binding of 'y'
-   #<procedure lambda>
-   
-   > ( lambda (5) y )
-   ERROR (lambda format)
-   
-   > ( lambda () 5 )
-   #function
-   
-   > ( lambda () () )
-   #<procedure lambda>
-   
-   > ( lambda () )
-   ERROR (lambda format)
-   
-   > ( lambda () (+ c 5)
-     )
-   #<procedure lambda>
-  
-   > ( ( lambda () (+ c 5)  ; first, the internal representation of a function
-       )                    ; is produced ; this internal representation
-                            ; is "the evaluated result of the first argument"
-                            ; once the binding of the first argument (of
-                            ; the top-level list) is obtained and found
-                            ; to be a function, that function is applied ;
-     )
-   ERROR (unbound symbol) : c
-   
-   > ( ( lambda () (+ 5 5) (+ 5 6) 
-       )
-     )
-   11
-   
-   > ( ( lambda () (+ 5 5) (+ c 6)
-       )
-       8
-     )
-   ERROR (incorrect number of arguments) : lambda expression
-   
-¡° define
+> (define (ff a) (g a a))
+ff defined
 
-   The syntax of 'define' is :
-   
-     ( define SYMBOL S-expression )
-   
-   OR
-   
-     ( define ( SYMBOL zero-or-more-symbols ) one-or-more-S-expressions )
-   
-   Moreover, a DEFINE-expression must appear at the top-level (i.e., it 
-   cannot be an "inner" expression).
-   
-   The first define-expression defines the binding of a symbol.  We have
-   seen how this define-expression can be used in the previous projects.
-   With a proper use of the lambda-expressions, we can also define functions
-   using the first define-expression.
-   
-   The second define-expression is only used for defining functions.
-   
-   Example :
-   
-   > (clean-environment)
-   environment cleaned
-   
-   > ( define a 2 )
-   a defined
-   
-   > ( define f ( lambda (x) (+ x x c) ; the binding of 'f' is defined
-                )                      ; to be the internal representation
-     )                                 ; of a function
-   f defined
-   
-   > f
-   #<procedure lambda>
-   
-   > (f 1 2 3)
-   ERROR (incorrect number of arguments) : lambda
-   
-   > (f a)
-   ERROR (unbound symbol) : c
-   
-   > (f b)
-   ERROR (unbound symbol) : b
-   
-   > ( define c 10 )
-   c defined
-   
-   > (f a)
-   14
-  
-   > ( define ( g x ) (h x x) )
-   g defined
-   
-   > g
-   #<procedure g>
-   
-   > (g 3)
-   ERROR (unbound symbol) : h
-   
-   > ( define ( k x ) (h z z) )
-   k defined
-   
-   > (k w)
-   ERROR (unbound symbol) : w
-   
-   > (k c)
-   ERROR (unbound symbol) : h
-   
-   > (define (h x y) (+ x 20 a))
-   h defined
-   
-   > (g c)
-   32
-   
-   > ( define (h x y) )
-   ERROR (define format)
-   
-   > ( define x 10 20 )
-   ERROR (define format)
+> (define (g a) (cons a a))
+g defined
 
-   > ( define x 300 )   ; 'x' is a "global"
-   x defined
-   
-   > (g c)              ; global x != parameter x
-   32
+> (ff 5)
+ERROR (incorrect number of arguments) : g
 
-   > (define cadr (lambda (x) (car (cdr x))))
-   cadr defined
-   
-   > cadr
-   #<procedure lambda>
-   
-   > (cadr '(1 2 3 4))
-   2
-   
-   > (define (cadr x) ( (lambda (x) (car (cdr x))) 
-                        x
-                      )
-     )
-   cadr defined
-   
-   > (cadr '(1 2 3 4))
-   2
-   
-   > cadr
-   #<procedure lambda>
-   
-   > cons
-   #<procedure cons>
+> (define (f a) (cons a a a))
+f defined
 
-==================================================================
+> (f 5)
+ERROR (incorrect number of arguments) : cons
 
-       Part II - Error handling (the "no return value" error)
+> (CONS 3 4)      
+ERROR (unbound symbol) : CONS
 
-==================================================================
+> (cons hello 4)
+ERROR (unbound symbol) : hello
 
-²{¦b¤¶²ĞProj. 3 (»PProj. 4)ªº¤@­Ó­«­nrun-time error: no return-value.
-»¡¨Ó¸Üªø¡A½Ğ­@¤ß¬İ§¹¡C
+> hello
+ERROR (unbound symbol) : hello
 
-1. total function vs. partial function
+> (CONS hello there)
+ERROR (unbound symbol) : CONS
 
-§Ú­Ì©Ò¼ô±xªºfunctions³£¬Ototal functions¡A¥ç§Y¡G
+> (cons 1 2 3)
+ERROR (incorrect number of arguments) : cons
 
-  ¥u­n©Ò¦³ªºparameters¬Ò¬°¦¹function¥i±µ¨üªºparameters 
-  (¦pFactorialªº¤@¦Ê¹s¤@­Ó°Ñ¼Æ¬O­Ó¤j©ó©Îµ¥©ó0ªº¾ã¼Æ)¡B
-  ¦¹function´N(«OÃÒ¡B©Î¤êÀ³¸Ó)·|return¤@­Ó­È¡C
-  Á|¨Ò¦Ó¨¥¡AC/Javaªºnon-void functions´N¬O(²z½×¤WÀ³)¦p¦¹¡C
-  
-¦ıfunctions¨Æ¹ê¤WÁÙ¦³partial functions¡A¥ç§Y¡G
+> (3 4 5)
+ERROR (attempt to apply non-function) : 3
 
-  ÁöµM©Ò¦³ªºparameters¬Ò¬°¦¹function¥i±µ¨üªºparameters¡A
-  ¦ı¦¹function¥¼¨£±o«OÃÒreturn¤@­Ó­È¡C
-  
-  (´«¨¥¤§¡AÁöµM©Ò¦³ªºparameters¬Ò¬°¦¹function¥i±µ¨üªºparameters¡A
-   ¦ı¦³¥i¯à¦¹function¨Ã¤£return¤@­Ó­È¡C
+> (cons 3 
+        (4321 5))
+ERROR (attempt to apply non-function) : 4321
+
+> (define a 5)
+5
+
+> (a 3 a)
+ERROR (attempt to apply non-function) : 5
+
+> (* 3 "Hi")
+ERROR (* with incorrect argument type) : "Hi"
+
+> (string>? 15 "hi")
+ERROR (string>? with incorrect argument type) : 15
+
+> (+ 15 "hi")
+ERROR (+ with incorrect argument type) : "hi"
+
+> (string>? "hi" "there" a)
+ERROR (string>? with incorrect argument type) : 5
+
+> (string>? "hi" "there" about)
+ERROR (unbound symbol) : about
+
+> (cond ((> 3 4) 'bad)
+        ((> 4 5) 'bad)
   )
-  
-  ¨Ò¡G
-  
-    (define (F x) (cond ((> x 5) x))) ; So, (F 3) has no return value
+ERROR (return value undefined) : cond
 
-¤]½Ğª`·N¡G¥H¤W(»P¥H¤U)¦³Ãö¡ufunction¡vªº»¡©ú¤]¾A¥Î©ó¡ufunctional form¡v.
+> (cond ((> y 4) 'bad)
+        ((> 4 3) 'good)
+  )
+ERROR (unbound symbol) : y
 
+3.value and binding
 
-2. In OurScheme, we are dealing with partial functions and not
-   total functions.
+Lisp and Scheme å …æŒä¸€å€‹æ¦‚å¿µï¼š
 
+                    æ²’æœ‰ã€Œvalueã€ï¼ åªæœ‰ã€Œbindingã€ï¼
 
-3. ¦³®É¡Ait is acceptable that a function call does not return a value.
-   
-   ¨Ò¡G
-   
-     (begin (F 3) 5) ; °²³]the function F¤w©w¸q©ó¤W
-                     ; ÁöµM(F 3) does not return a value, but it is OK.
-                     ; ¦]¬°(F 3)¬O§_return a value¨Ã¤£­«­n
+ä¹Ÿå°±æ˜¯èªªï¼š
+           æ²’æœ‰ã€Œsymbolçš„valueã€é€™å›äº‹ï¼ åªæœ‰ã€Œsymbolçš„bindingã€ï¼
 
-     (begin (begin (F 3)) 5) ; ¤¤¶¡ªºbegin¨Ã¥¼return a value. It is OK too.
+  ï¼Š Symbolçš„bindingå¯èƒ½æ˜¯ä¸€å€‹S-expression (which is basically a structure
+     of symbols)ï¼Œä¹Ÿå¯èƒ½æ˜¯ä¸€å€‹(æ‰€è¬‚çš„)internal functionã€‚
 
+  ï¼Š Internal functionsæœ‰äº‹å…ˆsystem defineå¥½çš„ï¼Œä¹Ÿæœ‰user defineçš„ã€‚
 
-4. ¨º...
+  ï¼Š evaluate ä¸€å€‹ã€Œésymbolçš„atomã€  çš„çµæœ  æ˜¯  é‚£å€‹atom
 
-   Under what circumstances is it an error not to return a value¡H¡H¡H
-   
-   ¯÷±N³o¨Çcircumstances±ø¦C©ó¤U¡G
-   
-   (a) When a function is called, all its actual parameters must evaluate
-       to a binding.
-       
-       »¡©ú¡G¦¹³Bªº­«ÂI¬O¡uwhen a function ia called¡v
-       
-             ¨Ò¡G
-             
-               (cond ((> 5 3) 15)
-                     (#t (cons (F 3) (F 3)))
-               )
-               ªº°õ¦æ¤£·|¦³error¡A¦]¬°(cons (F 3) (F 3))¤£·|³Q©I¥s¡C
-               
-               ¦ı
-               (cons (F 3) 5)
-               ªº°õ¦æ´N¦³error¤F¡A¦]¬°cons¦³³Q©I¥s¡B¦Ó(F 3)µLreturn value¡C
-               
-   (b) When an IF or COND is evaluated and a test-condition of this IF or 
-       COND gets evaluated, the evaluation of this test condition must
-       result in a binding.
-       
-       »¡©ú¡GIF¤]´N½}¤F(IF¥u¦³¤@­Ótest condition¡A¤]¤@©w·|­nevaluate³o­Ó
-                        test condition (°£«DIF¥»¨­¨S¦³³Qevaluate))
-                        
-             COND¥i¯à¦³¦n´X­Ótest conditions¡A¦bevaluate³o­ÓCONDªº¹Lµ{¤§¤¤¡A
-             ¨Ã«D©Ò¦³ªºtest conditions³£·|³Qevaluate¡A¨Ò¤l¡G
-             
-               (cond ((> 5 3) 15)
-                     ((F 3) (cons 4 5))
-               ) ; the evaluation of this COND will be OK (no error!)
-             
-               (cond ((< 5 3) 15)
-                     ((F 3) (cons 4 5))
-               ) ; the evaluation of this COND is not OK ((F 3) has no return value)
-             
-             ©Ò¥H­«ÂI¬O¡uWhen IF/COND is evaluated and a test-condition of this 
-             IF/COND gets evaluated¡v¡A¥u¦³¦b¦¹®É¡Bthe evaluation of ¦¹
-             test condition¤~¤@©w¥²¶·­n¦³return value¡C
-   
-   (c) When an AND or OR is evaluated and a condition of this AND or 
-       OR gets evaluated, the evaluation of this condition must
-       result in a binding.
-       
-       »¡©ú¡G We are talking about
-       
-              ( and <condition-1> <condition-2> ... <condition-N> )
+  ï¼Š evaluate ä¸€å€‹symbol  çš„çµæœ  æ˜¯  é‚£å€‹symbolçš„binding
 
-              or
+  ï¼Š evaluate ä¸€å€‹list  çš„çµæœ  æ˜¯  apply ã€Œevaluateæ­¤listçš„first argument
+     æ‰€å¾—çš„çµæœã€(which is supposedly an internal function)  æ–¼
+     ã€Œevaluateæ­¤listçš„å…¶ä»– argument æ‰€å¾—çš„çµæœã€
 
-              ( or <condition-1> <condition-2> ... <condition-N> )
-              
-              ¦³error©ÎµLerrorªº¹D²z»P(b)Ãş¦ü
+ç¶“ç”±ä½¿ç”¨æŸäº›system defined çš„"æ±æ±" (å¦‚'define')ï¼Œæˆ‘å€‘å¯ä»¥æ”¹è®Šsymbolçš„bindingã€‚
+ä½† æˆ‘å€‘èƒ½æ”¹è®Šã€ŒåŸå…ˆsystemå·²defineå¥½çš„symbolã€çš„bindingå—ï¼Ÿ
 
-   (d) When DEFINE or SET! or LET is evaluated, the "to be assigned"
-       must evaluate to a binding.
-       
-       »¡©ú¡G We are talking about
-       
-              ( define <symbol> HERE )
+ä¾‹ï¼š how about theseï¼Ÿ
 
-              or
+  > (define define 3)
+  ???
 
-              ( set! <symbol> HERE ) ; set!±N©óProj. 4¥X²{
-              
-              or
-              
-              ( let ( ( <symbol-1> HERE )
-                      ( <symbol-2> HERE )
-                      ...
-                      ( <symbol-N> HERE )
-                    )
-                    ...
-              )
-              
-              When this DEFINE or SET! or LET is evaluated,
-              what appears at HERE must evaluate to a binding.
-              
-              Otherwise, there is no way we can initialize the
-              corresponding symbol.
-       
-   (e) When a function or functional form is evaluated at the top level,
-       it must evaluate to a binding.
-       
-       »¡©ú¡G ·íOurSchemeªº¨Ï¥ÎªÌ©óthe prompt level(¥ç§Y·ísystem print
-       
-              '> '¤§«á)¿é¤J¤@­ÓS-expression¥ssystem¥hevaluate®É¡A
-              
-              the user expects to see a return value (which is what the
-              
-              system prints as a response of user input).
-              
-              ¦]¦¹¡A¦pªG¦¹®Éthe evaluation of the (user-input) S-expression
-              
-              does not result in a binding¡Athe system should print
-              
-              >>ERROR (no return value) : ...<<
+  > (define exit 3)
+  ???
 
+  > (let ((cons car)) (cons '(1 2)))
+  ???
 
-5. The error message to show when a return value is required but no values returned
+Petite Scheme å…è¨±å¦‚æ­¤ï¼  OurSchemeè¦ä¸è¦ï¼Ÿ
 
-   (a) If a function is called and some of its actual parameters does not 
-       evaluate to a binding, then the first occurrence of such cases
-       shoule lead to the following error message (and the control goes 
-       back to the top level):
-       
-              >>ERROR (unbound parameter) : <code of the actual parameter><<
-               
-   (b) If an IF or COND is evaluated and the evaluation of a test condition 
-       does not result in a binding, then the following error message should be
-       printed (and the control goes back to the top level):
-       
-              >>ERROR (unbound test-condition) : <code of the test-condition><<
-               
-   (c) If an AND or OR is evaluated and a condition of this AND or 
-       OR does not evaluate to a binding, then the following error message should be
-       printed (and the control goes back to the top level):
-       
-              >>ERROR (unbound condition) : <code of the condition><<
-               
-   (d) If DEFINE or SET! or LET is evaluated and the "to be assigned"
-       does not evaluate to a binding, then the following error message should be
-       printed (and the control goes back to the top level):
-       
-              >>ERROR (no return value) : <code of the "to be assigned"><<
-              
-              ¨Ò¡G > (define a (F 3)) ; F is what has been defined in the above
-                   ERROR (no return value) : ( F
-                     3
-                   )
-                   
-                   > (let ( (a 5)
-                            (b (F 3))
-                          )
-                          (* a b)
-                     )
-                   ERROR (no return value) : ( F
-                     3
-                   )                   
+ç­”æ¡ˆï¼š æˆ‘å€‘ ä¸å…è¨± æ”¹è®Š"primitive symbol"çš„bindingï¼
 
-   (e) If a function or functional form is evaluated at the top level and
-       it does not evaluate to a binding, then the following error message should be
-       printed (and the control goes back to the top level):
-       
-              >>ERROR (no return value) : <code entered at the top level><<
-   
-   (f) If an S-expression of the form >>( ( ¡C¡C¡C ) ... )<< is evaluated and
-       the evaluation of >>( ¡C¡C¡C )<< does not result in a binding (i.e.,
-       the evaluation of >>( ¡C¡C¡C )<< results in a null pointer), then the following
-       error message should be printed (and the control goes back to the top level):
-              
-              >>ERROR (no return value) : <pretty print form of ( ¡C¡C¡C )>
-   
-              
-Note, however, that there are two exceptions to (e): DEFINE and CLEAN-ENVIRONMENT.
-When DEFINE or CLEAN-ENVIRONMENT is evaluated, it does not return any binding.
-       
-Q: How did the interaction below happen?
+// æœ‰äººæ›¾å•é€™è¡Œä¸è¡Œï¼š (define 3 4)
+// ç­”æ¡ˆå›ºç„¶æ˜¯ä¸è¡Œï¼Œä½†åŸå› æ˜¯ï¼š 'define'åªèƒ½æ”¹è®Šã€Œsymbolã€çš„binding
 
-   > (define a 5)
-   a defined
-   
-   > (clean-environment)
-   environment cleaned
+// ä¹Ÿæœ‰äººæ›¾å•é€™è¡Œä¸è¡Œï¼š (define nil 4)
+// ç­”æ¡ˆå›ºç„¶æ˜¯ä¸è¡Œï¼Œä½†åŸå› æ˜¯ï¼š 'nil'ä¸æ˜¯ã€Œsymbolã€
 
-A: It is the system primitive reponsible for handling'(define a 5)' (or '(clean-environment)')
-   that prints >>a defined<< (or >>environment cleaned<<) (note that there is also a line-enter).
-              
-   In other words, the main evaluation loop does not print any feedback message for DEFINE
-   and CLEAN-ENVIRONMENT, unless there are errors.
+But note that below is OK.
 
-Q: What is the return value of 'exit'?
-A: It does not matter what (a call to) 'exit' returns, because the system will not have
-   the chance to print what 'exit' returns.
+> (define myCons cons)
+myCons defined
 
+> myCons
+#<internal function>
 
+> (myCons 3 5)
+( 3
+  .
+  5
+)
 
-Please consult HowToWriteOurScheme.doc to see "when to print what" when there
-may be multiple errors in the being evaluated code.
+> (define a (myCons car cdr))
+a defined
 
+> a
+( #<internal function>
+  .
+  #<internal function>
+)
 
+> ((car a) '(1 2 3))
+1
 
+> ((cdr a) '(1 2 3))
+( 2
+  3
+)
 
-==================================================================
+Explanation :
 
-            Part III - Two extra functions for coping with 
-                       the printing of information for
-                       DEFINE and CLEAN-ENVIRONMENT
+  #<internal function> is no different from "others" such as 3, 5,
 
-==================================================================
+  "Hi", (1 2 3) and (1 (2 3) "Hi), and should be treated in the same way.
 
-There are two more functions you need to implement:
+  (But of course, #<internal function> is capable of doing something
 
-* (verbose nil) vs. (verbose #t) ; #t can be replaced by any S-expression
-                                 ; that evaluates to NOT NIL
-* (verbose?)
+   these "others" cannot do. But that is a different story.)
 
-¨Ò¡G             ; the "verbose" mode controls whether the system will
-                 ; print something when the being evaluated S-expression
-                 ; is DEFINE or CLEAN-ENVIRONMENT
-                 
-  > (verbose?)   ; Is the verbose mode ON?
-  #t
-  
-  > (define a 5)
-  a defined
-  
-  > (clean-environment)
-  environment cleaned
-  
-  > (verbose nil) ; let us turn off the verbose mode
-  nil
-  
-  > (verbose?)
-  nil
-  
-  > (define a 5)
-  
-  > (clean-environment)
-  
-  > (verbose 5) ; let us turn the verbose mode back on
-  #t
-  
-  > (verbose?)
-  #t
-  
-  > (define a 5)
-  a defined
-  
-  > (clean-environment)
-  environment cleaned
-  
-  > 
+4. Expected argument type
 
-The reason for having 'verbose' (and 'verbose?') will become clearer 
-in Proj. 4, when 'eval' comes into play.
+Below, the word 'symbol' should be taken to mean : a symbol that
+is not a primitive symbol (i.e., it is not a pre-defined symbol)
 
-==================================================================
+ï¼Š 'car' expects its argument to be a cons-cell.
 
-            Part IV - Proj. 3 ÃD¥Øªº³]­p 
+ï¼Š 'cdr' expects its argument to be a cons-cell.
 
-==================================================================
+ï¼Š 'quote' expects its argument to be an S-expression.
 
-·sªº(2017)¡uProj. 3¡vªºÃD¥Ø¦w±Æ¦p¤U
+ï¼Š 'define' expects that either its first argument is a symbol or its first argument 
+   is a list of one or more symbols.
 
-  (1)~(5)µLerror¡A²Ä¤­ÃDªºÁôÂÃ¼Æ¾Ú¬O«e¥|ÃDªºÁôÂÃ¼Æ¾Úªº"¥[Á`"
-  (6)~(10)¦³error¡A²Ä¤QÃDªºÁôÂÃ¼Æ¾Ú¬O«e¥|ÃDªºÁôÂÃ¼Æ¾Úªº"¥[Á`"
+ï¼Š 'lambda' expects that its first argument is a list of zero or more symbols.
 
-  °£¤F¡ufrom simple to complex¡v¤§¥~¡A
-  
-  ¦³Ãöcond, if, lambda, and, or, letªº´ú¸Õ¼Æ¾Úªº¦w±Æ¡A¬O¨Ì·Ó¥H¤U­ì«h
-  
-    (1) define + lambda (¥Îpara.°µ¬°(initialized)"local para") - basic - incl.: COND IF BEGIN AND OR
-    
-    (2) define + lambda (¥Îpara.°µ¬°(initialized)"local para") - complex - COND IF BEGIN AND OR (nested calls)
-    
-    (3) (2) + functional composition // functions ©I¥s functions
-    
-    (4) (3) + let (local vs. global)
-    
-    (5) (4) + nested locals vs. globals + (1)~(4)¶°¤j¦¨
-    
-    (6) (1) + error tests
-    
-    (7) (2) + error tests
-    
-    (8) (3) + error tests
-    
-    (9) (4) + error tests
-    
-    (10) (5) + error tests + (6)~(9)¶°¤j¦¨
-    
-    (11) (5) + Proj. 2 ¶°¤j¦¨test(s) (no error cases)
-    
-    (12) (10) + Proj. 2 ¶°¤j¦¨tests(s) (error cases)
-    
-    
-    
-    
-    
+ï¼Š 'let' expects its first argument to be a list of one or more pairs, with the first 
+   element of each pair being a symbol.
 
+ï¼Š '+', '-','*','/' expect their arguments to be numbers.
 
+ï¼Š '>', '>=','<','<=','=' expect their arguments to be numbers.
+
+ï¼Š 'string-append' and 'string>?' expect their arguments to be strings.
+
+ï¼Š 'set!', 'set-car!' and 'set-cdr!' expect their first argument to be a symbol.
+
+ï¼Š 'display-string' expects its argument to be a string.
+
+ï¼Š 'load' and 'make-directory' expect their arguments to be strings.
+
+ï¼Š In all other cases, S-expressions or internal functions are expected as arguments.

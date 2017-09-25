@@ -1,0 +1,104 @@
+測試一測試二測試三測試四測試五測試六測試七測試八測試九測試十測試十一測試十二測
+
+※ ＊ ＃ ～ 「」 『』 【】 （） □ ■ ⊙ ◎ O ○ ● ◇ ╳ ★ ☆ ︱ ╲ ＿ ¯
+
+測試一測試二測試三測試四測試五測試六測試七測試
+// 推文的允許長度
+
+// ===========================================================================
+
+“”// this pair is OK for sure
+〝〞‘’
+※ ＊
+╳ √
+
+√ ∞ ∟ ∩ ∫ ≠ ≡ ─ ± …
+Α Β Γ Δ Ε Ζ Η Θ Λ Π Σ Υ Φ Χ Ψ Ω
+α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ σ τ υ φ χ ψ ω
+← ↑ → ↓ ↖ ↗ ↘ ↙ ∕ ﹨ °
+
+︵ ︶ ︷ ︸ ︹ ︺ ︻ ︼ ︽ ︾ ︿ ﹀ ﹁ ﹂
+
+﹉ ﹊ ﹋ ﹌ ﹍ ﹎ ﹏
+
+∴ ∵ ≦ ≧ ⊕ ⊥ ∪ ＋ － ＞ ＜ ＝ ‥
+
+※ ＊ ＃ ～ 「」 『』 【】 （） □ ■ ⊙ ◎ O ○ ● ◇
+
+╳ ★ ☆ ︱ ╲ ＿ ¯
+
+，。、；：！？
+
+// ===========================================================================
+
+三個Lisp dialects的比較
+
+Emacs Lisp vs. Petite Chez Scheme vs. OurScheme
+
+// =============================================================
+
+GNU Emacs
+  http://ftp.gnu.org/pub/gnu/emacs/windows/
+  // was : emacs-22.3-bin-i386.zip         06-Sep-2008 23:11   37M
+  emacs-25.1-2-x86_64-w64-mingw32.zip      (as of 2017-02-02)  94M
+
+// Emacs 另有 http://ftp.tw.xemacs.org/Unix/Editors/XEmacs/stable/
+//            (mirror of : http://www.xemacs.org/Download/win32)
+
+Petite Chez Scheme Version 8.4
+  // was : http://www.scheme.com/download/pcsv74.exe (version 7.4)
+  http://www.scheme.com/download/pcsv84.exe
+  
+// Scheme 另有 http://www.gnu.org/software/mit-scheme/      (MIT/GNU Scheme)
+// Windows binary   x86   Windows installation  Compiled on Windows XP 
+//                                              using Open Watcom C/C++ 1.7a. 
+// // 應是經由修改GNU Emacs Lisp而來
+
+OurScheme
+  你正在製作
+  
+// =============================================================
+
+使用GNU Emacs Lisp :
+
+  Start Emacs (run在installation partition下的/bin/runemacs.exe) 
+  | 'Buffers' | '*scratch*' 
+  | Key in '(cons 2 3)' | Ctrl-j
+  | Key in '(CONS 2 3)' | Ctrl-j 
+  // 其餘請自行摸索
+  
+  註： Ctrl-x 1 可將「多重buffer顯示」改為「單一buffer顯示」 
+       // 那'1'不是L; 先Ctrl-x再1
+
+使用Petite Chez Scheme :
+
+  無須介紹
+  
+  註： 'Petite Chez Scheme'是DOS介面，'SWL'是視窗介面，推荐用後者。
+  註： 可用'(exit)'離開系統
+
+使用MIT/GNU Scheme :
+
+  類似GNU Emacs Lisp，但不太好用，沒有Ctrl-j，要用Ctrl-x Ctrl-e。
+  而且'(exit)'只是把default的'*scheme*' buffer殺掉，無法關系統。
+
+// =============================================================
+
+Emacs Lisp : 大小寫有差
+
+  有 'nil' (必須全小寫)，有 't' (必須小寫)， 有 '()'。           // 沒有'f'
+  'nil'與'()'是同意義，但系統自己從不印'()'(只印'nil')。
+  // 'nil' and 't' and '()' are all considered to be constant symbols.
+
+Petite Chez Scheme (與MIT/GNU Scheme) : 大小寫無差
+
+  有 '#t' (大小寫皆可) 有 '#f' (大小寫皆可) 有 '()'。            // 沒有'nil'
+  這三者的意義完全不同(包括：'#f'與'()'與不同)。
+  // neither '#t' nor '#f' nor '()' is considered a symbol.
+
+OurScheme : 大小寫有差
+
+  有'#t'有't'有'#f'有'nil'(都必須小寫)有'()'。                   // 沒有'f'
+  'nil'與'()'與'#f'是同意義，但系統自己從不印'()'、也不印'#f'(只印'nil')。
+  '#t'與't'是同意義，但系統自己從不印't'(只印'#t')。
+  // neither '#t' nor 't' nor '#f' nor 'nil' nor '()' is considered a symbol.

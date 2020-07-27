@@ -1,4 +1,4 @@
-ï»¿// ===========================================================================
+// ===========================================================================
 
 How to write OurScheme (Latest modification : 02/06, 2017)
 
@@ -49,7 +49,7 @@ Main program for the remaining projects
   
   Print 'Thanks for using OurScheme!' or EOF error message
 
-¤@¡B Read in an S-expression
+ä¸€ã€ Read in an S-expression
 
 First, try to read in an S-expression.
 
@@ -60,10 +60,10 @@ terminal :
     INT         // e.g., '123', '+123', '-123'
     STRING     // "This is an example of a string." 
                // (strings do not extend across lines)
-               // OurSchemeªºstring¦³C/Javaªºprintf()ªºescapeªº·§©À¡A¦ı¥u­­©ó'\n', '\"', '\t'
-               // »P'\n' ¡F ¦pªG'\'¦r¤¸¤§«áªº¦r¤¸¤£¬O'n', '"', 't', ©Î'\'¡A¦¹(²Ä¤@­Ó)'\'¦r¤¸´NµL
-               // ¯S®í·N¸q(¦Ó¥u¬O¤@­Ó´¶³q¦r¤¸)¡C
-               // (¨Ò¡G "There is an ENTER HERE>>\nSee?!", "Use '\"' to start and close a string."
+               // OurSchemeçš„stringæœ‰C/Javaçš„printf()çš„escapeçš„æ¦‚å¿µï¼Œä½†åªé™æ–¼'\n', '\"', '\t'
+               // èˆ‡'\n' ï¼› å¦‚æœ'\'å­—å…ƒä¹‹å¾Œçš„å­—å…ƒä¸æ˜¯'n', '"', 't', æˆ–'\'ï¼Œæ­¤(ç¬¬ä¸€å€‹)'\'å­—å…ƒå°±ç„¡
+               // ç‰¹æ®Šæ„ç¾©(è€Œåªæ˜¯ä¸€å€‹æ™®é€šå­—å…ƒ)ã€‚
+               // (ä¾‹ï¼š "There is an ENTER HERE>>\nSee?!", "Use '\"' to start and close a string."
                //       "OurScheme allows the use of '\\n', '\\t' and  '\\"' in a string."
                //       "Please enter YES\NO below this line >\n" 
                //       "You need to handle this \\"        "You also need to handle this\"" )
@@ -149,15 +149,15 @@ nil
 
 > ERROR (unexpected character) : line 1 column 2 character ')'
 
-¤G¡B Always check the syntax of the user¡¦s input; Must make sure that it is an 
+äºŒã€ Always check the syntax of the userâ€™s input; Must make sure that it is an 
      S-expression before evaluating it.
 
-   User input ¥i¯à·|¦³ªº¤TºØsyntax errorªº¬ÛÃömessage(ªº½d¨Ò)¦p¤U¡G
+   User input å¯èƒ½æœƒæœ‰çš„ä¸‰ç¨®syntax errorçš„ç›¸é—œmessage(çš„ç¯„ä¾‹)å¦‚ä¸‹ï¼š
       ERROR (unexpected character) : line 1 column 2 character ')'
       ERROR (unexpected character) : line 3 column 27 LINE-ENTER encountered
       ERROR : END-OF-FILE encountered when there should be more input
 
-¤T¡B The part of eval() concerning error messages : // Note : once an error occurs,
+ä¸‰ã€ The part of eval() concerning error messages : // Note : once an error occurs,
                                                               //    the call to eval() is over
 if what is being evaluated is an atom but not a symbol
 
@@ -175,28 +175,28 @@ else if what is being evaluated is a symbol
 else // what is being evaluated is (...) ; we call it the main S-expression below
       // this (...) cannot be nil (nil is an atom)
   if (...) is not a (pure) list
-    ERROR (non-list) : (...)  // (...)­npretty print
+    ERROR (non-list) : (...)  // (...)è¦pretty print
 
-  else if first argument of (...) is an atom ¡¸, which is not a symbol
-    ERROR (attempt to apply non-function) : ¡¸
+  else if first argument of (...) is an atom â˜†, which is not a symbol
+    ERROR (attempt to apply non-function) : â˜†
 
   else if first argument of (...) is a symbol SYM
 
-    check whether SYM is the name of a function (i.e., check whether ¡uSYM has a
-                                      binding, and that binding is an internal function¡v)
+    check whether SYM is the name of a function (i.e., check whether ã€ŒSYM has a
+                                      binding, and that binding is an internal functionã€)
 
     if SYM is the name of a known function
 
       if the current level is not the top level, and SYM is 'clean-environment' or    
-          or 'define' or¡@'exit'
+          or 'define' orã€€'exit'
 
         ERROR (clean-environment format) / ERROR (define format) / ERROR (level of exit)
-        // Project 2 ªºtest data³W©w­n ERROR (clean-environment/define format)¡A¼È¤£§ï¥¦¡C
+        // Project 2 çš„test dataè¦å®šè¦ ERROR (clean-environment/define format)ï¼Œæš«ä¸æ”¹å®ƒã€‚
 
       if SYM is 'define' or 'set!' or 'let' or 'cond' or 'lambda'
 
-        check the format of this expression // ª`·N¡G¦¹®É©|¥¼check num-of-arg
-        // (define symbol    // ª`·N¡G¥u¯à«Å§i©Î³]©w «Dprimitiveªºsymbol (³o¬Ofinal decision!)
+        check the format of this expression // æ³¨æ„ï¼šæ­¤æ™‚å°šæœªcheck num-of-arg
+        // (define symbol    // æ³¨æ„ï¼šåªèƒ½å®£å‘Šæˆ–è¨­å®š éprimitiveçš„symbol (é€™æ˜¯final decision!)
         //         S-expression
         // )
         // (define ( one-or-more-symbols )
@@ -216,16 +216,16 @@ else // what is being evaluated is (...) ; we call it the main S-expression belo
         // where PAIR df= ( symbol S-expression )
         //        AT-LEAST-DOUBLETON df= a list of two or more S-expressions
 
-        if format error (¥]¬Aattempting to redefine system primitive) 
+        if format error (åŒ…æ‹¬attempting to redefine system primitive) 
           ERROR (COND format) : <the main S-exp> 
           or
-          ERROR (DEFINE format) : <the main S-exp> // ¦³¥i¯à¬O¦]¬°redefining primitive¤§¬G
+          ERROR (DEFINE format) : <the main S-exp> // æœ‰å¯èƒ½æ˜¯å› ç‚ºredefining primitiveä¹‹æ•…
           or
-          ERROR (SET! format) : <the main S-exp>    // ¦³¥i¯à¬O¦]¬°redefining primitive¤§¬G
+          ERROR (SET! format) : <the main S-exp>    // æœ‰å¯èƒ½æ˜¯å› ç‚ºredefining primitiveä¹‹æ•…
           or
-          ERROR (LET format) : <the main S-exp>     // ¦³¥i¯à¬O¦]¬°redefining primitive¤§¬G
+          ERROR (LET format) : <the main S-exp>     // æœ‰å¯èƒ½æ˜¯å› ç‚ºredefining primitiveä¹‹æ•…
           or
-          ERROR (LAMBDA format) : <the main S-exp>  // ¦³¥i¯à¬O¦]¬°redefining primitive¤§¬G
+          ERROR (LAMBDA format) : <the main S-exp>  // æœ‰å¯èƒ½æ˜¯å› ç‚ºredefining primitiveä¹‹æ•…
 
         evaluate ( ... ) 
         // for 'cond', there may be ERROR (COND did not return value) : <the main S-exp>
@@ -255,20 +255,20 @@ else // what is being evaluated is (...) ; we call it the main S-expression belo
 
       ERROR (unbound symbol) : abc
       or
-      ERROR (attempt to apply non-function) : ¡¸ // ¡¸ is the binding of abc
+      ERROR (attempt to apply non-function) : â˜† // â˜† is the binding of abc
 
-  else // the first argument of ( ... ) is ( ¡C¡C¡C ), i.e., it is ( ( ¡C¡C¡C ) ...... )
+  else // the first argument of ( ... ) is ( ã€‚ã€‚ã€‚ ), i.e., it is ( ( ã€‚ã€‚ã€‚ ) ...... )
 
-    evaluate ( ¡C¡C¡C )
+    evaluate ( ã€‚ã€‚ã€‚ )
 
-    // if any error occurs during the evaluation of ( ¡C¡C¡C ), we just output an
+    // if any error occurs during the evaluation of ( ã€‚ã€‚ã€‚ ), we just output an
     // an appropriate error message, and we will not proceed any further
 
-    if no error occurs during the evaluation of ( ¡C¡C¡C ) 
+    if no error occurs during the evaluation of ( ã€‚ã€‚ã€‚ ) 
 
-      check whether the evaluated result (of ( ¡C¡C¡C )) is an internal function
+      check whether the evaluated result (of ( ã€‚ã€‚ã€‚ )) is an internal function
 
-      if the evaluated result (of ( ¡C¡C¡C )) is an internal function
+      if the evaluated result (of ( ã€‚ã€‚ã€‚ )) is an internal function
 
         check whether the number of arguments is correct
 
@@ -278,8 +278,8 @@ else // what is being evaluated is (...) ; we call it the main S-expression belo
           ERROR (incorrect number of arguments) : lambda expression 
                                                         // in the case of nameless functions
 
-      else // the evaluated result (of ( ¡C¡C¡C )) is not an internal function
-        ERROR (attempt to apply non-function) : ¡¸ //  ¡¸ is the evaluated result
+      else // the evaluated result (of ( ã€‚ã€‚ã€‚ )) is not an internal function
+        ERROR (attempt to apply non-function) : â˜† //  â˜† is the evaluated result
     
   eval the second argument S2 of (the main S-expression) ( ... )
 
@@ -312,19 +312,19 @@ end // else what is being evaluated is (...) ; we call it the main S-expression
 
 Note : 
 
-1. error message¤§¡u¨ä¥L¡v
+1. error messageä¹‹ã€Œå…¶ä»–ã€
 
-¦pªG§Aªº¨t²Î¸I¨ì¤@­Óerror¡B¦Ó¥H¤Wevalªºalgorithm¤¤¹ï¦¹error¡u¸Ó¦³¦óerror message¡v¨Ã¨S¦³³W½d(³o¦³ÂI¹³¬Oif-then-else-if-then-...-else-if-then-else¤¤ªº³Ì«á¨º­Ó¡uelse¡v)¡A§A´Noutput
+å¦‚æœä½ çš„ç³»çµ±ç¢°åˆ°ä¸€å€‹errorã€è€Œä»¥ä¸Ševalçš„algorithmä¸­å°æ­¤errorã€Œè©²æœ‰ä½•error messageã€ä¸¦æ²’æœ‰è¦ç¯„(é€™æœ‰é»åƒæ˜¯if-then-else-if-then-...-else-if-then-elseä¸­çš„æœ€å¾Œé‚£å€‹ã€Œelseã€)ï¼Œä½ å°±output
 
                 ERROR : aaa
 
-¨ä¤¤aaa¬Ouser input¤¤¡u¥X°İÃDªº¨º­Ó¡u³Qevaluateªºfunction¡vªºfirst argument¡v¡C
+å…¶ä¸­aaaæ˜¯user inputä¸­ã€Œå‡ºå•é¡Œçš„é‚£å€‹ã€Œè¢«evaluateçš„functionã€çš„first argumentã€ã€‚
 
-·í§A¨Ì·Ó¥H¤Wevalªºalgorithm¨Óevaluate an S-expression®É¡A§A·|¤£Â_ªº­nevaluate a function¡A¤@¥¹³oºØ¡uproject¨Ã¥¼³W½dªºerror¡vµo¥Í¡A¡u·í®É¡v¨º­Ó³Qevaluateªºfunctionªºfirst argument´N¬O³o¸Ì©Ò¿×ªºaaa¡C
+ç•¶ä½ ä¾ç…§ä»¥ä¸Ševalçš„algorithmä¾†evaluate an S-expressionæ™‚ï¼Œä½ æœƒä¸æ–·çš„è¦evaluate a functionï¼Œä¸€æ—¦é€™ç¨®ã€Œprojectä¸¦æœªè¦ç¯„çš„errorã€ç™¼ç”Ÿï¼Œã€Œç•¶æ™‚ã€é‚£å€‹è¢«evaluateçš„functionçš„first argumentå°±æ˜¯é€™è£¡æ‰€è¬‚çš„aaaã€‚
 
-// ¡uproject¥¼³W½d¡v df= project¤¤(»Ptest data¤¤)¥¼´£¨ì³oºØerror¡A¦ı©ú©ú´N¬O­Óerror
+// ã€Œprojectæœªè¦ç¯„ã€ df= projectä¸­(èˆ‡test dataä¸­)æœªæåˆ°é€™ç¨®errorï¼Œä½†æ˜æ˜å°±æ˜¯å€‹error
 //                          |                           // i.e., OR
-//                          project¤¤¦³´£¨ì³oºØerror¡A¦ı¨S»¡error messageÀ³¸Ó¬OÔ£
+//                          projectä¸­æœ‰æåˆ°é€™ç¨®errorï¼Œä½†æ²’èªªerror messageæ‡‰è©²æ˜¯å•¥
 
   e.g.,
 
@@ -418,30 +418,30 @@ ERROR (unbound symbol) : y
 
 3.value and binding
 
-Lisp and Scheme °í«ù¤@­Ó·§©À¡G
+Lisp and Scheme å …æŒä¸€å€‹æ¦‚å¿µï¼š
 
-                    ¨S¦³¡uvalue¡v¡I ¥u¦³¡ubinding¡v¡I
+                    æ²’æœ‰ã€Œvalueã€ï¼ åªæœ‰ã€Œbindingã€ï¼
 
-¤]´N¬O»¡¡G
-           ¨S¦³¡usymbolªºvalue¡v³o¦^¨Æ¡I ¥u¦³¡usymbolªºbinding¡v¡I
+ä¹Ÿå°±æ˜¯èªªï¼š
+           æ²’æœ‰ã€Œsymbolçš„valueã€é€™å›äº‹ï¼ åªæœ‰ã€Œsymbolçš„bindingã€ï¼
 
-  ¡¯ Symbolªºbinding¥i¯à¬O¤@­ÓS-expression (which is basically a structure
-     of symbols)¡A¤]¥i¯à¬O¤@­Ó(©Ò¿×ªº)internal function¡C
+  ï¼Š Symbolçš„bindingå¯èƒ½æ˜¯ä¸€å€‹S-expression (which is basically a structure
+     of symbols)ï¼Œä¹Ÿå¯èƒ½æ˜¯ä¸€å€‹(æ‰€è¬‚çš„)internal functionã€‚
 
-  ¡¯ Internal functions¦³¨Æ¥ısystem define¦nªº¡A¤]¦³user defineªº¡C
+  ï¼Š Internal functionsæœ‰äº‹å…ˆsystem defineå¥½çš„ï¼Œä¹Ÿæœ‰user defineçš„ã€‚
 
-  ¡¯ evaluate ¤@­Ó¡u«Dsymbolªºatom¡v  ªºµ²ªG  ¬O  ¨º­Óatom
+  ï¼Š evaluate ä¸€å€‹ã€Œésymbolçš„atomã€  çš„çµæœ  æ˜¯  é‚£å€‹atom
 
-  ¡¯ evaluate ¤@­Ósymbol  ªºµ²ªG  ¬O  ¨º­Ósymbolªºbinding
+  ï¼Š evaluate ä¸€å€‹symbol  çš„çµæœ  æ˜¯  é‚£å€‹symbolçš„binding
 
-  ¡¯ evaluate ¤@­Ólist  ªºµ²ªG  ¬O  apply ¡uevaluate¦¹listªºfirst argument
-     ©Ò±oªºµ²ªG¡v(which is supposedly an internal function)  ©ó
-     ¡uevaluate¦¹listªº¨ä¥L argument ©Ò±oªºµ²ªG¡v
+  ï¼Š evaluate ä¸€å€‹list  çš„çµæœ  æ˜¯  apply ã€Œevaluateæ­¤listçš„first argument
+     æ‰€å¾—çš„çµæœã€(which is supposedly an internal function)  æ–¼
+     ã€Œevaluateæ­¤listçš„å…¶ä»– argument æ‰€å¾—çš„çµæœã€
 
-¸g¥Ñ¨Ï¥Î¬Y¨Çsystem defined ªº"ªFªF" (¦p'define')¡A§Ú­Ì¥i¥H§ïÅÜsymbolªºbinding¡C
-¦ı §Ú­Ì¯à§ïÅÜ¡u­ì¥ısystem¤wdefine¦nªºsymbol¡vªºbinding¶Ü¡H
+ç¶“ç”±ä½¿ç”¨æŸäº›system defined çš„"æ±æ±" (å¦‚'define')ï¼Œæˆ‘å€‘å¯ä»¥æ”¹è®Šsymbolçš„bindingã€‚
+ä½† æˆ‘å€‘èƒ½æ”¹è®Šã€ŒåŸå…ˆsystemå·²defineå¥½çš„symbolã€çš„bindingå—ï¼Ÿ
 
-¨Ò¡G how about these¡H
+ä¾‹ï¼š how about theseï¼Ÿ
 
   > (define define 3)
   ???
@@ -452,15 +452,15 @@ Lisp and Scheme °í«ù¤@­Ó·§©À¡G
   > (let ((cons car)) (cons '(1 2)))
   ???
 
-Petite Scheme ¤¹³\¦p¦¹¡I  OurScheme­n¤£­n¡H
+Petite Scheme å…è¨±å¦‚æ­¤ï¼  OurSchemeè¦ä¸è¦ï¼Ÿ
 
-µª®×¡G §Ú­Ì ¤£¤¹³\ §ïÅÜ"primitive symbol"ªºbinding¡I
+ç­”æ¡ˆï¼š æˆ‘å€‘ ä¸å…è¨± æ”¹è®Š"primitive symbol"çš„bindingï¼
 
-// ¦³¤H´¿°İ³o¦æ¤£¦æ¡G (define 3 4)
-// µª®×©TµM¬O¤£¦æ¡A¦ı­ì¦]¬O¡G 'define'¥u¯à§ïÅÜ¡usymbol¡vªºbinding
+// æœ‰äººæ›¾å•é€™è¡Œä¸è¡Œï¼š (define 3 4)
+// ç­”æ¡ˆå›ºç„¶æ˜¯ä¸è¡Œï¼Œä½†åŸå› æ˜¯ï¼š 'define'åªèƒ½æ”¹è®Šã€Œsymbolã€çš„binding
 
-// ¤]¦³¤H´¿°İ³o¦æ¤£¦æ¡G (define nil 4)
-// µª®×©TµM¬O¤£¦æ¡A¦ı­ì¦]¬O¡G 'nil'¤£¬O¡usymbol¡v
+// ä¹Ÿæœ‰äººæ›¾å•é€™è¡Œä¸è¡Œï¼š (define nil 4)
+// ç­”æ¡ˆå›ºç„¶æ˜¯ä¸è¡Œï¼Œä½†åŸå› æ˜¯ï¼š 'nil'ä¸æ˜¯ã€Œsymbolã€
 
 But note that below is OK.
 
@@ -508,30 +508,30 @@ Explanation :
 Below, the word 'symbol' should be taken to mean : a symbol that
 is not a primitive symbol (i.e., it is not a pre-defined symbol)
 
-¡¯ 'car' expects its argument to be a cons-cell.
+ï¼Š 'car' expects its argument to be a cons-cell.
 
-¡¯ 'cdr' expects its argument to be a cons-cell.
+ï¼Š 'cdr' expects its argument to be a cons-cell.
 
-¡¯ 'quote' expects its argument to be an S-expression.
+ï¼Š 'quote' expects its argument to be an S-expression.
 
-¡¯ 'define' expects that either its first argument is a symbol or its first argument 
+ï¼Š 'define' expects that either its first argument is a symbol or its first argument 
    is a list of one or more symbols.
 
-¡¯ 'lambda' expects that its first argument is a list of zero or more symbols.
+ï¼Š 'lambda' expects that its first argument is a list of zero or more symbols.
 
-¡¯ 'let' expects its first argument to be a list of one or more pairs, with the first 
+ï¼Š 'let' expects its first argument to be a list of one or more pairs, with the first 
    element of each pair being a symbol.
 
-¡¯ '+', '-','*','/' expect their arguments to be numbers.
+ï¼Š '+', '-','*','/' expect their arguments to be numbers.
 
-¡¯ '>', '>=','<','<=','=' expect their arguments to be numbers.
+ï¼Š '>', '>=','<','<=','=' expect their arguments to be numbers.
 
-¡¯ 'string-append' and 'string>?' expect their arguments to be strings.
+ï¼Š 'string-append' and 'string>?' expect their arguments to be strings.
 
-¡¯ 'set!', 'set-car!' and 'set-cdr!' expect their first argument to be a symbol.
+ï¼Š 'set!', 'set-car!' and 'set-cdr!' expect their first argument to be a symbol.
 
-¡¯ 'display-string' expects its argument to be a string.
+ï¼Š 'display-string' expects its argument to be a string.
 
-¡¯ 'load' and 'make-directory' expect their arguments to be strings.
+ï¼Š 'load' and 'make-directory' expect their arguments to be strings.
 
-¡¯ In all other cases, S-expressions or internal functions are expected as arguments.
+ï¼Š In all other cases, S-expressions or internal functions are expected as arguments.

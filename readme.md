@@ -1,537 +1,77 @@
-// ===========================================================================
-
-How to write OurScheme (Latest modification : 02/06, 2017)
-
-// ===========================================================================
-
-Main program for Project 1
-
-  Print 'Welcome to OurScheme!'
-
-  repeat
-  
-    Print '> '
-
-    ReadSExp(exp);
-    
-    if no error
-      then PrintSExp(exp);
-    else 
-      PrintErrorMessage() ;
-      
-    until (OR (user entered '(exit)')
-              (END-OF-FILE encountered)
-          )
-
-    Print 'Thanks for using OurScheme!' or EOF error message
-
-Main program for the remaining projects
-
-  Print 'Welcome to OurScheme!'
-  
-  repeat
-  
-    Print : '> '
-    
-    ReadSExp( s_exp ); 
-    
-    if no error
-      then result <- EvalSExp( s_exp );
-           if error
-             PrintErrorMessage();
-           else
-             PrintSExp( result ) ;
-    else PrintErrorMessage() ;
-    
-  until user has just entered LEFT_PAREN "exit" RIGHT_PAREN
-         or
-         EOF encountered
-  
-  Print 'Thanks for using OurScheme!' or EOF error message
-
-一、 Read in an S-expression
-
-First, try to read in an S-expression.
-
-terminal :
-
-    LEFT-PAREN  // '('
-    RIGHT-PAREN // ')'
-    INT         // e.g., '123', '+123', '-123'
-    STRING     // "This is an example of a string." 
-               // (strings do not extend across lines)
-               // OurScheme的string有C/Java的printf()的escape的概念，但只限於'\n', '\"', '\t'
-               // 與'\n' ； 如果'\'字元之後的字元不是'n', '"', 't', 或'\'，此(第一個)'\'字元就無
-               // 特殊意義(而只是一個普通字元)。
-               // (例： "There is an ENTER HERE>>\nSee?!", "Use '\"' to start and close a string."
-               //       "OurScheme allows the use of '\\n', '\\t' and  '\\"' in a string."
-               //       "Please enter YES\NO below this line >\n" 
-               //       "You need to handle this \\"        "You also need to handle this\"" )
-    DOT        // '.'
-    FLOAT      // '123.567', '123.', '.567', '+123.4', '-.123'
-    NIL        // 'nil' or '#f', but not 'NIL' nor 'nIL'
-    T          // 't' or '#t', but not 'T' nor '#T'
-    QUOTE      // '
-    SYMBOL     // a consecutive sequence of printable characters 
-               // that are not numbers,
-               // and do not contain '(', ')', 
-               // single-quote, double-quote and white-spaces ;
-               // Symbols are case-sensitive 
-               // (i.e., uppercase and lowercase are different);
-
-Note :
-
-  With the exception of strings, token are separated by the following "separators" :
-    (a) one or more white-spaces
-    (b) '('                             (note : '(' is a token by itself)
-    (c) ')'                             (note : ')' is a token by itself)
-    (d) the single-quote character (')  (note : this is a token by itself)
-    (e) the double-quote character (")  (note : this starts a STRING)
-    (f) semi-colon (;)                     (note : this is the start of a line comment)
-
-Examples :
-
-  '3.25' is a FLOAT.
-  '3.25a' is a SYMBOL.
-  'a.b' is a SYMBOL.
-  '#f' is NIL
-  '#fa' (alternatively, 'a#f') is a SYMBOL.
-
-Note :
-
-  '.' can mean several things : 
-  it is either part of a FLOAT or part of a SYMBOL or a DOT.
-    
-  It means a DOT only when it "stands alone".
-  
-  '#' can also mean two things :
-    it is either part of NIL (or T) or part of a SYMBOL.
-  
-  It is part of NIL (or T) only when it is '#t' or '#f' that 
-  "stand alone".
-  
-<S-exp> ::= <ATOM> 
-            | LEFT-PAREN <S-exp> { <S-exp> } [ DOT <S-exp> ] 
-              RIGHT-PAREN
-            | QUOTE <S-exp>
-            
-<ATOM>  ::= SYMBOL | INT | FLOAT | STRING 
-            | NIL | T | LEFT-PAREN RIGHT-PAREN
-
-Once the attempt to read in an S-expression fails, the line containing the error-char is ignored.  Start to read in an S-expression from the next input line.
-
-> (t . nil . (1 2 3))
-ERROR (unexpected character) : line 1 column 10 character '.'
-
-> (12 (    . 3))
-ERROR (unexpected character) : line 1 column 11 character ' '
-
-> ())
-nil
-
-> ERROR (unexpected character) : line 1 column 1 character ')'
-
-> (1 2 3) )
-( 1
-  2
-  3
-)
-
-> ERROR (unexpected character) : line 1 column 2 character ')'
-
->'(1 2 3) )
-( quote
-  ( 1
-    2
-    3
-  )
-)
-
-> ERROR (unexpected character) : line 1 column 2 character ')'
-
-二、 Always check the syntax of the user’s input; Must make sure that it is an 
-     S-expression before evaluating it.
-
-   User input 可能會有的三種syntax error的相關message(的範例)如下：
-      ERROR (unexpected character) : line 1 column 2 character ')'
-      ERROR (unexpected character) : line 3 column 27 LINE-ENTER encountered
-      ERROR : END-OF-FILE encountered when there should be more input
-
-三、 The part of eval() concerning error messages : // Note : once an error occurs,
-                                                              //    the call to eval() is over
-if what is being evaluated is an atom but not a symbol
-
-  return that atom
-  
-else if what is being evaluated is a symbol 
-
-  check whether it is bound to an S-expression or an internal function
-
-  if unbound
-    ERROR (unbound symbol) : abc
-  else 
-    return that S-expression or internal function (i.e., its binding)
-
-else // what is being evaluated is (...) ; we call it the main S-expression below
-      // this (...) cannot be nil (nil is an atom)
-  if (...) is not a (pure) list
-    ERROR (non-list) : (...)  // (...)要pretty print
-
-  else if first argument of (...) is an atom ☆, which is not a symbol
-    ERROR (attempt to apply non-function) : ☆
-
-  else if first argument of (...) is a symbol SYM
-
-    check whether SYM is the name of a function (i.e., check whether 「SYM has a
-                                      binding, and that binding is an internal function」)
-
-    if SYM is the name of a known function
-
-      if the current level is not the top level, and SYM is 'clean-environment' or    
-          or 'define' or　'exit'
-
-        ERROR (clean-environment format) / ERROR (define format) / ERROR (level of exit)
-        // Project 2 的test data規定要 ERROR (clean-environment/define format)，暫不改它。
-
-      if SYM is 'define' or 'set!' or 'let' or 'cond' or 'lambda'
-
-        check the format of this expression // 注意：此時尚未check num-of-arg
-        // (define symbol    // 注意：只能宣告或設定 非primitive的symbol (這是final decision!)
-        //         S-expression
-        // )
-        // (define ( one-or-more-symbols )
-        //           one-or-more-S-expressions
-        // )
-        // (set! symbol
-        //       S-expression
-        // )
-        // (lambda (zero-or-more-symbols)
-        //           one-or-more-S-expressions
-        // )
-        // (let (zero-or-more-PAIRs)
-        //        one-or-more-S-expressions
-        // )
-        // (cond one-or-more-AT-LEAST-DOUBLETONs
-        // )
-        // where PAIR df= ( symbol S-expression )
-        //        AT-LEAST-DOUBLETON df= a list of two or more S-expressions
-
-        if format error (包括attempting to redefine system primitive) 
-          ERROR (COND format) : <the main S-exp> 
-          or
-          ERROR (DEFINE format) : <the main S-exp> // 有可能是因為redefining primitive之故
-          or
-          ERROR (SET! format) : <the main S-exp>    // 有可能是因為redefining primitive之故
-          or
-          ERROR (LET format) : <the main S-exp>     // 有可能是因為redefining primitive之故
-          or
-          ERROR (LAMBDA format) : <the main S-exp>  // 有可能是因為redefining primitive之故
-
-        evaluate ( ... ) 
-        // for 'cond', there may be ERROR (COND did not return value) : <the main S-exp>
-
-        return the evaluated result (and exit this call to eval())
-
-      else if SYM is 'if' or 'and' or 'or'
-
-        check whether the number of arguments is correct
-
-        if number of arguments is NOT correct
-          ERROR (incorrect number of arguments) : if
-
-        evaluate ( ... ) 
-
-        return the evaluated result (and exit this call to eval())
-
-      else // SYM is a known function name 'abc', which is neither 
-            // 'define' nor 'let' nor 'cond' nor 'lambda'
-
-        check whether the number of arguments is correct
-
-        if number of arguments is NOT correct
-          ERROR (incorrect number of arguments) : abc
-
-    else // SYM is 'abc', which is not the name of a known function
-
-      ERROR (unbound symbol) : abc
-      or
-      ERROR (attempt to apply non-function) : ☆ // ☆ is the binding of abc
-
-  else // the first argument of ( ... ) is ( 。。。 ), i.e., it is ( ( 。。。 ) ...... )
-
-    evaluate ( 。。。 )
-
-    // if any error occurs during the evaluation of ( 。。。 ), we just output an
-    // an appropriate error message, and we will not proceed any further
-
-    if no error occurs during the evaluation of ( 。。。 ) 
-
-      check whether the evaluated result (of ( 。。。 )) is an internal function
-
-      if the evaluated result (of ( 。。。 )) is an internal function
-
-        check whether the number of arguments is correct
-
-        if num-of-arguments is NOT correct
-          ERROR (incorrect number of arguments) : name-of-the-function
-          or
-          ERROR (incorrect number of arguments) : lambda expression 
-                                                        // in the case of nameless functions
-
-      else // the evaluated result (of ( 。。。 )) is not an internal function
-        ERROR (attempt to apply non-function) : ☆ //  ☆ is the evaluated result
-    
-  eval the second argument S2 of (the main S-expression) ( ... )
-
-  if the type of the evaluated result is not correct 
-    ERROR (xxx with incorrect argument type) : the-evaluated-result
-    // xxx must be the name of some primitive function!
-
-  if no error
-    eval the third argument S3 of (the main S-expression) ( ... )
-
-  if the type of the evaluated result is not correct 
-    ERROR (xxx with incorrect argument type) : the-evaluated-result
-
-  ...
-
-  if no error
-
-    apply the binding of the first argument (an internal function) to S2-eval-result, 
-    S3-eval-result, ... 
-
-    if no error
-      if there is an evaluated result to be returned
-        return the evaluated result
-      else
-        ERROR (no return result) : name-of-this-function
-        or
-        ERROR (no return result) : lambda expression // if there is such a case ...
-
-end // else what is being evaluated is (...) ; we call it the main S-expression
-
-Note : 
-
-1. error message之「其他」
-
-如果你的系統碰到一個error、而以上eval的algorithm中對此error「該有何error message」並沒有規範(這有點像是if-then-else-if-then-...-else-if-then-else中的最後那個「else」)，你就output
-
-                ERROR : aaa
-
-其中aaa是user input中「出問題的那個「被evaluate的function」的first argument」。
-
-當你依照以上eval的algorithm來evaluate an S-expression時，你會不斷的要evaluate a function，一旦這種「project並未規範的error」發生，「當時」那個被evaluate的function的first argument就是這裡所謂的aaa。
-
-// 「project未規範」 df= project中(與test data中)未提到這種error，但明明就是個error
-//                          |                           // i.e., OR
-//                          project中有提到這種error，但沒說error message應該是啥
-
-  e.g.,
-
-  > (/ 3 0)
-  ERROR : /
-
-2. Some examples of error messages
-
-> (car nil)
-ERROR (car with incorrect argument type) : nil
-
-> (define (f a) (cons a a))
-f defined
-
-> (f 5)
-( 5
-  .
-  5
-)
-
-> (f 5 a)
-ERROR (incorrect number of arguments) : f
-
-> (define (ff a) (g a a))
-ff defined
-
-> (define (g a) (cons a a))
-g defined
-
-> (ff 5)
-ERROR (incorrect number of arguments) : g
-
-> (define (f a) (cons a a a))
-f defined
-
-> (f 5)
-ERROR (incorrect number of arguments) : cons
-
-> (CONS 3 4)      
-ERROR (unbound symbol) : CONS
-
-> (cons hello 4)
-ERROR (unbound symbol) : hello
-
-> hello
-ERROR (unbound symbol) : hello
-
-> (CONS hello there)
-ERROR (unbound symbol) : CONS
-
-> (cons 1 2 3)
-ERROR (incorrect number of arguments) : cons
-
-> (3 4 5)
-ERROR (attempt to apply non-function) : 3
-
-> (cons 3 
-        (4321 5))
-ERROR (attempt to apply non-function) : 4321
-
-> (define a 5)
-5
-
-> (a 3 a)
-ERROR (attempt to apply non-function) : 5
-
-> (* 3 "Hi")
-ERROR (* with incorrect argument type) : "Hi"
-
-> (string>? 15 "hi")
-ERROR (string>? with incorrect argument type) : 15
-
-> (+ 15 "hi")
-ERROR (+ with incorrect argument type) : "hi"
-
-> (string>? "hi" "there" a)
-ERROR (string>? with incorrect argument type) : 5
-
-> (string>? "hi" "there" about)
-ERROR (unbound symbol) : about
-
-> (cond ((> 3 4) 'bad)
-        ((> 4 5) 'bad)
-  )
-ERROR (return value undefined) : cond
-
-> (cond ((> y 4) 'bad)
-        ((> 4 3) 'good)
-  )
-ERROR (unbound symbol) : y
-
-3.value and binding
-
-Lisp and Scheme 堅持一個概念：
-
-                    沒有「value」！ 只有「binding」！
-
-也就是說：
-           沒有「symbol的value」這回事！ 只有「symbol的binding」！
-
-  ＊ Symbol的binding可能是一個S-expression (which is basically a structure
-     of symbols)，也可能是一個(所謂的)internal function。
-
-  ＊ Internal functions有事先system define好的，也有user define的。
-
-  ＊ evaluate 一個「非symbol的atom」  的結果  是  那個atom
-
-  ＊ evaluate 一個symbol  的結果  是  那個symbol的binding
-
-  ＊ evaluate 一個list  的結果  是  apply 「evaluate此list的first argument
-     所得的結果」(which is supposedly an internal function)  於
-     「evaluate此list的其他 argument 所得的結果」
-
-經由使用某些system defined 的"東東" (如'define')，我們可以改變symbol的binding。
-但 我們能改變「原先system已define好的symbol」的binding嗎？
-
-例： how about these？
-
-  > (define define 3)
-  ???
-
-  > (define exit 3)
-  ???
-
-  > (let ((cons car)) (cons '(1 2)))
-  ???
-
-Petite Scheme 允許如此！  OurScheme要不要？
-
-答案： 我們 不允許 改變"primitive symbol"的binding！
-
-// 有人曾問這行不行： (define 3 4)
-// 答案固然是不行，但原因是： 'define'只能改變「symbol」的binding
-
-// 也有人曾問這行不行： (define nil 4)
-// 答案固然是不行，但原因是： 'nil'不是「symbol」
-
-But note that below is OK.
-
-> (define myCons cons)
-myCons defined
-
-> myCons
-#<internal function>
-
-> (myCons 3 5)
-( 3
-  .
-  5
-)
-
-> (define a (myCons car cdr))
-a defined
-
-> a
-( #<internal function>
-  .
-  #<internal function>
-)
-
-> ((car a) '(1 2 3))
-1
-
-> ((cdr a) '(1 2 3))
-( 2
-  3
-)
-
-Explanation :
-
-  #<internal function> is no different from "others" such as 3, 5,
-
-  "Hi", (1 2 3) and (1 (2 3) "Hi), and should be treated in the same way.
-
-  (But of course, #<internal function> is capable of doing something
-
-   these "others" cannot do. But that is a different story.)
-
-4. Expected argument type
-
-Below, the word 'symbol' should be taken to mean : a symbol that
-is not a primitive symbol (i.e., it is not a pre-defined symbol)
-
-＊ 'car' expects its argument to be a cons-cell.
-
-＊ 'cdr' expects its argument to be a cons-cell.
-
-＊ 'quote' expects its argument to be an S-expression.
-
-＊ 'define' expects that either its first argument is a symbol or its first argument 
-   is a list of one or more symbols.
-
-＊ 'lambda' expects that its first argument is a list of zero or more symbols.
-
-＊ 'let' expects its first argument to be a list of one or more pairs, with the first 
-   element of each pair being a symbol.
-
-＊ '+', '-','*','/' expect their arguments to be numbers.
-
-＊ '>', '>=','<','<=','=' expect their arguments to be numbers.
-
-＊ 'string-append' and 'string>?' expect their arguments to be strings.
-
-＊ 'set!', 'set-car!' and 'set-cdr!' expect their first argument to be a symbol.
-
-＊ 'display-string' expects its argument to be a string.
-
-＊ 'load' and 'make-directory' expect their arguments to be strings.
-
-＊ In all other cases, S-expressions or internal functions are expected as arguments.
+# 警告! 不要不信邪，抄一點也是抄 你會GG的
+
+![](https://i.imgur.com/rb9FnW7.png)
+
+- [慘阿!](https://bbs.ice.cycu.edu.tw/bmore?CS.Language&5005)
+- 本repo存在的目的是，讓你有一個example program可以讓你實驗你的想法是否跟PL想的一樣
+- 題目每年都會變，我也不能保證這個code之後還能夠對付PL
+- PL系統有眾所周知的style checker，所以C++有很多功能都必須用很彆扭的方式作(比如switch case)，所以這份code的確不能作為C++編寫的典範，這只能是個妥協
+    - 我方表示尊重並理解夏氏企業的決定
+## 一些想法(或者是幹話)
+- 一個直譯器的工作流程就是把一段input，經過一些固定的流程去格式化，分析之後輸出結果
+    - 這一定是一段固定且符合邏輯的過程，換言之，只有input會變，程式本身不變!
+    - 以不變應萬變
+    - 哪個程式不是這樣?
+- 你應該要想著如何去實現一個系統，能夠依照一個固定的邏輯產生出PL文件描述的輸出
+    - 各位**兄弟姐妹，十方大德** 一切都是其來有自，有其深意的!!
+- 經驗談，當你開始在想某某功能要如何實現時，如果......
+    - "根據我想的流程，假設出現A，那這是一個特例，我要特別處理"
+    - "然後出現B，這是**也**一個特例，我要**也**特別處理"
+    - "接者C居然也是特例，我......"
+    - 你可能從根本上想錯了!!
+- 從根本層面去思考步驟
+    - A number is something like "123" (X)
+        - How about "1.23"?
+        - How about "1."?
+        - How about "+.12"?
+        - How about......
+    - A number is input that satisfies the format ```[+-]?([0-9]*[.])?[0-9]+``` (O)
+- 模組化思考
+    - 我們非得要寫一個大function來完成任務嗎?
+    - 能不能把工作拆分，給他們各自一個符合職責的名字
+        - 或者再做得更好一點，找出能夠被重複利用的工作內容，把它變成function
+    - 一旦你模組化你的程式，只要你修正了模組內的bug，那麼任何與此模組相關的code都不再會有相同的bug
+- 版本控制
+    - 雖然中原的課程對此完全沒有要求，不過你應該在你自己的電腦上，替你的PL程式碼做版本控制
+    - git init & git add & git commit沒有那麼難
+    - 當你完成了一個功能，就應該commit，並給她一段描述清楚的commit message
+    - 給自己留條後路，不要改壞了才再到處找問題
+        - 更不要把PAL系統本身當成你的git，他是Online Judge
+- 為你自己的PL寫Unit test
+    - [GTest](https://github.com/google/googletest)
+    - [Catch2](https://github.com/catchorg/Catch2)
+    - 如果每個人都寫20個test case，那一班30個人就會有600個
+        - 卡隱藏嗎，不妨與室友交換一下test case?
+- 寫註解
+    - 不要相信任何自稱"我的程式碼就是註解"、"我在業界都要求員工要寫出程式即註解的品質"之類的鬼話
+        - 這個叫做**21世紀軟工神棍**
+        - 在我們能用自然語言寫code之前，這是不可能的
+    - 當然也不是叫你些一堆無意義的註解
+        - Don't ```int a = 0; // a number``` 
+        - Do ```int i = 0; // An index for character counting, set it to -1 if string is invalid```
+
+## Some mindset
+
+- 沒有人說PL寫得好，人生從此一帆風順，妻賢子孝
+    - 四支project都寫完，過得不好的大有人在(比如我還有我跟我)
+- 出了中原資工的大門，誰會管你PL是啥?
+    - 說不定PL弄到60過，剩下的時間去補習考四大研究所可能還比較容易飛黃騰達
+- 出社會各憑本事，憑各本事
+    - 我其實一直對PL版上夏老大所聲稱的在科技業只要有實力月薪8-15萬很有意見
+        - 才沒有，機運跟人脈遠遠重要得多
+        - 我有很多朋友靠著考試進四大研究所，靠著實驗室學長內推進科技業Tier 1絕對比你單打獨鬥求職輕鬆
+        - 不只容易找到工作，更容易找到"好"工作(AKA爽缺)
+    - 雖然寫code不行，但做人100分照樣可以在科技業四處蹦迪
+    - 也可能很會寫code但做人失敗，處處碰壁(我沒有 我很棒，我不是g8人，我要是爛人怎會在這裡跟你講這些)
+- 那為何還要寫PL?PL這門課是不是早點收攤，中原資工原地轉型成中原補習班是不是就世界和平了?
+    - 我覺得PL是一個最值得花時間的project了
+        - 夏老大您沉住氣，快了 快了
+    - 你可曾面對一個大型的軟體系統?
+        - 如何分析他，修改他，除錯他?
+    - 你能做得比你同事快，比你同事好嗎?
+        - 或者換個比較沒那麼侵略性的說法，你能夠獲得同事與上司的信賴嗎?
+    - PL攸關的是你的軟體工程思維能力，但能力能不能跟薪水掛勾?
+        - 這要看施主你自己
+## 結論
+- 無論如何，抄code絕對不會是你人生現階段的活路
+- 好好努力吧少年

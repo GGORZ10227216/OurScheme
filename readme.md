@@ -46,7 +46,7 @@
     - 不要相信任何自稱"我的程式碼就是註解"、"我在業界都要求員工要寫出程式即註解的品質"之類的鬼話
         - 這個叫做**21世紀軟工神棍**
         - 在我們能用自然語言寫code之前，這是不可能的
-    - 當然也不是叫你些一堆無意義的註解
+    - 當然也不是叫你寫一堆無意義的註解
         - Don't ```int a = 0; // a number``` 
         - Do ```int i = 0; // An index for character counting, set it to -1 if string is invalid```
 
